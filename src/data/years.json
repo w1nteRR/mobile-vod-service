@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "value": 2020,
+        "checked": false
+    },
+    {
+        "id": 2,
+        "value": 2019,
+        "checked": false
+    },
+    {
+        "id": 3,
+        "value": 2018,
+        "checked": false
+    },
+    {
+        "id": 4,
+        "value": 2017,
+        "checked": false
+    },
+    {
+        "id": 5,
+        "value": 2016,
+        "checked": false
+    },
+    {
+        "id": 6,
+        "value": 2015,
+        "checked": false
+    },
+    {
+        "id": 7,
+        "value": 2014,
+        "checked": false
+    },
+    {
+        "id": 8,
+        "value": 2013,
+        "checked": false
+    },
+    {
+        "id": 9,
+        "value": 2012,
+        "checked": false
+    },
+    {
+        "id": 10,
+        "value": 2011,
+        "checked": false
+    },
+    {
+        "id": 11,
+        "value": 2010,
+        "checked": false
+    }
+]

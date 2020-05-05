@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "value": "Action",
+        "checked": false
+    },
+    {
+        "id": 2,
+        "value": "Comedy",
+        "checked": false
+    },
+    {
+        "id": 3,
+        "value": "Horror",
+        "checked": false
+    },
+    {
+        "id": 4,
+        "value": "Biography",
+        "checked": false
+    },
+    {
+        "id": 5,
+        "value": "Adventures",
+        "checked": false
+    },
+    {
+        "id": 6,
+        "value": "Drama",
+        "checked": false
+    },
+    {
+        "id": 7,
+        "value": "Animation",
+        "checked": false
+    },
+    {
+        "id": 8,
+        "value": "Fantasy",
+        "checked": false
+    },
+    {
+        "id": 9,
+        "value": "Historical",
+        "checked": false
+    },
+    {
+        "id": 10,
+        "value": "Romance",
+        "checked": false
+    },
+    {
+        "id": 11,
+        "value": "Science",
+        "checked": false
+    },
+    {
+        "id": 12,
+        "value": "Thriller",
+        "checked": false
+    },
+    {
+        "id": 13,
+        "value": "Western",
+        "checked": false
+    },
+    {
+        "id": 14,
+        "value": "Political",
+        "checked": false
+    },
+    {
+        "id": 15,
+        "value": "Sci-fi",
+        "checked": false
+    },
+    {
+        "id": 16,
+        "value": "War",
+        "checked": false
+    }
+]

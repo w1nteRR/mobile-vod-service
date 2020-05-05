@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "value": "HBO",
+        "checked": false
+    },
+    {
+        "id": 2,
+        "value": "Netflix",
+        "checked": false
+    },
+    {
+        "id": 3,
+        "value": "DreamWorks",
+        "checked": false
+    },
+    {
+        "id": 4,
+        "value": "Marvel Studios",
+        "checked": false
+    },
+    {
+        "id": 5,
+        "value": "Disney",
+        "checked": false
+    },
+    {
+        "id": 6,
+        "value": "Pixar",
+        "checked": false
+    }
+]
