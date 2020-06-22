@@ -1,42 +1,34 @@
 import React from 'react'
-import { Animated, View, StyleSheet, TouchableOpacity } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
 
-const PlayButton = ({ size, onPress }) => {
-  
-    return (
-        <Animated.View style={{...styles.container, height: size, width: size}}>
-            <TouchableOpacity onPress={onPress}>
-                    <View style={styles.innerContainer}>
-                        <Icon 
-                            size={35} 
-                            color='#fff' 
-                            name='play-circle-filled' 
-                        />
-                    </View>
-            </TouchableOpacity>
-        </Animated.View>
-    )
-} 
+import { Text } from '../styled/typography' 
+import { PRIMARY } from '../styled/colors'
+import { Container } from '../styled/screens'
+
+export const PlayButton = ({ size, onPress }) => 
+    <Animated.View style={{...styles.container, height: size, width: size}}>
+        <TouchableOpacity onPress={onPress} style={{ zIndex: 5 }}>
+                <Container 
+                    w='400px' 
+                    h='60px' 
+                    bgColor={PRIMARY}
+                >
+                    <Text 
+                        color='#fff'
+                        weight='bold'
+                        uppercase
+                    >
+                        Watch now
+                    </Text>
+                </Container>
+        </TouchableOpacity>
+    </Animated.View>
 
 const styles = StyleSheet.create({
    container: {
         position: 'absolute', 
-        bottom: 60, 
-        right: 25,
+        bottom: 0, 
         zIndex: 2,
-        borderRadius: 100,
-        borderColor: '#fff',
-        borderWidth: 1.5,
-        opacity: .9,
-        borderStyle: 'dashed'
-    },
-    innerContainer: {
-        width: '100%', 
-        height: '100%', 
-        alignItems: "center", 
-        justifyContent: 'center'
-    }   
+        opacity: .9
+    }
 })
-
-export default PlayButton
