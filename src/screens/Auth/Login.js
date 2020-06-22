@@ -4,16 +4,18 @@ import { View } from 'react-native'
 
 import { Input } from '../../components/shared/inputs'
 import { Background, Header, Title } from '../../components/shared/screens'
-import SettingsBtnWrapper  from '../../components/modals/Player/Settings.button'
+import SettingsBtnWrapper from '../../components/modals/Player/Settings.button'
 
 import { AuthContext } from '../../context'
+
+import { IP } from '../../env'
 
 const Login = () => {
     
     const auth = useContext(AuthContext)
 
     const [form, setForm] = useState({
-        username: null,
+        email: null,
         password: null,
     })
  
@@ -23,7 +25,7 @@ const Login = () => {
 
     const doLogin = async () => {
         try {
-            const res = await axios.post(`http://${ip}:8000/login`, {...form})
+            const res = await axios.post(`${IP}/auth/signin`, {...form})
             auth.login(res.data.token, res.data.userId)
         } catch (e) {
             console.log(e)
@@ -37,10 +39,10 @@ const Login = () => {
             </Header>
             <View style={{ margin: 20 }}>
                 <Input 
-                    placeholder='Username'
+                    placeholder='Email'
                     placeholderTextColor='silver'
                     value={form.username}
-                    onChangeText={(txt) => inputHandler('username', txt)}
+                    onChangeText={(txt) => inputHandler('email', txt)}
                 />
             </View>
             <View style={{ margin: 20 }}>
