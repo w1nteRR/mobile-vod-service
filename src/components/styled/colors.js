@@ -1,0 +1,1 @@
+export const MAIN = '#171717'
