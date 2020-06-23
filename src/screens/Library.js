@@ -1,9 +1,11 @@
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { View } from 'react-native'
 
-import { Header, Title, Background } from '../components/shared/screens'
-import SettingsBtnWrapper from '../components/modals/Player/Settings.button'
+import { Background, Container } from '../components/styled/screens'
+import { PRIMARY, DANGER, SUCCESS } from '../components/styled/colors'
+
+import { Header } from '../components/shared/Header'
+import { Button } from '../components/shared/Button'
 
 const Library = () => {
 
@@ -11,26 +13,42 @@ const Library = () => {
 
     return (
         <Background>
-            <Header>
-                <Title fontSize='30px'>library</Title>
-            </Header>
-            <View style={{ height: '60%' }}>
-                <SettingsBtnWrapper 
-                    buttonText='watch later' 
-                    iconName='history' 
-                    onPress={() => navigation.navigate('WatchLater')}
-                />
-                <SettingsBtnWrapper 
-                    buttonText='liked' 
-                    iconName='thumb-up' 
+            <Header title='Library' />
+            <Container
+                direction='column'
+                h='70%'
+                justify='space-around'
+                
+            >
+                <Button 
+                    text='Liked' 
+                    type='dark' 
+                    iconName='thumb-up'
+                    iconColor={SUCCESS}
                     onPress={() => navigation.navigate('Liked')}
                 />
-                <SettingsBtnWrapper 
-                    buttonText='playlists' 
-                    iconName='playlist-play' 
+                <Button 
+                    text='Following' 
+                    type='dark' 
+                    iconName='heart'
+                    iconColor={DANGER}
+                    onPress={() => navigation.navigate('Following')}
+                />
+                <Button 
+                    text='Playlists' 
+                    type='dark' 
+                    iconName='playlist-play'
+                    iconColor='silver'
                     onPress={() => navigation.navigate('Playlists')}
                 />
-            </View>
+                <Button 
+                    text='Watch later' 
+                    type='dark' 
+                    iconName='history'
+                    iconColor={PRIMARY}
+                    onPress={() => navigation.navigate('WatchLater')}
+                />
+            </Container>
         </Background>
     )
 }
