@@ -1,39 +1,27 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import axios from 'axios'
-import { View } from 'react-native'
 
 import SettingsBtnWrapper from '../../../components/modals/Player/Settings.button'
-import { Input } from '../../../components/shared/inputs'
+import { Input } from '../../../components/styled/inputs'
 
-import { AuthContext } from '../../../context'
+import { ModalContainer, Container } from '../../../components/styled/screens'
+import { MAIN } from '../../../components/styled/colors'
+import { usePlaylist } from '../../../hooks/library/usePlaylist'
 
-const PlaylistCreationModal = ({ route }) => {
+export const PlaylistChangeNameModal = ({ route }) => {
     const navigation = useNavigation()
-    const { userId } = useContext(AuthContext)
+    const { editNamePlaylist } = usePlaylist()
 
     const [text, setText] = useState('')
 
-    const changePlaylistName = async () => {
-        try {
-            const res = await axios.put('http://192.168.1.104:8000/library/playlists/edit', {
-                name: text,
-                userId: userId,
-                playlistId: route.params.playlistId
-            })
-            if(res.status === 200) {
-                navigation.navigate('Playlists', {
-                    status: 200
-                })
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-            <View style={{ height: "80%" ,width: '100%', backgroundColor:"#171717", justifyContent:"flex-start"}}>
+        <ModalContainer>
+            <Container 
+                h='80%'
+                bgColor={MAIN}
+                direction='column'
+                justify='flex-start'
+            >
                 <SettingsBtnWrapper 
                     iconName='keyboard-return'
                     onPress={() => navigation.goBack()}  
@@ -46,11 +34,9 @@ const PlaylistCreationModal = ({ route }) => {
                 /> 
                 <SettingsBtnWrapper 
                     buttonText='update'
-                    onPress={changePlaylistName}
+                    onPress={() => editNamePlaylist(text, route.params.playlistId)}
                 />
-            </View>
-        </View>
+            </Container>
+        </ModalContainer>
     )
 }
-
-export default PlaylistCreationModal

@@ -1,53 +1,43 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useNavigation } from '@react-navigation/native'
-import axios from 'axios'
-import { View } from 'react-native'
 
 import SettingsBtnWrapper from '../../../components/modals/Player/Settings.button'
-import { Title } from '../../../components/shared/screens'
 
-import { AuthContext } from '../../../context'
+import { ModalContainer, Container } from '../../../components/styled/screens'
+import { MAIN, DANGER } from '../../../components/styled/colors'
+import { Title } from '../../../components/styled/typography'
 
-const PlaylistDeleteAlertModal = ({ route }) => {
+import { usePlaylist } from '../../../hooks/library/usePlaylist'
+
+export const PlaylistDeleteAlertModal = ({ route }) => {
     const navigation = useNavigation()
-    const { userId } = useContext(AuthContext)
 
-    const deletePlaylist = async () => {
-        try {
-            const res = await axios.put('http://192.168.1.104:8000/library/playlists/remove', {
-                playlistId: route.params.playlistId,
-                userId: userId
-            })
-
-            if(res.status === 200) {
-                alert(res.data.message)
-                navigation.navigate('Playlists', {
-                    status: 200
-                })
-                
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    const { deletePlaylist } = usePlaylist()
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-            <View style={{ height: "40%" ,width: '100%', backgroundColor:"#171717", justifyContent:"flex-start"}}>
+        <ModalContainer>
+            <Container 
+                h='40%'
+                bgColor={MAIN}
+                justify='flex-start'
+                direction='column'
+            >
                 <SettingsBtnWrapper 
                     iconName='keyboard-return'
                     onPress={() => navigation.goBack()}  
                 />
-                <View style={{ alignItems: 'flex-start', marginTop: 50, marginLeft: 20 }}>
+                <Container 
+                    justify='flex-start'
+                    p='20px'
+                >
                     <Title>are u sure?</Title>
-                </View>           
+                </Container>           
                 <SettingsBtnWrapper 
                     buttonText='delete'
-                    onPress={deletePlaylist}
-                />
-            </View>
-        </View>
+                    fontColor={DANGER}
+                    onPress={() => deletePlaylist(route.params.playlistId)}
+                />   
+            </Container>
+        </ModalContainer>
     )
 }
-
-export default PlaylistDeleteAlertModal

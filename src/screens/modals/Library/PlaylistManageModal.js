@@ -1,15 +1,22 @@
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { View } from 'react-native'
 
 import SettingsBtnWrapper from '../../../components/modals/Player/Settings.button'
 
-const PlaylistManageModal = ({ route }) => {
+import { PRIMARY, DANGER, MAIN } from '../../../components/styled/colors'
+import { ModalContainer, Container } from '../../../components/styled/screens'
+
+export const PlaylistManageModal = ({ route }) => {
     const navigation = useNavigation()
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-            <View style={{ height: "40%" ,width: '100%', backgroundColor:"#171717", justifyContent:"flex-start"}}>
+        <ModalContainer>
+            <Container 
+                h='40%'
+                bgColor={MAIN}
+                justfiy='flex-start'
+                direction='column'
+            >
                 <SettingsBtnWrapper 
                     iconName='keyboard-return'
                     onPress={() => navigation.goBack()}  
@@ -17,6 +24,7 @@ const PlaylistManageModal = ({ route }) => {
                 <SettingsBtnWrapper 
                     buttonText='change name'
                     iconName='pencil'
+                    iconColor='silver'
                     onPress={() => navigation.navigate('PlaylistChangeNameModal', {
                         playlistName: route.params.playlistName,
                         playlistId: route.params.playlistId
@@ -25,17 +33,17 @@ const PlaylistManageModal = ({ route }) => {
                 <SettingsBtnWrapper 
                     buttonText='share'
                     iconName='share-variant'
+                    iconColor={PRIMARY}
                 />
                 <SettingsBtnWrapper 
                     buttonText='delete'
                     iconName='delete'
+                    iconColor={DANGER}
                     onPress={() => navigation.navigate('PlaylistDeleteAlertModal', {
                         playlistId: route.params.playlistId
                     })} 
                 />
-            </View>
-        </View>
+            </Container>
+        </ModalContainer>
     )
 }
-
-export default PlaylistManageModal

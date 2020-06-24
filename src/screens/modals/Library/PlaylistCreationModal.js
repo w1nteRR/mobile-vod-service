@@ -1,40 +1,29 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import axios from 'axios'
-import { View } from 'react-native'
 
 import SettingsBtnWrapper from '../../../components/modals/Player/Settings.button'
-import { Input } from '../../../components/shared/inputs'
+import { Input } from '../../../components/styled/inputs'
 
-import { AuthContext } from '../../../context'
+import { PRIMARY, MAIN } from '../../../components/styled/colors'
+import { Container, ModalContainer } from '../../../components/styled/screens'
 
-const PlaylistCreationModal = () => {
+import { usePlaylist } from '../../../hooks/library/usePlaylist'
+
+export const PlaylistCreationModal = () => {
+
     const navigation = useNavigation()
-    const { userId } = useContext(AuthContext)
+    const { createPlaylist } = usePlaylist()
 
     const [text, setText] = useState('')
 
-    const createNewPlaylist = async () => {
-        try {
-            const res = await axios.put('http://192.168.1.104:8000/library/playlists/create', {
-                name: text,
-                userId: userId
-            })
-                alert(res.data.message)
-                navigation.goBack({
-                    status: 200    
-            })
-        } catch (err) {
-            console.log(err)
-            alert('something went wrong')
-        }
-    }
-
-    
-
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-            <View style={{ height: "80%" ,width: '100%', backgroundColor:"#171717", justifyContent:"flex-start"}}>
+        <ModalContainer>
+            <Container 
+                h='80%' 
+                bgColor={MAIN} 
+                justify='flex-start' 
+                direction='column'
+            >
                 <SettingsBtnWrapper 
                     iconName='keyboard-return'
                     onPress={() => navigation.goBack()}  
@@ -47,11 +36,10 @@ const PlaylistCreationModal = () => {
                 /> 
                 <SettingsBtnWrapper 
                     buttonText='create new'
-                    onPress={() => createNewPlaylist()}
+                    fontColor={PRIMARY}
+                    onPress={() => createPlaylist(text)}
                 />
-            </View>
-        </View>
+            </Container>
+        </ModalContainer>
     )
 }
-
-export default PlaylistCreationModal
