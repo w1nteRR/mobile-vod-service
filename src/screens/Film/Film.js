@@ -1,127 +1,70 @@
-import React, { useState, useEffect, useContext } from 'react'
-import axios from 'axios'
-import { View, ScrollView, Animated, Image } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import React from 'react'
+import { ScrollView } from 'react-native'
 
-import HiddenView from '../../components/Film/HiddenView'
-import AboutContainer from '../../components/Film/ScrollContainers/AboutContainer'
-import StorylineContainer from '../../components/Film/ScrollContainers/StorylineContainer'
-import CastContainer from '../../components/Film/ScrollContainers/CastContainer'
-import InfoContainer from '../../components/Film/ScrollContainers/InfoContainer'
-import Player from '../../components/Player/Player'
-import PlayButton from '../../components/buttons/Play.button'
-import Header from '../../components/Film/Header'
+import { About } from '../../components/Film/ScrollContainers/About'
+import { Storyline } from '../../components/Film/ScrollContainers/Storyline'
+import { Cast } from '../../components/Film/ScrollContainers/Cast'
+import { Info } from '../../components/Film/ScrollContainers/Info'
+import { Similar } from '../../components/Film/ScrollContainers/Similar'
 
-import { AuthContext } from '../../context'
+import { HiddenView } from '../../components/Film/HiddenView'
+import { Header } from '../../components/Film/Header'
+import { Title } from '../../components/styled/typography'
+import { Background, Container } from '../../components/styled/screens'
 
-HEADER_MAX_HEIGHT = 340;
-HEADER_MIN_HEIGHT = 240;
+import { useAxios } from '../../hooks/useAxios'
+
+import { RatingContextProvider } from '../../reducers/Rating'
 
 const Film = ({ route }) => {
 
-    const [scrollY] = useState(new Animated.Value(0))
-    const [film, setFilm] = useState([])
-    const [state] = useState(false)
-    const [watchContinue, setWatchContinue] = useState(0)
-
-    const { userId, ip } = useContext(AuthContext)
-    const navigation = useNavigation()
-
-    const headerHeight = scrollY.interpolate({
-        inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
-        outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-        extrapolate: 'clamp'
-    })
-    
-    const size = scrollY.interpolate({
-        inputRange: [0, 60],
-        outputRange: [60, 45],
-        extrapolate: 'clamp'
-    })
-    
-    const headerZindex = scrollY.interpolate({
-        inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT, 120],
-        outputRange: [0, 0, 1000],
-        extrapolate: 'clamp'
+    const { res, loading } = useAxios(`/film/${route.params.itemId}`, {
+        method: 'GET'
     })
 
-    useEffect(() => {
-        const getFilm = async () => {
-            try {
-                const res = await axios.get(`http://192.168.43.87:8000/film/${route.params.itemId}`)
-                setFilm(res.data.film)
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        getFilm()
-    }, [])
-
+    if(loading) {
+        return (
+            <Background>
+                <Container h='100%'>
+                    <Title>Loading...</Title>
+                </Container>
+            </Background>
+        )
+    }
 
     return (
-        <View style={{ backgroundColor: '#171717', flex: 1 }}>
-            <HiddenView 
-                filmName={film.name} 
-                _id={film._id}
-                img={film.img} 
-            />
-            <Header height={headerHeight} zIndex={headerZindex}>
-            {
-                !state
-                ?   <Image 
-                        source={{uri: `http://192.168.43.87:8000${film.wallpaper || film.img}`}}
-                        style={{
-                            resizeMode: 'cover',
-                            width: '100%',
-                            height: '100%',
-                            zIndex: 3
-                        }}
-                    /> 
-                :   <Player />
-            }
-            </Header>
-            <View style={{ height: 450, bottom: -310, backgroundColor: '#171717' }}>
-                <PlayButton size={size} onPress={() => navigation.navigate('FilmPlayer',{
-                    filmId: film._id,
-                    filmImg: film.img
-                })}
+        <RatingContextProvider filmId={res.film._id} filmName={res.film.name}>
+            <Background>
+            <ScrollView>
+                <Header 
+                    wallpaper={res.film.wallpaper}
+                    name={res.film.name} 
                 />
-                <ScrollView
-                    onScroll={
-                        Animated.event([
-                            {
-                                nativeEvent: {
-                                    contentOffset: {
-                                        y: scrollY
-                                    }
-                                }
-                            }
-                        ])
-                    }
-                >
-                    <AboutContainer 
-                        genr={film.genr || []} 
-                        duration={film.duration}
-                        year={film.year} 
-                    />
-                    <StorylineContainer 
-                        describe={film.describe} 
-                    />
-                    <CastContainer 
-                        cast={film.cast} 
-                    />
-                    <InfoContainer 
-                        director={film.director}
-                        country={film.country}
-                        audio={film.audio}
-                        company={film.company}
-                        subtitles={film.subtitles}
-                        release={film.release}
-                    />
-                </ScrollView>
-            </View>
-        </View>
-    );
+                <HiddenView />                
+                <About
+                    genr={res.film.genr || []} 
+                    duration={res.film.duration}
+                    year={res.film.year} 
+                />
+                <Storyline
+                    describe={res.film.describe} 
+                />
+                <Cast 
+                    cast={res.film.cast} 
+                />
+                <Info
+                    director={res.film.director}
+                    country={res.film.country}
+                    audio={res.film.audio}
+                    company={res.film.company}
+                    subtitles={res.film.subtitles}
+                    release={res.film.release}
+                />
+                <Similar similar={res.similar} />
+            </ScrollView>
+        </Background>
+        </RatingContextProvider>
+    )
 }
 
 export default Film
