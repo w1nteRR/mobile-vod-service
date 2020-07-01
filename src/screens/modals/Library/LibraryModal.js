@@ -1,105 +1,70 @@
-import React, { useEffect, useContext, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { View } from 'react-native'
-import { AuthContext } from '../../../context'
 
 import SettingsBtnWrapper from '../../../components/modals/Player/Settings.button'
+import { ModalContainer, Container } from '../../../components/styled/screens'
+import { MAIN, PRIMARY, DANGER } from '../../../components/styled/colors'
+
+import { useWatchLater } from '../../../hooks/library/useWatchLater'
 
 const LibraryModal = ({ route }) => {
-    console.log(route)
-    const navigation = useNavigation()
-    const { userId } = useContext(AuthContext)
-    const [isLiked, setIsLiked] = useState()
+
+    const [isWatchLater, setIsWatchLater] = useState(null)
+
+    const navigation = useNavigation()    
+    const { addToWatchLater, watchLaterStatus, removeFromWatchLater } = useWatchLater()
 
     useEffect(() => {
-        const getLikedList = async () => {
-            const res = await axios.post(`http://192.168.1.104:8000/library/like_status`, {
-                filmId: route.params.filmId,
-                userId: userId  
-            })
+        const getStatus = async () => {
+            try {
+                const isWatchLater = await watchLaterStatus(route.params.filmId)
+                
+                setIsWatchLater(isWatchLater.watchLater)
 
-            setIsLiked(res.data)
-        } 
-        getLikedList()
-    }, [])
-
-    const addToLiked = async () => {
-        try {
-            const res = await axios.put(`http://192.168.1.104:8000/library/liked/add`, {
-                filmId: route.params.filmId,
-                userId: userId 
-            })
-
-            if(res.status === 200) {
-                setIsLiked(true)
+            } catch (err) {
+                console.log(err)
             }
-
-        } catch (err) {
-            console.log(err)
         }
-        
-    }
 
-    const removeFromLiked = async () => {
-        try {
-            const res = await axios.put(`http://192.168.1.104:8000/library/liked/remove`, {
-            filmId: route.params.filmId,
-            userId: userId 
-        })
-
-            if(res.status === 200) {
-                setIsLiked(false)
-            }
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
+        getStatus()
+    }, [route.params.filmId])
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-            <View style={{ 
-                    height: '40%',
-                    width: '100%', 
-                    backgroundColor:"#202020", 
-                    justifyContent:"center"
-                }}>
+        <ModalContainer>
+            <Container  
+                h='40%'
+                bgColor={MAIN}
+                justfiy='flex-start'
+                direction='column'
+            >
                 <SettingsBtnWrapper 
                     iconName='arrow-left'
                     onPress={() => navigation.goBack()}  
-                />                 
+                />    
+                {
+                    isWatchLater === null
+                    ? <SettingsBtnWrapper iconName='history' buttonText='loading...' />
+                    : <SettingsBtnWrapper 
+                        iconName='history'
+                        iconColor={isWatchLater ? DANGER : PRIMARY}
+                        buttonText={isWatchLater ? 'remove from watch later' : 'add to watch later'}
+                        onPress={isWatchLater 
+                            ? () => removeFromWatchLater(route.params.filmId, () => setIsWatchLater(false))
+                            : () => addToWatchLater(route.params.filmId, () => setIsWatchLater(true))
+                        }
+                    />
+                }
+                
                 <SettingsBtnWrapper 
-                    iconName={
-                        isLiked 
-                        ?   'thumb-up' 
-                        :   'thumb-up-outline'
-                    }
-                    buttonText={
-                        isLiked 
-                        ?   'undo' 
-                        :   'like'
-                    }
-                    onPress={
-                        () => isLiked 
-                        ?   removeFromLiked() 
-                        :   addToLiked()
-                    }  
-                />
-                <SettingsBtnWrapper 
-                    iconName='history'
-                    buttonText='add to watch later'  
-                />
-                 <SettingsBtnWrapper 
                     iconName='playlist-plus'
+                    iconColor='silver'
                     buttonText='add to playlist'  
                     onPress={() => navigation.navigate('PlaylistModal', {
-                        filmId: route.params.filmId,
-                        filmImg: route.params.filmImg
+                        filmId: route.params.filmId
                     })}  
-                />                     
-            </View>
-        </View>
+                />    
+            </Container>
+        </ModalContainer>
     )
 }
 
