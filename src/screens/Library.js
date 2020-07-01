@@ -25,6 +25,8 @@ const Library = () => {
                     type='dark' 
                     iconName='thumb-up'
                     iconColor={SUCCESS}
+                    justify='space-around'
+                    reverse
                     onPress={() => navigation.navigate('Liked')}
                 />
                 <Button 
@@ -32,6 +34,8 @@ const Library = () => {
                     type='dark' 
                     iconName='heart'
                     iconColor={DANGER}
+                    justify='space-around'
+                    reverse
                     onPress={() => navigation.navigate('Following')}
                 />
                 <Button 
@@ -39,6 +43,8 @@ const Library = () => {
                     type='dark' 
                     iconName='playlist-play'
                     iconColor='silver'
+                    justify='space-around'
+                    reverse
                     onPress={() => navigation.navigate('Playlists')}
                 />
                 <Button 
@@ -46,6 +52,8 @@ const Library = () => {
                     type='dark' 
                     iconName='history'
                     iconColor={PRIMARY}
+                    justify='space-around'
+                    reverse
                     onPress={() => navigation.navigate('WatchLater')}
                 />
             </Container>
