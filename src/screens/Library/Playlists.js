@@ -1,72 +1,60 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
+import { View, ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import axios from 'axios'
 
-import { Header, Title, Background } from '../../components/shared/screens'
+import { Background, Container } from '../../components/styled/screens'
+import { Header } from '../../components/shared/Header'
+
 import BottomCircleBtn from '../../components/buttons/BottomCircle.button'
-import SettingsBtnWrapper from '../../components/modals/Player/Settings.button'
 
 import { AuthContext } from '../../context'
-import { View, ScrollView } from 'react-native'
+import { useAxios } from '../../hooks/useAxios'
+import { Text } from '../../components/styled/typography'
+import { Button } from '../../components/shared/Button'
 
-const Playlists = ({ route }) => {
+const Playlists = () => {
     const navigation = useNavigation()
-    const { userId, ip } = useContext(AuthContext)
-    const [playlists, setPlaylists] = useState([])
+    const { userId } = useContext(AuthContext)
 
-    useEffect(() => {
-        const getPlaylists = async () => {
-            const res = await axios.get(`http://${ip}:8000/library/playlists/${userId}`)
-            setPlaylists(res.data)
-        }
-        getPlaylists()
-    }, [route.params, ip])
+    const { res, loading } = useAxios(`/library/playlists/${userId}`)
 
+    if(loading) {
+        return (
+            <Background>
+                <Text>loading</Text>
+            </Background>
+        )
+    }
+    
     return (
         <Background>
-            <Header>
-                <Title>Playlists</Title>
-            </Header>
+            <Header title='Playlists' />
             <BottomCircleBtn 
                 iconName='plus-circle'
                 onPress={() => navigation.navigate('PlaylistCreationModal')}
             />
-            <View style={{ height: '80%', top: 100}}>
+            <Container m='50px 0' p='10px'>
                 <ScrollView>
                 {
-                    playlists.map(playlist => (
-                        <View
-                            key={playlist.id} 
-                            style={{
-                                margin: 10, 
-                                height: 100,
-                                display: 'flex', 
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                            }}>
-                            <View>
-                                <SettingsBtnWrapper 
-                                    buttonText={playlist.playlistName}
-                                    onPress={() => navigation.navigate('Playlist', {
-                                        playlistId: playlist.id,
-                                        playlistName: playlist.playlistName
-                                    })} 
-                                />
-                            </View>
-                            <View>
-                                <SettingsBtnWrapper 
-                                    iconName='dots-vertical'
-                                    onPress={() => navigation.navigate('PlaylistManageModal', {
-                                        playlistId: playlist.id,
-                                        playlistName: playlist.playlistName
-                                    })} 
-                                />
-                            </View>
-                        </View>
+                    res.playlists.map(playlist => (
+                        <Button 
+                            m='20px 0'
+                            key={playlist.id}
+                            text={playlist.playlistName} 
+                            type='dark' 
+                            iconName='dots-vertical' 
+                            iconColor='#fff'
+                            justify='space-between'
+                            onPress={() => navigation.navigate('')}
+                            onIconPress={() => navigation.navigate('PlaylistManageModal', {
+                                playlistId: playlist.id,
+                                playlistName: playlist.playlistName
+                            })}
+                        />
                     ))
                 }
                 </ScrollView>
-            </View>
+            </Container>
         </Background>
     )
 }

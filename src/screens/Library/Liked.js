@@ -1,42 +1,39 @@
-import React, { useEffect, useContext, useState} from 'react'
-import axios from 'axios'
-import { View } from 'react-native'
+import React, { useContext } from 'react'
+import { FlatList } from 'react-native-gesture-handler'
 
-import { Header, Title, Background } from '../../components/shared/screens'
+import { Background } from '../../components/styled/screens'
 import FilmCard from '../../components/Browse/FilmCard'
+import { Header } from '../../components/shared/Header'
+import { Text } from '../../components/styled/typography'
 
 import { AuthContext } from '../../context'
-import { ScrollView } from 'react-native-gesture-handler'
+import { useAxios } from '../../hooks/useAxios'
 
 const Liked =  () => {
 
-    const { userId, ip } = useContext(AuthContext)
-    const [likedList, setLikedList] = useState([])
+    const { userId } = useContext(AuthContext)
 
-    useEffect(() => {
-        const getLikedList = async () => {
-            const res = await axios.get(`http://${ip}:8000/library/liked/${userId}`)
+    const { res, loading } = useAxios(`/library/liked/${userId}`, {
+        method: 'GET'
+    })
 
-            setLikedList(res.data)
-        } 
-        getLikedList()
-    }, [])
+    if(loading) {
+        return (
+            <Background>
+                <Text>loading</Text>
+            </Background>
+        )
+    }
 
-    console.log(likedList)
     return (
         <Background>
-            <Header>
-                <Title>Liked</Title>
-            </Header>
-            <ScrollView>
-                {
-                    likedList.map(options => (
-                        <View key={options._id} style={{ margin: 5 }}>
-                            <FilmCard item={options} />
-                        </View>
-                    ))
-                }
-            </ScrollView>
+            <Header title='Liked' />
+            <FlatList 
+                data={res}
+                renderItem={({ item }) => <FilmCard item={item} />} 
+                keyExtractor={(item, index) => index.toString()}
+                style={{ margin: 10 }}
+            />
         </Background>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { ScrollView, View } from 'react-native'
+import { FlatList } from 'react-native'
 
 import FilmCard from '../../components/Browse/FilmCard'
 
@@ -29,15 +29,12 @@ const WatchLater = () => {
     return (
         <Background>
             <Header title='Watch later' />
-            <ScrollView>
-                {
-                    res.map(options => (
-                        <View key={options._id} style={{ margin: 10 }}>
-                            <FilmCard item={options} />
-                        </View>
-                    ))
-                }
-            </ScrollView>
+            <FlatList 
+                data={res}
+                renderItem={({ item }) => <FilmCard item={item} />} 
+                keyExtractor={(item, index) => index.toString()}
+                style={{ margin: 10 }}
+            />
         </Background>
     )
 }
