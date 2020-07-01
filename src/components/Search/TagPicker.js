@@ -1,69 +1,53 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Modal, StyleSheet, Text, View, CheckBox, ScrollView } from 'react-native'
 
-import SettingsBtnWrapper from '../../components/modals/Player/Settings.button'
+import { SearchContext } from '../../reducers/Search'
+import { useSearch } from '../../hooks/useSearch'
+import { Button } from '../shared/Button'
+import { Container } from '../styled/screens'
 
-import { SearchContext } from '../../reducers/SearchTags'
+export const TagPicker = ({ modalVisible, setModalVisible }) => {
+    
+    const [state, dispatch] = useContext(SearchContext)
 
-
-const YearPicker = ({ data, modalVisible, setModalVisible, modalDataName }) => {
-    const { searchDispatch, searchState } = useContext(SearchContext)
-
-    const [checkBoxInit, setInit] = useState([])
-    const [dataName, setDataName] = useState('')
-
-    Object.assign({}, searchState, checkBoxInit)
-
-    const handleCheckBox = (id, dataName) => {
-        const checkBox = checkBoxInit.find(checkbox => checkbox.id === id)
+    const { addToSearchFilterData } = useSearch()
+   
+    const handleCheckBox = id => {
+        const checkBox = state.tags.data.find(checkbox => checkbox.id === id)
         checkBox.checked = !checkBox.checked
-        
-        const checkBoxesChecked = Object.assign([], checkBoxInit, checkBox)
-        const checkedReady = checkBoxesChecked.filter(film => film.checked)
-        
-        switch(dataName) {
-            case 'years':
-                return searchDispatch({
-                    type: 'toggleYears',
-                    payload: checkedReady
-                })
-            case 'companies':
-                return searchDispatch({
-                    type: 'toggleCompanies',
-                    payload: checkedReady
-                })
-            case 'genres':
-                return searchDispatch({
-                    type: 'toggleGenres',
-                    payload: checkedReady
-                })
-        }
-    }
 
-    useEffect(() => {
-        setInit(data)
-        setDataName(modalDataName)
-    }, [data])
+        const checkBoxesChecked = Object.assign([], state.tags.data).filter(film => film.checked).map(tag => tag.value)
+
+        addToSearchFilterData(state.tags.type, checkBoxesChecked)
+    }
 
     return (
         <View style={styles.centeredView}>
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={modalVisible}
+                visible={state.isModalOpen}
                 onRequestClose={() => {
                     setModalVisible(!modalVisible)
                 }}
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <SettingsBtnWrapper 
-                            buttonText='close'
-                            onPress={() => setModalVisible(!modalVisible)}  
-                        />
+                        <Container justify='flex-end' m='10px'>
+                            <Button 
+                                type='danger'
+                                iconColor='#fff'
+                                w='30px'
+                                p='5px'
+                                iconName='close' 
+                                onPress={() => dispatch({
+                                    type: 'CLOSE_MODAL'
+                                })} 
+                            />
+                        </Container>
                         <ScrollView>
                         {
-                            checkBoxInit.map(item => (
+                            state.tags.data.map(item => (
                                 <View key={item.id} style={{
                                         display: 'flex', 
                                         flexDirection: 'row',
@@ -80,7 +64,7 @@ const YearPicker = ({ data, modalVisible, setModalVisible, modalDataName }) => {
                                     }}>
                                     <CheckBox 
                                         value={item.checked}
-                                        onChange={() => handleCheckBox(item.id, dataName)}
+                                        onChange={() => handleCheckBox(item.id)}
                                     />
                                     </View>
                                     <Text style={{
@@ -137,6 +121,4 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
 
-});
-
-export default YearPicker;
+})
