@@ -23,15 +23,35 @@ const buttonBgColors = bgColor => {
 
 const ButtonStyled = styled(Container)`
     background-color: ${props => buttonBgColors(props.bgColor)};
-    justify-content: space-around;
-    padding: 20px;
+    justify-content: ${props => props.justify || 'flex-end'};
+    flex-direction: ${props => props.reverse ? 'row' : 'row-reverse'};
+    width: ${props => props.w || '100%'};
+    padding: ${props => props.p || '20px'};
+    border-radius: 5px;
 `
 
-export const Button = ({ text, onPress, type, iconName, iconColor }) =>
+export const Button = ({ 
+    text, 
+    onPress, 
+    type, 
+    iconName, 
+    iconColor, 
+    w, 
+    p, 
+    reverse, 
+    justify, 
+    iconSize 
+}) =>
     <TouchableOpacity onPress={onPress}>
-        <ButtonStyled bgColor={type}>
+        <ButtonStyled 
+            bgColor={type} 
+            w={w} 
+            p={p} 
+            reverse={reverse} 
+            justify={justify}
+        >
             <Icon 
-                size={25} 
+                size={iconSize || 20} 
                 color={iconColor} 
                 name={iconName}  
             />
