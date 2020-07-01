@@ -1,69 +1,49 @@
-import React, { useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
 
-import { Input } from '../components/shared/inputs'
-import { Background, Header, Title } from '../components/shared/screens'
+import { Input } from '../components/styled/inputs'
+import { Background, Container } from '../components/styled/screens'
+import { Title } from '../components/styled/typography'
 
-import FilmCard from '../components/Browse/FilmCard'
-import SettingsBtnWrapper from '../components/modals/Player/Settings.button'
+import { Header } from '../components/shared/Header'
+import { FilmList } from '../components/Search/Film.list'
 
-import { useSearch } from '../hooks/Search'
-
+import { useDebounce } from '../hooks/useDebounce'
+import { useSearch } from '../hooks/useSearch'
 
 const Search = () => {
     const navigation = useNavigation()
-    const [text, setText] = useState('')
-    let films = useSearch(text) || []
 
-    const [filtredFilms, setFiltredFilms] = useState([])
+    const [value, setValue] = useState('')
+    const debounced = useDebounce(value, 500)
 
-
-    const getData = films => {
-        setFiltredFilms(films)
-    }
-
-    console.log(filtredFilms)
+    const { searchByName } = useSearch()
+    
+    useEffect(() => { if(debounced) searchByName(debounced) }, [debounced])
 
     return (
         <Background>
-            <Header>
-                <Title fontSize='30px'>search</Title>
-            </Header>
-            <View style={{ margin: '5%' }}>
-                <Input 
-                    onChangeText={text => setText(text)} 
-                    placeholder='Enter film name'
-                    placeholderTextColor="silver"
-                />
-            </View>
-            <View style={{ alignItems: 'center' }}>
-                <Title>or add some tags and we will find</Title>
-                <View>
-                    <SettingsBtnWrapper
-                        iconName='tune'
-                        onPress={() => navigation.navigate('SearchTagsModal', {
-                            getData
-                        })} 
+            <Header title='Search' />
+            <Input 
+                onChangeText={value => setValue(value)}
+                placeholder='Enter film name'
+                placeholderTextColor="silver"
+            />
+            <Container m='15px 0' direction='column'>
+                <Title fontSize='13px'>
+                    or add some tags and we will find
+                </Title>
+                <Container m='20px'>
+                    <Icon 
+                        name='tune' 
+                        color='#fff' 
+                        size={25} 
+                        onPress={() => navigation.navigate('SearchTagsModal')}
                     />
-                </View>
-            </View>
-            <ScrollView style={{ marginTop: -100 }}>
-            {
-                films.map(film => (
-                    <View style={{ margin: 15 }}>
-                        <FilmCard item={film} />
-                    </View>
-                ))
-            }
-            {
-                 filtredFilms.map(film => (
-                    <View style={{ margin: 15 }}>
-                        <FilmCard item={film} />
-                    </View>
-                ))
-            }
-            </ScrollView>
+                </Container>
+            </Container>
+            <FilmList />
         </Background>
     )
 }
