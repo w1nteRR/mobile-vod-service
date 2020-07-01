@@ -3,14 +3,14 @@ import styled from 'styled-components'
 import { TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const SettingsBtnWrapper = ({ iconName, buttonText, onPress, fontColor }) => {
+const SettingsBtnWrapper = ({ iconName, buttonText, onPress, fontColor, iconColor }) => {
     return (
         <Wrapper>
             <TouchableOpacity onPress={onPress}>
                 <InnerContainer>
                     <Icon 
                         size={25} 
-                        color='#fff' 
+                        color={iconColor || '#fff'} 
                         name={iconName} 
                     />
                     <Text 
@@ -26,7 +26,7 @@ const SettingsBtnWrapper = ({ iconName, buttonText, onPress, fontColor }) => {
 
 const Wrapper = styled.View`
     width: 100%;
-    height: 20%;
+    height: 65px;
 `
 
 const InnerContainer = styled.View`

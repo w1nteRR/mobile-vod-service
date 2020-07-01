@@ -1,15 +1,18 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import { useNavigation } from '@react-navigation/native'
 
 import { Image } from 'react-native'
 
 const FilmCard = ({ item, onPress }) => {
 
-
+    const navigation = useNavigation()
     return (
         <Container
             activeOpacity={1} 
-            onPress={onPress}
+            onPress={() => navigation.navigate('Film', {
+                itemId: item._id
+            })}
         >
             <Image 
                 source={{uri: `http://192.168.1.104:8000${item.img}`}}

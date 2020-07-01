@@ -9,30 +9,30 @@ export const useWatchLater = () => {
     
     const { userId } = useContext(AuthContext)
 
-    const addToWatchLater = async filmId => {
+    const addToWatchLater = async (filmId, cb) => {
         try {
 
-            const res = await axios.put(`${IP}/library/watch-later/add`, {
+            await axios.put(`${IP}/library/watch-later/add`, {
                 userId,
                 filmId
             })
-
-            alert(res.data.message)
+            
+            cb()
 
         } catch (err) {
             console.log(err)
         } 
     }
 
-    const removeFromWatchLater = async filmId => {
+    const removeFromWatchLater = async (filmId, cb) => {
         try {
 
-            const res = await axios.put(`${IP}/library/watch-later/remove`, {
+            await axios.put(`${IP}/library/watch-later/remove`, {
                 userId,
                 filmId
             })
 
-            alert(res.data.message)
+            cb()
 
         } catch (err) {
             console.log(err)

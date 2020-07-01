@@ -42,15 +42,14 @@ export const HiddenView = ({ filmId }) => {
                         <Text size='13px' color='green' weight='bold' uppercase m='5px'>M</Text>
                         <Text size='14px' color='green' weight='bold'>{state.metascore}%</Text>
                 </Container>
-               <RatingDisplay  filmId={filmId} />
+               <RatingDisplay filmId={filmId} />
             </Container>
             <Icon 
                 size={30} 
                 color="#fff" 
                 name="more-vert" 
                 onPress={() => navigation.navigate('LibraryModal', {
-                    filmId: _id,
-                    filmImg: img,
+                    filmId,
                     ratingType: state.ratingType
                     }     
                 )}

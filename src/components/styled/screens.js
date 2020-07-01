@@ -20,3 +20,9 @@ export const Container = styled.View`
 
     background-color: ${props => props.bgColor || 'transparent'};
 `
+
+export const ModalContainer = styled.View`
+    flex: 1;
+    align-items: center;
+    justify-content: flex-end;
+`
