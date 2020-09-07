@@ -1,21 +1,24 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useEffect, useState } from 'react'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { IP } from '../env'
 
-export const useAxios = (url, options) => {
+export const useAxios = (url: string, options: AxiosRequestConfig) => {
 
-    const [res, setRes] = useState(null)
+    const [res, setRes] = useState<AxiosResponse | null>(null)
     const [loading, setLoading] = useState(true)
     const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
         let cleanUp = false
-        const fetch = async () => {
+        
+        const fetch = async () =>{
             try {
+
                 const res = await axios(`${IP}${url}`, options)
+
                 if(!cleanUp) {
-                    setRes(res.data)
+                    setRes(res)
                     setLoading(false)
                 }
 
@@ -23,13 +26,16 @@ export const useAxios = (url, options) => {
                 console.log(err)
             }
         }
-        
+
         fetch()
         setLoading(true)
-        
-        return () => cleanUp = true
+
+        return () => {
+            cleanUp = true
+        }
 
     }, [url, refresh])
+
 
     const refreshFetch = () => setTimeout(() => setRefresh(prevState => !prevState), 1000)
      
