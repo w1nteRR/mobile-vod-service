@@ -9,7 +9,7 @@ export const PlayButton = ({ size, onPress }) =>
     <Animated.View style={{...styles.container, height: size, width: size}}>
         <TouchableOpacity onPress={onPress} style={{ zIndex: 5 }}>
                 <Container 
-                    w='400px' 
+                    w='150px' 
                     h='60px' 
                     bgColor={PRIMARY}
                 >
@@ -27,8 +27,9 @@ export const PlayButton = ({ size, onPress }) =>
 const styles = StyleSheet.create({
    container: {
         position: 'absolute', 
-        bottom: 0, 
+        bottom: 10, 
         zIndex: 2,
+        right: 65,
         opacity: .9
     }
 })

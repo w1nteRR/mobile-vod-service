@@ -1,10 +1,9 @@
 import React, { FC } from 'react'
-import { Image } from 'react-native'
+import { Image, TouchableOpacity } from 'react-native'
 
 import { Card } from './cards.styled'
 
 import { IP } from '../../../../env'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface ICardProps {
     w?: string
@@ -13,7 +12,8 @@ interface ICardProps {
 }
 
 interface IBgImgCardProps extends ICardProps {
-    img: string
+    img: string,
+    resizeMode: string
     onPress?: () => void
 }
 
@@ -22,6 +22,7 @@ export const BgImgCard: FC<IBgImgCardProps> = ({
     h, 
     m, 
     img,
+    resizeMode,
     onPress
 }) => 
     <TouchableOpacity 
@@ -35,11 +36,12 @@ export const BgImgCard: FC<IBgImgCardProps> = ({
         >
             <Image 
                 source={{uri: `${IP}${img}`}}
+                resizeMode={resizeMode}
                 style={{
-                    resizeMode: 'cover',
                     width: '100%',
                     height: '100%'
-                }} 
+
+                }}
             />
         </Card>
     </TouchableOpacity>
