@@ -9,7 +9,7 @@ import { Similar } from '../../components/Film/scrollviews/Similar'
 import { Intro } from '../../components/Film/intro/Intro'
 import { Control } from '../../components/Film/control/Control'
 
-import { Title } from '../../components/styled/typography'
+import { Title } from '../../components/common/utils/typography'
 import { Background, Container } from '../../components/common/utils/layout'
 
 import { useAxios } from '../../hooks/useAxios'

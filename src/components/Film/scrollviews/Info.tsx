@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import { Text } from '../../common/utils/typography'
 import { Container } from '../../common/utils/layout'
 import { ScrollContainer } from './Scroll.container'
-import { MAIN  } from '../../styled/colors'
+import { MAIN  } from '../../common/utils/colors'
 
 interface IInfoProps {
     director: string

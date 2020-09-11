@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 
-import { Container } from '../../styled/screens'
+import { Container } from '../../common/utils/layout'
 import { Title } from '../../common/utils/typography'
 
 interface IScrollContainerProps {
