@@ -27,7 +27,9 @@ export const Similar: FC<ISimilarProps> = ({ similar }) => {
                         w='100%'
                         h='200px' 
                         onPress={() => navigation.navigate('Film', {
-                            itemId: item._id
+                            
+                                filmId: item._id
+                            
                         })} 
                     />
                 }

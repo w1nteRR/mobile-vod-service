@@ -10,6 +10,7 @@ import { Container } from '../common/utils/layout'
 import { useAxios } from '../../hooks/useAxios'
 
 import { IFilmTrend } from '../../interfaces/film/IFilm'
+import { MAIN } from '../common/utils/colors'
 
 export const Trends: FC = () => {
     
@@ -18,7 +19,7 @@ export const Trends: FC = () => {
     })
 
     if(loading) return (
-        <Container h='300px'>
+        <Container h='400px'>
             <Text>Loading</Text>
         </Container>
     )
@@ -30,12 +31,13 @@ export const Trends: FC = () => {
     const _renderCard = (film: IFilmTrend) =>
         <Container 
             direction='column' 
-            bgColor='#171717' 
+            bgColor={MAIN} 
             h='400px' 
             justify='flex-start'
         >
             <BgImgCard 
                 img={film.wallpaper} 
+                resizeMode='cover'
                 h='200px' 
                 w={w + 'px'} 
             />

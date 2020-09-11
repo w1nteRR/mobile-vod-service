@@ -1,16 +1,15 @@
 import React, { useEffect, useState, FC } from 'react'
 import axios from 'axios'
-import { FlatList } from 'react-native-gesture-handler'
+import { FlatList } from 'react-native'
 
 import { Header } from '../components/shared/Header'
 
-import { Background } from '../components/styled/screens'
+import { Background } from '../components/common/utils/layout'
 
 import { FilmsCarousel } from '../components/Home/Films.carousel'
+import { Trends } from '../components/Home/Trends'
 
 import { IP } from '../env'
-
-import { Trends } from '../components/Home/Trends'
 
 export const Home: FC = () => {
 

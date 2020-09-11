@@ -33,8 +33,8 @@ export const Info: FC<IInfoProps> = ({ ...rest }) => {
             <Container>
                 <Container direction='column' w='50%'>
                     {
-                        _getSlicedInfo().firstHalf.map((item: any) => 
-                            <Container direction='column' m='10px' p='10px'>
+                        _getSlicedInfo().firstHalf.map((item: any, index: number) => 
+                            <Container direction='column' m='10px' p='10px' key={index}>
                                 {activeText(Object.values(item[0]))}
                                 <Text color={MAIN}>
                                     {Object.values(item[1])}
@@ -45,8 +45,8 @@ export const Info: FC<IInfoProps> = ({ ...rest }) => {
                 </Container>
                 <Container direction='column' w='50%'>
                     {
-                        _getSlicedInfo().secondHalf.map((item: any) => 
-                            <Container direction='column' m='10px' p='10px'>
+                        _getSlicedInfo().secondHalf.map((item: any, index: number) => 
+                            <Container direction='column' m='10px' p='10px' key={index}>
                                 {activeText(Object.values(item[0]))}
                                 <Text color={MAIN}>
                                     {Object.values(item[1] + '')}

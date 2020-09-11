@@ -1,35 +1,28 @@
 import React, { FC } from 'react'
 import { ScrollView } from 'react-native'
-import { RouteProp } from '@react-navigation/native'
 
 import { About } from '../../components/Film/scrollviews/About'
 import { Cast } from '../../components/Film/scrollviews/Cast'
 import { Info } from '../../components/Film/scrollviews/Info'
+import { Similar } from '../../components/Film/scrollviews/Similar'
+
+import { Intro } from '../../components/Film/intro/Intro'
+import { Control } from '../../components/Film/control/Control'
 
 import { Title } from '../../components/styled/typography'
 import { Background, Container } from '../../components/common/utils/layout'
 
 import { useAxios } from '../../hooks/useAxios'
-import { IFilm } from '../../interfaces/film/IFilm'
-import { Intro } from '../../components/Film/intro/Intro'
-import { Control } from '../../components/Film/control/Control'
-import { FilmsCarousel } from '../../components/Home/Films.carousel'
+
+import { IFilm, IFilmShort } from '../../interfaces/film/IFilm'
+import { IFilmNavProps } from '../../navigation/stacks/film'
 
 
-type FilmParams = {
-    Film: {
-        itemId: string
-    }
-}
-
-interface IFilmProps {
-    route: RouteProp<FilmParams, 'Film'>
-}
+interface IFilmProps extends IFilmNavProps {}
 
 export const Film: FC<IFilmProps> = ({ route }) => {
 
-
-    const { res, loading } = useAxios(`/api/film/${route.params.itemId}`, {
+    const { res, loading } = useAxios(`/api/film/${route.params.filmId}`, {
         method: 'GET'
     })
 
@@ -44,6 +37,7 @@ export const Film: FC<IFilmProps> = ({ route }) => {
     }
 
     const film: IFilm = res?.data.film
+    const similar: Array<IFilmShort> = res?.data.similar
 
     return (
             <Background>
@@ -68,7 +62,7 @@ export const Film: FC<IFilmProps> = ({ route }) => {
                         subtitles={film.subtitles}
                         release={film.release}
                     />
-                    {/* <Similar similar={res.similar} /> */}
+                    <Similar similar={similar} />
                 </ScrollView>
         </Background>
     )
