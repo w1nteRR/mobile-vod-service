@@ -1,4 +1,5 @@
 import styled from 'styled-components/native'
+import { MAIN } from './colors'
 
 interface IContainerProps {
     w?: string,
@@ -29,4 +30,16 @@ export const Container = styled.View<IContainerProps>`
     margin: ${props => props.m || '0'};
     padding: ${props => props.p || '0'};
     background-color: ${props => props.bgColor || 'transparent'};
+`
+
+export const ModalContainer = styled.View`
+    background-color: ${MAIN};
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+`
+
+export const Background = styled.View`
+    flex: 1;
+    background-color: black;
 `

@@ -8,7 +8,7 @@ interface CardStyled {
 }
 
 export const Card = styled.View<CardStyled>`
-    width: ${props => props.w || 'auto'};
-    height: ${props => props.h || '180px'};
+    width: ${props => props.w || '100%'};
+    height: ${props => props.h || 'auto'};
     margin: ${props => props.m || '0'};
 `

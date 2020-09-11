@@ -1,9 +1,12 @@
 import React, { FC } from 'react'
 import { Image, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 import { Card } from './cards.styled'
+import { Container, ModalContainer } from '../../utils/layout'
 
 import { IP } from '../../../../env'
+import { Button } from '../buttons/buttons.shared'
 
 interface ICardProps {
     w?: string
@@ -45,4 +48,28 @@ export const BgImgCard: FC<IBgImgCardProps> = ({
             />
         </Card>
     </TouchableOpacity>
+
+export const ModalCard: FC = ({
+    children
+}) => {
+
+    const navigation = useNavigation()
+
+    return (
+        <ModalContainer>
+            <Container justify='flex-start'>
+                <Button 
+                    w='50px'
+                    h='50px'
+                    iconName='chevron-left' 
+                    iconSize={30} 
+                    bgColor='dark' 
+                    text='' 
+                    onPress={() => navigation.goBack()} 
+                />
+            </Container>
+            {children}
+        </ModalContainer>
+    )
+}
 
