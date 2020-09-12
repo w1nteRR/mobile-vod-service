@@ -5,7 +5,8 @@ import { useNavigation } from '@react-navigation/native'
 import { Button } from '../../common/styled/buttons/buttons.shared'
 import { Container } from '../../common/utils/layout'
 
-import { getFilmsByTag } from '../../../redux/search/actions'
+import { getFilmsByTag, removeSearchData } from '../../../redux/search/actions'
+import { useSearch } from '../../../hooks/search/useSearch'
 
 
 export const Control: FC = () => {
@@ -13,11 +14,18 @@ export const Control: FC = () => {
     const dispatch = useDispatch()
     const navigation = useNavigation()
 
+    const { resetTags } = useSearch()
+
     const _onSearchPress = () => {
         dispatch(getFilmsByTag())
         navigation.goBack()
     }
-    
+
+    const _onDeletePress = () => {
+        resetTags()
+        dispatch(removeSearchData())
+    }
+        
     return (
         <Container justify='space-between' style={{ position: "absolute", bottom: 0 }}>
             <Container w='80%' justify='flex-start' p='10px'>
@@ -39,6 +47,7 @@ export const Control: FC = () => {
                     w='100%' 
                     h='45px' 
                     brRadius='5px' 
+                    onPress={_onDeletePress}
                 />
             </Container>
         </Container>

@@ -1,43 +1,18 @@
 import React, { FC } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { CheckboxCustom } from '../../common/styled/inputs/inputs.shared'
 import { Container } from '../../common/utils/layout'
 import { TextT } from '../../common/utils/typography'
 
 import { RootState } from '../../../redux/rootReducer'
-import { setSearchData, setActiveTag, removeSearchData } from '../../../redux/search/actions'
+import { useSearch } from '../../../hooks/search/useSearch'
 
 export const TagList: FC = () => {
     
     const tags = useSelector((state: RootState) => state.search.tags)
-    const searchData = useSelector((state: RootState) => state.search.searchData)
-    const dispatch = useDispatch()
-
-    for( let key in searchData ) {
-        if(!searchData[key].length) {
-            delete searchData[key]
-            dispatch(removeSearchData(key))
-        }
-    }
-
-    const _handle = (type: string, id: number) => {
-
-        for (const [key, value] of Object.entries(tags)) {
-            key === type && value!.forEach((checkbox) => {
-                if(checkbox.id === id) {
-                    checkbox.checked = !checkbox.checked
-                    
-                    const checkedOnly = value.filter(tag => tag.checked)
-                    
-                    dispatch(setSearchData(key, checkedOnly))
-                }                
-            })
-        }
-
-        dispatch(setActiveTag(tags))
-    }
-        
+    const { handleTag } = useSearch()
+     
     return <>
     {
         Object.entries(tags).map((item, index) =>
@@ -52,7 +27,7 @@ export const TagList: FC = () => {
                                 key={tag.id}
                                 text={tag.value}
                                 isActive={tag.checked}
-                                onPress={() => _handle(item[0], tag.id)}
+                                onPress={() => handleTag(item[0], tag.id)}
                             />
                         )
                     }
