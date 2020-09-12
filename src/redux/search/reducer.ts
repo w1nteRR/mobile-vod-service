@@ -5,7 +5,8 @@ import {
     INIT_TAGS, 
     SET_ACTIVE_TAG, 
     SET_SEARCH_DATA, 
-    REMOVE_SEARCH_DATA 
+    REMOVE_SEARCH_DATA,
+    UPDATE_SEARCH_DATA 
 } from './types'
 
 const initalState: SearchState = {
@@ -47,12 +48,17 @@ export const searchReducer = (state = initalState, action: SearchActionTypes ): 
                     [action.payload.key]: action.payload.data.map(tag => tag.value)
                 }
             }
-        case REMOVE_SEARCH_DATA:
+        case UPDATE_SEARCH_DATA:
             return {
                 ...state,
                 searchData: {
                     ...state.searchData
                 }
+            }
+        case REMOVE_SEARCH_DATA:
+            return {
+                ...state,
+                searchData: {}
             }
         default:
             return state

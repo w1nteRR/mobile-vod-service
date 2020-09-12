@@ -4,7 +4,9 @@ import {
     GET_FILMS_BY_NAME, 
     INIT_TAGS, 
     SET_ACTIVE_TAG, 
-    SET_SEARCH_DATA, REMOVE_SEARCH_DATA 
+    SET_SEARCH_DATA, 
+    REMOVE_SEARCH_DATA,
+    UPDATE_SEARCH_DATA 
 } from './types'
 
 import { IFilmShort} from '../../interfaces/film/IFilm'
@@ -45,11 +47,12 @@ export const setSearchData = (key: string, data: Array<IFilter>): SearchActionTy
     }
 })
 
-export const removeSearchData = (key: string): SearchActionTypes => ({
-    type: REMOVE_SEARCH_DATA,
-    payload: {
-        key
-    }
+export const updateSearchData = (): SearchActionTypes => ({
+    type: UPDATE_SEARCH_DATA
+})
+
+export const removeSearchData = (): SearchActionTypes => ({
+    type: REMOVE_SEARCH_DATA
 })
 
 

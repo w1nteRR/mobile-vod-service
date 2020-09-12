@@ -1,4 +1,3 @@
-import { types } from '@babel/core'
 import { ThunkAction } from 'redux-thunk'
 
 import { IFilmShort } from '../../interfaces/film/IFilm'
@@ -8,8 +7,11 @@ import { RootState } from '../rootReducer'
 export const GET_FILMS_BY_NAME = 'GET_FILMS_BY_NAME'
 export const INIT_TAGS = 'INIT_TAGS'
 export const SET_ACTIVE_TAG = 'SET_ACTIVE_TAG'
+
 export const SET_SEARCH_DATA = 'SET_SEARCH_DATA'
 export const REMOVE_SEARCH_DATA = 'REMOVE_SEARCH_DATA'
+export const UPDATE_SEARCH_DATA = 'UPDATE_SEARCH_DATA'
+
 
 export interface SearchState {
     result: Array<IFilmShort>,
@@ -53,12 +55,19 @@ interface SetSearchDataAction {
 }
 
 interface RemoveSearchDataAction {
-    type: typeof REMOVE_SEARCH_DATA,
-    payload: {
-        key: string
-    }
+    type: typeof REMOVE_SEARCH_DATA
 }
 
-export type SearchActionTypes = GetFilmsByNameAction | InitTagsAction | SetActiveTagAction | SetSearchDataAction | RemoveSearchDataAction
+interface UpdateSearchDataAction {
+    type: typeof UPDATE_SEARCH_DATA
+}
+
+export type SearchActionTypes = 
+    GetFilmsByNameAction | 
+    InitTagsAction | 
+    SetActiveTagAction | 
+    SetSearchDataAction | 
+    RemoveSearchDataAction |
+    UpdateSearchDataAction
 
 export type SearchThunkType = ThunkAction<Promise<void>, RootState, unknown, SearchActionTypes>
