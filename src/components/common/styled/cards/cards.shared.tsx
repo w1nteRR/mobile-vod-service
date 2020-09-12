@@ -5,8 +5,12 @@ import { useNavigation } from '@react-navigation/native'
 import { Card } from './cards.styled'
 import { Container, ModalContainer } from '../../utils/layout'
 
-import { IP } from '../../../../env'
 import { Button } from '../buttons/buttons.shared'
+import { MAIN } from '../../utils/colors'
+import { TextT, Describe } from '../../utils/typography'
+
+import { IP } from '../../../../env'
+
 
 interface ICardProps {
     w?: string
@@ -17,6 +21,13 @@ interface ICardProps {
 interface IBgImgCardProps extends ICardProps {
     img: string,
     resizeMode: string
+    onPress?: () => void
+}
+
+interface IEpisodeCardProps {
+    name: string
+    describe: string
+    img: string
     onPress?: () => void
 }
 
@@ -72,4 +83,28 @@ export const ModalCard: FC = ({
         </ModalContainer>
     )
 }
+
+export const EpisodeCard: FC<IEpisodeCardProps> = ({
+    describe,
+    name,
+    img,
+    onPress
+}) => 
+    <>
+    <BgImgCard 
+        onPress={onPress}
+        resizeMode='cover' 
+        h='200px' 
+        img={img}
+    >
+    </BgImgCard>
+    <Container bgColor={MAIN} direction='column' p='20px'>
+        <Container justify='flex-start' m='10px 0'>
+            <TextT>{name}</TextT>
+        </Container>
+        <Container>
+            <Describe>{describe}</Describe>
+        </Container>
+    </Container>
+    </>
 
