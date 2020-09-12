@@ -6,6 +6,7 @@ export interface IButtonStyledProps {
     p?: string
     h?: string
     w?: string
+    m?: string
     bgColor: string
     color?: string
     brRadius?: string
@@ -26,6 +27,7 @@ const buttonColors = (bgColor: string) => {
 
 export const ButtonStyled = styled.View<IButtonStyledProps>`
     padding: ${props => props.p || '0'};
+    margin: ${props => props.m || '0'};
     
     height: ${props => props.h || '20px'};
     width: ${props => props.w || '100%'};

@@ -11,13 +11,14 @@ interface IButton extends IButtonStyledProps {
     iconSize?: number
     iconColor?: string
     iconName?: string
-    text: string
+    text: string | number
 }   
 
 export const Button: FC<IButton> = ({
     h,
     w,
     p,
+    m,
     brRadius,
     bgColor,
     iconSize,
@@ -34,6 +35,7 @@ export const Button: FC<IButton> = ({
             h={h}
             w={w}
             p={p}
+            m={m}
         >
             {
                 iconName
