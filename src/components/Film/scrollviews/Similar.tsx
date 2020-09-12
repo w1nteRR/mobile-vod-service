@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import Carousel from 'react-native-snap-carousel'
+import { Dimensions, ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import { BgImgCard } from '../../common/styled/cards/cards.shared'
@@ -16,26 +16,25 @@ export const Similar: FC<ISimilarProps> = ({ similar }) => {
 
     const navigation = useNavigation()
 
+    const w: any = Dimensions.get('window').width.toFixed()
+
     return (
         <ScrollContainer title='Similar'>
-            <Carousel
-                data={similar}
-                renderItem={({ item }) => 
-                    <BgImgCard
-                        resizeMode='contain' 
-                        img={item.img}
-                        w='100%'
-                        h='200px' 
-                        onPress={() => navigation.navigate('Film', {
-                            
-                                filmId: item._id
-                            
-                        })} 
-                    />
+            <ScrollView horizontal={true}>
+                {
+                    similar.map(film => 
+                        <BgImgCard 
+                            m='10px' 
+                            img={film.img} 
+                            w={w - 20 + 'px'} 
+                            h='200px'
+                            onPress={() => navigation.navigate('Film', {
+                                filmId: film._id
+                            })} 
+                        />
+                    )
                 }
-                sliderWidth={390}
-                itemWidth={340}
-            />
+            </ScrollView>
         </ScrollContainer> 
     )
 }

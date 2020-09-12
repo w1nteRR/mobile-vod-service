@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import Carousel from 'react-native-snap-carousel'
+import { Dimensions } from 'react-native'
 
 import { Container } from '../../common/utils/layout'
 import { EpisodeCard } from '../../common/styled/cards/cards.shared'
@@ -10,6 +10,7 @@ import { ScrollContainer } from './Scroll.container'
 import { useFilter } from '../../../hooks/utils/useFilter'
 
 import { IEpisode } from '../../../interfaces/film/IEpisode'
+import { ScrollView } from 'react-native'
 
 interface ISeriesProps {
     series: Array<IEpisode>
@@ -23,6 +24,8 @@ export const Series: FC<ISeriesProps> = ({ series }) => {
 
     const { seasons, filtredEpisodes } = episodes(season)
 
+    const w: any = Dimensions.get('window').width.toFixed()
+
     return (
         <ScrollContainer title='Series'>
             <Container m='0 0 50px'>
@@ -32,19 +35,20 @@ export const Series: FC<ISeriesProps> = ({ series }) => {
                     activeSeason={season}
                  />
             </Container>
-            <Carousel 
-                data={filtredEpisodes}
-                renderItem={({ item }) => 
-                    <EpisodeCard 
-                        name={item.name} 
-                        img={item.img}
-                        describe={item.describe}
-                        onPress={() => console.log('s')}
-                    />
+            <ScrollView horizontal={true}>
+                {
+                    filtredEpisodes.map(episode => 
+                        <Container w={w + 'px'}>
+                            <EpisodeCard
+                                w={w - 20 + 'px'} 
+                                name={episode.name} 
+                                img={episode.img} 
+                                describe={episode.describe}
+                            />
+                        </Container>
+                    )
                 }
-                sliderWidth={390}
-                itemWidth={340}
-            />
+            </ScrollView>
         </ScrollContainer>
     )
 }

@@ -20,7 +20,6 @@ interface ICardProps {
 
 interface IBgImgCardProps extends ICardProps {
     img: string,
-    resizeMode: string
     onPress?: () => void
 }
 
@@ -28,6 +27,7 @@ interface IEpisodeCardProps {
     name: string
     describe: string
     img: string
+    w?: string
     onPress?: () => void
 }
 
@@ -36,7 +36,6 @@ export const BgImgCard: FC<IBgImgCardProps> = ({
     h, 
     m, 
     img,
-    resizeMode,
     onPress
 }) => 
     <TouchableOpacity 
@@ -50,7 +49,8 @@ export const BgImgCard: FC<IBgImgCardProps> = ({
         >
             <Image 
                 source={{uri: `${IP}${img}`}}
-                resizeMode={resizeMode}
+                resizeMethod='resize'
+                resizeMode='cover'
                 style={{
                     width: '100%',
                     height: '100%'
@@ -88,23 +88,31 @@ export const EpisodeCard: FC<IEpisodeCardProps> = ({
     describe,
     name,
     img,
+    w,
     onPress
 }) => 
-    <>
-    <BgImgCard 
-        onPress={onPress}
-        resizeMode='cover' 
-        h='200px' 
-        img={img}
-    >
-    </BgImgCard>
-    <Container bgColor={MAIN} direction='column' p='20px'>
-        <Container justify='flex-start' m='10px 0'>
-            <TextT>{name}</TextT>
-        </Container>
-        <Container>
-            <Describe>{describe}</Describe>
+    <Container direction='column' m='0 20px'>
+        <BgImgCard 
+            onPress={onPress}
+            h='200px'
+            w={w} 
+            img={img}
+        >
+        </BgImgCard>
+        <Container 
+            bgColor={MAIN} 
+            w={w} 
+            direction='column' 
+            h='200px' 
+            p='20px' 
+            justify='space-around'
+        >
+            <Container justify='flex-start' m='0 0 10px'>
+                <TextT>{name}</TextT>
+            </Container>
+            <Container h='50px'>
+                <Describe>{describe}</Describe>
+            </Container>
         </Container>
     </Container>
-    </>
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import Carousel from 'react-native-snap-carousel'
+import { ScrollView } from 'react-native'
 
 import { ScrollContainer } from './Scroll.container'
 
@@ -16,27 +16,25 @@ interface ICastProps {
 export const Cast: FC<ICastProps> = ({ cast }) => {
 
     const _renderItem = (actor: IActor) => 
-        <Container direction='column' h='320px' m='10px'>
+        <Container direction='column' h='320px' m='10px' w='390px'>
             <BgImgCard 
                 img={actor.films.img}
                 h='230px'
                 w='200px'
-                resizeMode='cover'
             />
             <Container m='10px'>
                 <Text>{actor.actorName}</Text>
             </Container>
-                <TextT>{actor.films.actorRole}</TextT>
+            <TextT>{actor.films.actorRole}</TextT>
         </Container>
 
     return (
         <ScrollContainer title='Cast'>
-            <Carousel
-                data={cast}
-                renderItem={({ item }) => _renderItem(item)}
-                sliderWidth={390}
-                itemWidth={250}
-            />
+            <ScrollView horizontal={true}>
+                {
+                    cast.map(actor => _renderItem(actor))
+                }
+            </ScrollView>
         </ScrollContainer>
     )
 }
