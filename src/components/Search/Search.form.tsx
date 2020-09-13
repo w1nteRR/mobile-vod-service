@@ -6,7 +6,7 @@ import { MAIN } from '../common/utils/colors'
 
 import { Input } from '../common/styled/inputs/inputs.shared'
 
-import { useDebounce } from '../../hooks/useDebounce'
+import { useDebounce } from '../../hooks/utils/useDebounce'
 
 import { getFilmsByName } from '../../redux/search/actions'
 

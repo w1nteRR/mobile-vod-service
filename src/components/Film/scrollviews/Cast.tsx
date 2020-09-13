@@ -16,7 +16,7 @@ interface ICastProps {
 export const Cast: FC<ICastProps> = ({ cast }) => {
 
     const _renderItem = (actor: IActor) => 
-        <Container direction='column' h='320px' m='10px' w='390px'>
+        <Container direction='column' h='320px' m='10px' w='390px' key={actor._id}>
             <BgImgCard 
                 img={actor.films.img}
                 h='230px'

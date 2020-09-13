@@ -16,6 +16,7 @@ import { useAxios } from '../../hooks/useAxios'
 
 import { IFilm, IFilmShort } from '../../interfaces/film/IFilm'
 import { IFilmNavProps } from '../../navigation/stacks/film'
+import { Series } from '../../components/Film/scrollviews/Series'
 
 
 interface IFilmProps extends IFilmNavProps {}
@@ -39,6 +40,8 @@ export const Film: FC<IFilmProps> = ({ route }) => {
     const film: IFilm = res?.data.film
     const similar: Array<IFilmShort> = res?.data.similar
 
+    const isSerial = film.type === 'Serial'
+
     return (
             <Background>
                 <ScrollView>
@@ -53,6 +56,11 @@ export const Film: FC<IFilmProps> = ({ route }) => {
                         year={film.year}
                         describe={film.describe}
                     />
+                    {
+                        isSerial
+                        &&
+                        <Series series={film.series} />
+                    }
                     <Cast cast={film.cast} />
                     <Info
                         director={film.director}

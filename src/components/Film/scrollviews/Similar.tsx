@@ -23,7 +23,8 @@ export const Similar: FC<ISimilarProps> = ({ similar }) => {
             <ScrollView horizontal={true}>
                 {
                     similar.map(film => 
-                        <BgImgCard 
+                        <BgImgCard
+                            key={film._id} 
                             m='10px' 
                             img={film.img} 
                             w={w - 20 + 'px'} 

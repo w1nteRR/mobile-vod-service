@@ -38,7 +38,7 @@ export const Series: FC<ISeriesProps> = ({ series }) => {
             <ScrollView horizontal={true}>
                 {
                     filtredEpisodes.map(episode => 
-                        <Container w={w + 'px'}>
+                        <Container w={w + 'px'} key={episode._id}>
                             <EpisodeCard
                                 w={w - 20 + 'px'} 
                                 name={episode.name} 

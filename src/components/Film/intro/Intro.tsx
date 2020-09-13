@@ -17,7 +17,7 @@ export const Intro: FC<IIntroProps> = ({ wallpaper, name }) => {
     
     return (
         <Container h='350px' direction='column' align='flex-end'>
-            <BgImgCard img={wallpaper} w={w} resizeMode='cover' />
+            <BgImgCard img={wallpaper} w={w} />
                 <Container 
                     style={{
                         position: 'absolute',
