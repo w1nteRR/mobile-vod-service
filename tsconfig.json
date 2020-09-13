@@ -4,12 +4,18 @@
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
       "isolatedModules": true,
+      "resolveJsonModule": true,
       "jsx": "react",
-      "lib": ["es6"],
+      "lib": [
+        "es6",
+        "es2015",  
+        "es2017",
+        "dom"
+      ],
       "moduleResolution": "node",
       "noEmit": true,
       "strict": true,
-      "target": "esnext"
+      "target": "es6"
     },
     "exclude": [
       "node_modules",
