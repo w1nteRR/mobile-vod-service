@@ -29,9 +29,10 @@ export const useAuth = () => {
             const res = await authApi.signIn(data)
 
             await storeToken(res.token)
+            dispatch(setAuth(true, res.token))
 
         } catch (err) {
-            console.log(err)
+            throw err
         }
     }
 
@@ -45,7 +46,16 @@ export const useAuth = () => {
         }
     }
 
-    const logout = () => AsyncStorage.removeItem('userData')
+    const logout = async () => {
+        try {
+
+            await AsyncStorage.removeItem('userData')
+            dispatch(setAuth(false, ''))
+
+        } catch (err) {
+            throw err
+        }
+    }
 
     useEffect(() => {    
         const getData = async () => {
@@ -53,7 +63,8 @@ export const useAuth = () => {
 
                 const jwt = await AsyncStorage.getItem('userData')
                 
-                jwt && dispatch(setAuth(true))
+                jwt && dispatch(setAuth(true, jwt))
+                
 
                 setLoading(false)
     
