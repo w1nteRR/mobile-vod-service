@@ -19,6 +19,9 @@ export const SignIn: FC = () => {
     const { signin } = useAuth()
 
     const _onSignInPress = async () => {
+
+        if(!email.trim().length || !password.trim().length) return
+
         try {
 
             await signin({ email, password })
@@ -35,13 +38,13 @@ export const SignIn: FC = () => {
                 <Title>Sign In</Title>
             </Container>
             <Container h='50%' direction='column'>
-                <Container bgColor={MAIN} p='15px' m='30px'>
+                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
                     <Input 
                         placeholder='Email' 
                         change={event => setEmail(event.nativeEvent.text)}
                     />
                 </Container>
-                <Container bgColor={MAIN} p='15px' m='30px'>
+                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
                     <Input 
                         placeholder='Password'
                         change={event => setPassword(event.nativeEvent.text)} 
@@ -72,7 +75,7 @@ export const SignIn: FC = () => {
                     bottom: 0 
                 }} 
                 bgColor='#121212' 
-                h='50px'
+                h='70px'
             >
                 <Button 
                     bgColor='' 

@@ -34,28 +34,28 @@ export const SignUp: FC = () => {
     return (
         <Background>
             <Container p='30px' justify='flex-start'>
-                <Title>Sign In</Title>
+                <Title>Sign Up</Title>
             </Container>
             <Container h='80%' direction='column'>
-                <Container bgColor={MAIN} p='15px' m='30px'>
+                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
                     <Input 
                         placeholder='Email' 
                         change={event => setEmail(event.nativeEvent.text)}
                     />
                 </Container>
-                <Container bgColor={MAIN} p='15px' m='30px'>
+                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
                     <Input 
                         placeholder='Username'
                         change={event => setUsername(event.nativeEvent.text)} 
                     />
                 </Container>
-                <Container bgColor={MAIN} p='15px' m='30px'>
+                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
                     <Input 
                         placeholder='Password'
                         change={event => setPassword(event.nativeEvent.text)} 
                     />
                 </Container>
-                <Container bgColor={MAIN} p='15px' m='30px'>
+                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
                     <Input 
                         placeholder='Confirm password'
                         change={event => setConfirmPassword(event.nativeEvent.text)} 

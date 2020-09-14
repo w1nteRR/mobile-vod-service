@@ -25,7 +25,6 @@ export const Search: FC = () => {
                 renderItem={item => 
                     <BgImgCard 
                         img={item.item.img} 
-                        resizeMode='cover' 
                         h='220px' 
                         m='10px' 
                         onPress={() => navigation.navigate('Film', {
@@ -33,10 +32,10 @@ export const Search: FC = () => {
                         })} 
                     />
                 }
-                keyExtractor={(item, index) => index.toString()}
-                onEndReachedThreshold={0.01}
-                initialNumToRender={4}
-                ListHeaderComponent={() => (
+                    keyExtractor={(item, index) => index.toString()}
+                    onEndReachedThreshold={0.01}
+                    initialNumToRender={4}
+                    ListHeaderComponent={() => (
                     <>
                     <Header title='' />
                     <SearchForm />

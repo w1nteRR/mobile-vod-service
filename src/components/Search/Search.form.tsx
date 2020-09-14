@@ -20,7 +20,7 @@ export const SearchForm: FC = () => {
     useEffect(() => { debouncedVal && dispatch(getFilmsByName(inputVal)) }, [inputVal])
 
     return (
-        <Container bgColor={MAIN} p='20px'>
+        <Container bgColor={MAIN} p='20px' w='95%' m='0 auto' style={{ borderRadius: 10 }}>
             <Input 
                 change={event => setInputVal(event.nativeEvent.text)}
                 placeholder='Enter film name' 
