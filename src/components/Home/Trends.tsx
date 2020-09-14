@@ -1,8 +1,7 @@
 import React, { FC } from 'react'
-import { Dimensions } from 'react-native'
-import Carousel from 'react-native-snap-carousel'
+import { Dimensions, ScrollView } from 'react-native'
 
-import { Text, Title, Describe } from '../common/utils/typography'
+import { Text, Title, Describe, TextT } from '../common/utils/typography'
 
 import { BgImgCard } from '../common/styled/cards/cards.shared'
 import { Container } from '../common/utils/layout'
@@ -26,18 +25,20 @@ export const Trends: FC = () => {
 
     const trends: Array<IFilmTrend> = res?.data
 
-    const w = Dimensions.get('window').width
+    const w = Dimensions.get('window').width - 20
 
     const _renderCard = (film: IFilmTrend) =>
         <Container 
             direction='column' 
             bgColor={MAIN} 
-            h='400px' 
+            h='380px'
+            m='10px'
+            w={w + 'px'} 
             justify='flex-start'
+            style={{ borderRadius: 10 }}
         >
             <BgImgCard 
                 img={film.wallpaper} 
-                resizeMode='cover'
                 h='200px' 
                 w={w + 'px'} 
             />
@@ -56,15 +57,20 @@ export const Trends: FC = () => {
                 </Describe>
             </Container>
         </Container>
-        
     
-    return <Carousel 
-                data={trends} 
-                renderItem={({ item }) => _renderCard(item)} 
-                sliderWidth={w}
-                itemWidth={w} 
-                itemHeight={300}
-                // autoplay={true}
-                loop={true}
-            />
+    return (
+        <>
+        <Container 
+            p='20px' 
+            justify='flex-start'
+        >
+            <TextT>Trends</TextT>
+        </Container>
+        <ScrollView horizontal={true}>
+            {
+                trends.map(trend => _renderCard(trend))
+            }
+        </ScrollView>
+        </>
+    )
 }
