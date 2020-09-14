@@ -5,6 +5,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 
 import { HomeStackScreen } from '../stacks/home'
 import { SearchStackScreen } from '../stacks/search'
+import { LibraryStackScreen } from '../stacks/library'
 
 const Tab = createBottomTabNavigator()
 
@@ -53,4 +54,5 @@ export const TabNavigator = () =>
     >
         <Tab.Screen name="Home" component={HomeStackScreen} />
         <Tab.Screen name="Search" component={SearchStackScreen} />
+        <Tab.Screen name="Library" component={LibraryStackScreen} />
     </Tab.Navigator>

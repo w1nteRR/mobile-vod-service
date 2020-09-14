@@ -10,6 +10,8 @@ import { Film } from '../screens/Film/Film'
 import { FilmWatchStackScreen } from './stacks/filmWatch'
 import { AuthStackScreen } from './stacks/auth'
 
+import { LibraryModal } from '../components/Library/modal/Library.modal'
+
 import { Background } from '../components/common/utils/layout'
 import { TextT } from '../components/common/utils/typography'
 
@@ -33,7 +35,7 @@ export const RootStackScreen = () => {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator headerMode='none'>
+            <Stack.Navigator headerMode='none' mode='modal'>
                 {
                     !auth.isAuthenticated
                     &&
@@ -55,8 +57,19 @@ export const RootStackScreen = () => {
                     name="FilmWatch"
                     component={FilmWatchStackScreen}
                 />
+               <Stack.Screen 
+                    name="LibraryModal" 
+                    component={LibraryModal}  
+                    options={modalStyle}  
+                />
             </Stack.Navigator>
         </NavigationContainer>
     )
+}
+
+const modalStyle = {
+    cardStyle: {
+        backgroundColor: 'transparent'
+    }
 }
     
