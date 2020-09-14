@@ -15,10 +15,9 @@ export const Control: FC<IControlProps> = ({ filmId }) => {
     return (
         <Container justify='space-between' p='30px 20px'>
             <Button 
-                text='' 
                 bgColor='primary' 
                 w='100px' 
-                h='45px' 
+                p='20px'
                 iconName='play' 
                 iconSize={30} 
                 brRadius='5px' 
@@ -27,13 +26,15 @@ export const Control: FC<IControlProps> = ({ filmId }) => {
                 })}
             />
             <Button 
-                text='' 
                 bgColor='' 
                 w='45px' 
-                h='45px' 
+                h='45px'
                 iconName='dots-vertical' 
                 iconSize={30} 
                 brRadius='5px' 
+                onPress={() => navigation.navigate('LibraryModal', {
+                    filmId
+                })}
             />
         </Container>
     )

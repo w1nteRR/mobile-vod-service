@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { ButtonStyled, IButtonStyledProps } from './buttons.styled'
 import { Text } from '../../utils/typography'
+import { Container } from '../../utils/layout'
 
 interface IButton extends IButtonStyledProps {
     onPress?: () => void
@@ -11,7 +12,8 @@ interface IButton extends IButtonStyledProps {
     iconSize?: number
     iconColor?: string
     iconName?: string
-    text: string | number
+    text?: string | number
+    justify?: string
 }   
 
 export const Button: FC<IButton> = ({
@@ -25,6 +27,7 @@ export const Button: FC<IButton> = ({
     iconColor,
     iconName,
     text,
+    justify,
     onIconPress,
     onPress
 }) => 
@@ -37,6 +40,7 @@ export const Button: FC<IButton> = ({
             p={p}
             m={m}
         >
+            <Container justify={justify} h='100%'>
             {
                 iconName
                 ?
@@ -56,6 +60,7 @@ export const Button: FC<IButton> = ({
                 :
                 null
             }
+            </Container>
         </ButtonStyled>
     </TouchableOpacity>
     

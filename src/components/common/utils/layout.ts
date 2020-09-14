@@ -41,5 +41,5 @@ export const ModalContainer = styled.View`
 
 export const Background = styled.View`
     flex: 1;
-    background-color: black;
+    background-color: #090909;
 `

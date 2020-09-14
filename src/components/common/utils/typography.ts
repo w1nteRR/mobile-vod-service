@@ -40,7 +40,7 @@ export const Describe = styled.Text`
     font-weight: 200;
     letter-spacing: 1.1px;
     color: gray;
-    font-size: 9px;
+    font-size: 10px;
     line-height: 20px;
 
 `

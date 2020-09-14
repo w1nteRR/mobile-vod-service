@@ -27,8 +27,8 @@ export const FilmsCarousel: FC<IFilmsCarousel> = ({ playlist }) => {
                     data={playlist.films}
                     renderItem={({ item }) => 
                         <BgImgCard
-                            resizeMode='contain' 
                             img={item.img} 
+                            h='200px'
                             onPress={() => navigation.navigate('Film', {
                                 filmId: item._id
                             })} 
