@@ -1,4 +1,4 @@
-import React from 'react'
+import React  from 'react'
 import { useSelector } from 'react-redux'
 
 import { NavigationContainer } from '@react-navigation/native'
@@ -14,6 +14,7 @@ import { LibraryModal } from '../components/Library/modal/Library.modal'
 
 import { Background } from '../components/common/utils/layout'
 import { TextT } from '../components/common/utils/typography'
+import { HeaderBtn } from '../components/common/styled/shared/shared'
 
 import { useAuth } from '../hooks/auth/useAuth'
 
@@ -32,10 +33,14 @@ export const RootStackScreen = () => {
             <TextT>splash</TextT>
         </Background>
     )
+               
 
     return (
         <NavigationContainer>
-            <Stack.Navigator headerMode='none' mode='modal'>
+            <Stack.Navigator 
+                mode='modal' 
+                screenOptions={headerStyle}
+            >
                 {
                     !auth.isAuthenticated
                     &&
@@ -47,7 +52,8 @@ export const RootStackScreen = () => {
                 <Stack.Screen
                     name="Main"
                     component={TabNavigator}
-                    options={{ headerShown: false }}
+                    options={{ headerRight: () => <HeaderBtn isAuth={auth.isAuthenticated}  />}}
+        
                 />
                 <Stack.Screen
                     name="Film"
@@ -70,6 +76,13 @@ export const RootStackScreen = () => {
 const modalStyle = {
     cardStyle: {
         backgroundColor: 'transparent'
+    }
+}
+
+const headerStyle = {
+    title: '',
+    headerStyle: {
+        backgroundColor: '#090909',
     }
 }
     
