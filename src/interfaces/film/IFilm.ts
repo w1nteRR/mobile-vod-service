@@ -37,6 +37,14 @@ export interface IFilmTrend {
     img: string
 }
 
+export interface IFilmDetailed {
+    _id: string
+    img: string
+    describe: string
+    name: string
+    genr: Array<string>
+}
+
 export interface IFilmFiltred extends IFilmShort {
     company: string,
     genr: Array<string>
