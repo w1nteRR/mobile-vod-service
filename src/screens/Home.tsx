@@ -2,8 +2,6 @@ import React, { useEffect, useState, FC } from 'react'
 import axios from 'axios'
 import { FlatList } from 'react-native'
 
-import { Header } from '../components/shared/Header'
-
 import { Background } from '../components/common/utils/layout'
 
 import { FilmsCarousel } from '../components/Home/Films.carousel'
@@ -39,12 +37,7 @@ export const Home: FC = () => {
                 onEndReachedThreshold={0.01}
                 initialNumToRender={4}
 
-                ListHeaderComponent={() => 
-                    <>
-                    <Header title='q.' />
-                    <Trends />
-                    </>
-                }
+                ListHeaderComponent={() => <Trends />}
             />       
         </Background>
     )

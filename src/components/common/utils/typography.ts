@@ -17,7 +17,8 @@ export const Title = styled.Text<Title>`
     font-size: 15px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: ${props => props.color || 'silver'};
+    font-weight: bold;
+    color: ${props => props.color || '#fff'};
 `
 
 export const Text = styled.Text<Text>`

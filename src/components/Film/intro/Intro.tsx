@@ -25,7 +25,7 @@ export const Intro: FC<IIntroProps> = ({ wallpaper, name }) => {
                     }}
                 >
                     <LinearGradient
-                        colors={['rgba(0, 0, 0, 0) 0%', 'rgba(0, 0, 0, 0.68) 43.23%', '#000']} 
+                        colors={['rgba(0, 0, 0, 0) 0%', 'rgba(0, 0, 0, 0.8) 73.23%', '#090909']} 
                         style={{
                             flex: 1,
                             height: 350

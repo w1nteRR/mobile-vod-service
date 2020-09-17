@@ -38,5 +38,7 @@ export const CheckboxCustomS = styled.View<ICheckBoxCustomStyledProps>`
     align-items: center;
     justify-content: center;
 
+    border-radius: 10px;
+
     background-color: ${props => props.isActive ? '#1c1c1c' : 'transparent'};
 `

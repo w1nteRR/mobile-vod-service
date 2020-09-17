@@ -7,8 +7,6 @@ import { useNavigation } from '@react-navigation/native'
 import { Background, Container } from '../components/common/utils/layout'
 import { TextT } from '../components/common/utils/typography'
 
-import { Header } from '../components/shared/Header'
-
 import { SearchForm } from '../components/Search/Search.form'
 import { RootState } from '../redux/rootReducer'
 import { BgImgCard } from '../components/common/styled/cards/cards.shared'
@@ -37,7 +35,6 @@ export const Search: FC = () => {
                     initialNumToRender={4}
                     ListHeaderComponent={() => (
                     <>
-                    <Header title='' />
                     <SearchForm />
                     <Container direction='column' h='75px' m='50px 0' justify='space-around' >
                         <TextT>Or add some tags and we will find</TextT>

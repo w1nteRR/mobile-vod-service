@@ -25,7 +25,6 @@ export const Library: FC = () => {
 
     return (
         <Background>
-            <Header title='q.' />
             <Container m='30px 0'>
                 <WatchContinue />
             </Container>
