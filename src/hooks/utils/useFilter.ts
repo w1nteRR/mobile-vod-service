@@ -13,7 +13,13 @@ export const useFilter = (data: Array<any>) => {
         }
     }
 
+    function films (filter: string | number) {
+        return data.filter(film => film.genr.includes(filter))
+    }
+
+
     return {
-        episodes
+        episodes,
+        films
     }
 }
