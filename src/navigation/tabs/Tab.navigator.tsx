@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
@@ -7,8 +8,11 @@ import { HomeStackScreen } from '../stacks/home'
 import { SearchStackScreen } from '../stacks/search'
 import { LibraryStackScreen } from '../stacks/library'
 import { ProfileStackScreen } from '../stacks/profile'
-import { useSelector } from 'react-redux'
+
+import { BrowseNavStack } from './Tab.top'
+
 import { RootState } from '../../redux/rootReducer'
+
 
 const Tab = createBottomTabNavigator()
 
@@ -26,6 +30,12 @@ export const TabNavigator = () => {
                                 focused
                                     ? <Icon name='home' size={25} color='#fff' />
                                     : <Icon name='home' size={25} color='silver' />
+                            )
+                        case 'Browse':
+                            return (
+                                focused
+                                    ? <Icon name='compass' size={25} color='#fff' />
+                                    : <Icon name='compass' size={25} color='silver' />
                             )
                         case 'Library':
                             return (
@@ -60,6 +70,7 @@ export const TabNavigator = () => {
             }}
         >
             <Tab.Screen name="Home" component={HomeStackScreen} />
+            <Tab.Screen name="Browse" component={BrowseNavStack} />
             <Tab.Screen name="Search" component={SearchStackScreen} />
             <Tab.Screen name="Library" component={LibraryStackScreen} />
             {
