@@ -1,50 +1,40 @@
 import React, { FC } from 'react'
 import { FlatList } from 'react-native'
 
-import { BgImgCard } from '../common/styled/cards/cards.shared'
-
 import { Container } from '../common/utils/layout'
-import { TextT } from '../common/utils/typography'
-
-import { IFilmShort } from '../../interfaces/film/IFilm'
+import { Title } from '../common/utils/typography'
 
 
 interface IFlatListCustom {
     horizontal?: boolean
     title?: string | number
-    data: Array<IFilmShort>
+    data: Array<any>
     initialRender?: number
-    onItemClick?: () => void
     onEndReached?: () => void
+    render(i: object): void
 }
 
-export const ListImgCustom: FC<IFlatListCustom> = ({ 
-    horizontal, 
-    title, 
-    data, 
+export const ListImgCustom: FC<IFlatListCustom> = ({
+    horizontal,
+    title,
+    data,
     initialRender,
-    onItemClick, 
-    onEndReached 
+    onEndReached,
+    render
 }) => 
     <Container direction='column'>
         <Container justify='flex-start' p='10px'>
-            <TextT>{title}</TextT>
+            <Title>{title}</Title>
         </Container>
-        <FlatList 
+        <FlatList
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
             onEndReached={onEndReached}
             initialNumToRender={initialRender}
             horizontal={horizontal}
             data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => 
-                <BgImgCard 
-                    key={item._id} 
-                    img={item.img}
-                    h='200px'
-                    w='390px' 
-                    m='10px'
-                    onPress={onItemClick} 
-                />
-            }
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item }) => render(item)}
         />
     </Container>
+ 
