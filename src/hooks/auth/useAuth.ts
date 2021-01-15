@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage'
 import Auth0 from 'react-native-auth0'
 
+import { domain, clientId } from '../../env'
+
 import { setAuth } from '../../redux/auth/actions'
 
 export const useAuth = () => {
@@ -12,14 +14,18 @@ export const useAuth = () => {
     const dispatch = useDispatch()
 
     const auth0 = new Auth0({
-        domain: 'dev-bngj4fju.eu.auth0.com',
-        clientId: 'nD4DmEVNAorio505mkkZilV56nmJEtUn'
+        domain,
+        clientId
     })
 
-    const storeToken = async (jwt: string) => {
+    const storeTokens = async (tokens: {
+        idToken: string, 
+        accessToken: string
+    }) => {
         try {
 
-            await AsyncStorage.setItem('userData', jwt)
+            await AsyncStorage.setItem('idToken', tokens.idToken)
+            await AsyncStorage.setItem('accessToken', tokens.accessToken)
             
         } catch (err) {
             throw err
@@ -29,9 +35,15 @@ export const useAuth = () => {
     const signInWithGoogle = async () => {
         try {
 
-            let credentials = await auth0.webAuth.authorize({ connection: 'google-oauth2', scope: 'openid profile offline_access' })
+            let credentials = await auth0.webAuth.authorize({ 
+                connection: 'google-oauth2', 
+                scope: 'openid profile offline_access' 
+            })
 
-            storeToken(credentials.accessToken)
+            storeTokens({
+                idToken: credentials.idToken,
+                accessToken: credentials.accessToken
+            })
 
             dispatch(setAuth(true))
 
@@ -49,10 +61,14 @@ export const useAuth = () => {
             let credentials = await auth0.auth.passwordRealm({
                 username,
                 password,
-                realm: 'Username-Password-Authentication'
+                realm: 'Username-Password-Authentication',
+                scope: 'openid offline_access'
             })
 
-            storeToken(credentials.accessToken)
+            storeTokens({
+                idToken: credentials.idToken,
+                accessToken: credentials.accessToken
+            })
 
             dispatch(setAuth(true))
 
@@ -66,7 +82,8 @@ export const useAuth = () => {
 
             await auth0.webAuth.clearSession()
 
-            await AsyncStorage.removeItem('userData')
+            await AsyncStorage.removeItem('idToken')
+            await AsyncStorage.removeItem('accessToken')
 
             dispatch(setAuth(false))
 
@@ -78,7 +95,7 @@ export const useAuth = () => {
     const getUser = async () => {
         try {
 
-            const token = await AsyncStorage.getItem('userData')
+            const token = await AsyncStorage.getItem('accessToken')
 
             if(!token) return
 
@@ -98,10 +115,8 @@ export const useAuth = () => {
         const getData = async () => {
             try {
 
-                const jwt = await AsyncStorage.getItem('userData')
+                const jwt = await AsyncStorage.getItem('accessToken')
 
-                
-                
                 jwt && dispatch(setAuth(true))
 
                 setLoading(false)
