@@ -15,8 +15,6 @@ interface Title {
 
 export const Title = styled.Text<Title>`
     font-size: 15px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
     font-weight: bold;
     color: ${props => props.color || '#fff'};
 `
@@ -33,15 +31,12 @@ export const Text = styled.Text<Text>`
 export const TextT = styled.Text`
     text-transform: uppercase;
     color: gray;
-    font-size: 13px;
-    letter-spacing: 1.2px;
+    font-size: 10px;
+    letter-spacing: 1px;
 `
 
 export const Describe = styled.Text`
-    font-weight: 200;
-    letter-spacing: 1.1px;
-    color: gray;
-    font-size: 10px;
+    color: silver;
+    font-size: 13.9px;;
     line-height: 20px;
-
 `

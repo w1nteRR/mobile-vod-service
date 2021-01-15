@@ -1,8 +1,7 @@
 import { AuthActionTypes, AuthState, SET_AUTH } from './types'
 
 const initialState: AuthState = {
-    isAuthenticated: false,
-    token: ''
+    isAuthenticated: false
 }
 
 export const authReducer = (state = initialState, action: AuthActionTypes): AuthState => {
@@ -10,8 +9,7 @@ export const authReducer = (state = initialState, action: AuthActionTypes): Auth
         case SET_AUTH: 
             return {
                 ...state,
-                isAuthenticated: action.payload.isAuthenticated,
-                token: action.payload.token
+                isAuthenticated: action.payload
             }
         default:
             return state

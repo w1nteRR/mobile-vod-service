@@ -10,6 +10,6 @@ type HomeStackParams = {
 const HomeStack = createStackNavigator<HomeStackParams>()
 
 export const HomeStackScreen = () => 
-    <HomeStack.Navigator initialRouteName='Home' headerMode='none'>
+    <HomeStack.Navigator initialRouteName='Home'>
         <HomeStack.Screen name="Home" component={Home} />
     </HomeStack.Navigator>

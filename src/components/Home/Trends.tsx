@@ -1,50 +1,45 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
+import axios from 'axios'
 
-import { Text, Title } from '../common/utils/typography'
-
-import { FilmDetails } from '../common/styled/cards/cards.shared'
+import { Title, Text } from '../common/utils/typography'
 import { Container } from '../common/utils/layout'
 
-import { useAxios } from '../../hooks/useAxios'
+import { TrendCard } from '../Trends/trend.card'
+import { ScrollContainer } from '../Film/scrollviews/Scroll.container'
 
 import { IFilmTrend } from '../../interfaces/film/IFilm'
 
 export const Trends: FC = () => {
     
-    const { res, loading } = useAxios(`/api/video/playlist/trends`, {
-        method: 'GET'
-    })
+    const [trends, setTrends] = useState<Array<IFilmTrend>>([])
 
-    if(loading) return (
-        <Container h='400px'>
-            <Text>Loading</Text>
-        </Container>
-    )
+    useEffect(() => {
+        (async () => {
+            try {
 
-    const trends: Array<IFilmTrend> = res?.data
+                const res = await axios.get('https://feedfa.azurewebsites.net/api/GetTrends')
+                setTrends(res.data)
+
+            } catch (err) {
+                console.log(err)
+            }
+        })()
+    }, [])
+
+
+    if(!trends.length) return <Title>Fetching trends...</Title>
     
     return (
-        <>
-        <Container 
-            p='20px' 
-            justify='flex-start'
-        >
-            <Title>Trends</Title>
-        </Container>
-        <ScrollView horizontal={true}>
-            {
-                trends.map(trend => 
-                    <FilmDetails 
-                        key={trend._id}
-                        name={trend.name} 
-                        img={trend.wallpaper} 
-                        describe={trend.describe} 
-                        h='160px' 
-                    />
-                )
-            }
-        </ScrollView>
-        </>
+        <ScrollContainer title='Trends'>
+            <Container direction='column'>
+                <ScrollView horizontal>
+                {
+                    trends.slice(1).map(trend => 
+                        <TrendCard key={trend._id} image={trend.wallpaper} name={trend.name} />)
+                }
+                </ScrollView>
+            </Container>
+        </ScrollContainer>
     )
 }

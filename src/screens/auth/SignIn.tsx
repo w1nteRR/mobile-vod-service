@@ -1,12 +1,14 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { FC, useState } from 'react'
+import { Dimensions, Alert } from 'react-native'
+import Auth0 from 'react-native-auth0'
 
 import { Button } from '../../components/common/styled/buttons/buttons.shared'
 import { Input } from '../../components/common/styled/inputs/inputs.shared'
 import { MAIN } from '../../components/common/utils/colors'
 
 import { Background, Container } from '../../components/common/utils/layout'
-import { Title } from '../../components/common/utils/typography'
+import { Text, Title } from '../../components/common/utils/typography'
 
 import { useAuth } from '../../hooks/auth/useAuth'
 
@@ -16,73 +18,89 @@ export const SignIn: FC = () => {
     const [password, setPassword] = useState('')
 
     const navigation = useNavigation()
-    const { signin } = useAuth()
+    const { signInWithPassword, signInWithGoogle } = useAuth()
 
-    const _onSignInPress = async () => {
-
-        if(!email.trim().length || !password.trim().length) return
-
-        try {
-
-            await signin({ email, password })
-            navigation.navigate('Main')
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    const width = Dimensions.get('screen').width - 20
 
     return (
         <Background>
             <Container p='30px' justify='flex-start'>
                 <Title>Sign In</Title>
             </Container>
-            <Container h='50%' direction='column'>
-                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
+            <Container h='50%' direction='column' p='10px'>
+                <Container {...inputContainer}>
                     <Input 
                         placeholder='Email' 
                         change={event => setEmail(event.nativeEvent.text)}
                     />
                 </Container>
-                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
+                <Container {...inputContainer}>
                     <Input 
                         placeholder='Password'
                         change={event => setPassword(event.nativeEvent.text)} 
                     />
                 </Container>
-                <Container justify='space-around'>
                     <Button 
-                        text='Sign Up' 
-                        bgColor='' 
-                        h='40px' 
-                        w='130px' 
-                        brRadius='5px' 
-                        onPress={() => navigation.navigate('SignUp')}
-                    />
-                    <Button 
-                        text='Login' 
+                        text='Sign In' 
                         bgColor='primary' 
-                        h='40px' 
-                        w='130px' 
-                        brRadius='5px' 
-                        onPress={() => _onSignInPress()}
+                        h='50px'
+                        w={width.toFixed() + 'px'}
+                        brRadius='10px' 
+                        onPress={() => signInWithPassword(email, password)}
                     />
-                </Container>
+                    <Container m='20px 0'>
+                        <Text size='10px'>Not registered yet? <Text onPress={() => navigation.navigate('SignUp')} weight='bold' size='13px'> Create Account</Text></Text>
+                    </Container>
+            </Container>
+            <Container>
+                <Title>Or continue with</Title>
+            </Container>
+            <Container m='50px 0'>
+                <Button 
+                    iconName='google'
+                    iconSize={20} 
+                    {...smBtn}
+                    onPress={() => signInWithGoogle()}
+                />
+                <Button 
+                    iconName='facebook'
+                    iconSize={20} 
+                    iconColor='blue'
+                    {...smBtn}
+                />
             </Container>
             <Container 
                 style={{ 
                     position: "absolute", 
-                    bottom: 0 
+                    bottom: 20
                 }} 
-                bgColor='#121212' 
-                h='70px'
             >
                 <Button 
-                    bgColor='' 
-                    text='Continue as guest' 
+                    bgColor=''
+                    h='50px'
+                    w={width.toFixed() + 'px'} 
+                    text='Go as guest' 
+                    brRadius='10px'
                     onPress={() => navigation.navigate('Main')} 
                 />
             </Container>
         </Background>
     )
+}
+
+const inputContainer = {
+    bgColor: MAIN,
+    p: '10px',
+    m: '30px',
+    style: {
+        borderRadius: 10
+    }
+}
+
+const smBtn = {
+    bgColor: 'dark', 
+    w: '50px',
+    h: '50px',
+    m: '10px',
+    brRadius: '10px'
 }

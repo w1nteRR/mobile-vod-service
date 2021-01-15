@@ -1,15 +1,17 @@
 import React, { FC } from 'react'
-import { Dimensions } from 'react-native'
+import { FlatList } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 
-import { Button } from '../../components/common/styled/buttons/buttons.shared'
 import { NoAuth } from '../../components/common/styled/alerts/alerts.shared'
+import { Button } from '../../components/common/styled/buttons/buttons.shared'
 
 import { Background, Container } from '../../components/common/utils/layout'
-import { WatchContinue } from '../../components/Library/WatchContinue'
 
-import { Header } from '../../components/shared/Header'
+import { ScrollContainer } from '../../components/Film/scrollviews/Scroll.container'
+
+import { WatchlistCard } from '../../components/Library/watchlist.card'
+import { WatchlistError } from '../../components/Library/watchlist.error'
 
 import { RootState } from '../../redux/rootReducer'
 
@@ -21,45 +23,68 @@ export const Library: FC = () => {
 
     if(!isAuth) return <NoAuth />
     
-    const w = Dimensions.get('window').width - 20
+    const cards = [0]
+
+    const isWc = false
 
     return (
         <Background>
-            <Container m='30px 0'>
-                <WatchContinue />
-            </Container>
-            <Container direction='column' m='30px 0'>
-                {
-                    buttons.map((item, index) => 
-                        <Button 
-                            justify='space-between'
-                            m='10px'
-                            key={index} 
-                            text={item.text}
-                            bgColor='dark'
-                            p='40px'
-                            iconName={item.iconName}
-                            iconSize={20}
-                            w={w + 'px'}
-                            brRadius='10px'
-                            onPress={() => navigation.navigate(item.screen)}
-                        />
-                    )
+            <FlatList 
+                data={cards}
+                ListHeaderComponent={ 
+                    isWc 
+                    ?
+                    <ScrollContainer 
+                        title='Continue watching' 
+                        right={
+                            <Button 
+                                {...btn} 
+                                bgColor='' 
+                                iconName='chevron-right' 
+                            />
+                        }
+                    >
+                        <Container w='350px' h='180px' bgColor='silver' style={{ borderRadius: 10 }}></Container>
+                    </ScrollContainer>
+                    :
+                    <></>
                 }
-            </Container>
+                stickyHeaderIndices={[1]}
+                renderItem={item => {
+                    if(cards.length === 1) {
+                        return <WatchlistError />
+                    }
+                    return (
+                        item.index === 0 
+                        ?   <ScrollContainer 
+                                title='Your watchlist' 
+                                right={ 
+                                    <Button 
+                                        {...btn}
+                                        bgColor=''  
+                                        iconName='tune' 
+                                    />
+                                } 
+                            /> 
+                        :  <WatchlistCard />
+                    )
+                }}
+                keyExtractor={(_, index) => index.toString()}
+                onEndReached={() => console.log('s')}
+                onEndReachedThreshold={0.01}
+                initialNumToRender={4}
+                style={{
+                    height: 600                
+                }}
+            />
+            
         </Background>
     )
 }
 
-const buttons = [
-    {
-        text: 'Watch Later',
-        iconName: 'clock',
-        screen: 'WatchLater'
-    },
-    {
-        text: 'Playlists',
-        iconName: 'rhombus-split',
-        screen: 'Playlists'
-    }
-]
+const btn = {
+    w: '40px',
+    h:'40px',
+    iconSize: 20,
+    brRadius: '10px'
+}

@@ -1,9 +1,8 @@
 import React, { FC } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 
-import { MAIN } from '../../components/common/utils/colors'
-
-import { Browse } from '../../screens/Browse'
+import { Explore } from '../../screens/explore/Explore'
+import { Charts } from '../../screens/explore/Charts'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -11,18 +10,19 @@ export const BrowseNavStack: FC = () =>
 
     <Tab.Navigator initialRouteName='Browse' swipeEnabled={false} tabBarOptions={{
         style: {
-            backgroundColor: '#090909',
-        },
-        tabStyle: {
-            backgroundColor: MAIN,
-            margin: 20,
-            borderRadius: 10,
+            backgroundColor: 'black'
         },
         indicatorStyle: {
-            width: 0,
+            width: 0
         },
-        scrollEnabled: true
-
+        scrollEnabled: true,
+        labelStyle: {
+            textTransform: 'none',
+            fontWeight: 'bold'
+        }
     }}>
-        <Tab.Screen name="Browse" component={Browse}  />
+        <Tab.Screen name="Explore" component={Explore}  />
+        <Tab.Screen name="Top charts" component={Charts}  />
+        {/* <Tab.Screen name="Genres" component={Browse}  />
+        <Tab.Screen name="Studios" component={Browse}  />  */}
     </Tab.Navigator>

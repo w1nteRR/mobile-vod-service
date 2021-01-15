@@ -12,13 +12,17 @@ import { AuthStackScreen } from './stacks/auth'
 
 import { LibraryModal } from '../components/Library/modal/Library.modal'
 
-import { Background } from '../components/common/utils/layout'
-import { TextT } from '../components/common/utils/typography'
 import { HeaderBtn } from '../components/common/styled/shared/shared'
 
 import { useAuth } from '../hooks/auth/useAuth'
 
 import { RootState } from '../redux/rootReducer'
+import { Container } from '../components/common/utils/layout'
+import { MAIN, PRIMARY } from '../components/common/utils/colors'
+import { Title } from '../components/common/utils/typography'
+import { About } from '../screens/Film/About'
+import { FilmStackScreen } from './stacks/film'
+import { EpisodeModal } from '../components/Episodes/episode.modal'
 
 const Stack = createStackNavigator()
 
@@ -26,47 +30,60 @@ export const RootStackScreen = () => {
 
     const { loading } = useAuth()
 
-    const auth = useSelector((state: RootState) => state.auth)
+    const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated)
 
-    if(loading) return (
-        <Background>
-            <TextT>splash</TextT>
-        </Background>
-    )
-               
+    if(loading) return <Container h='100%' bgColor={MAIN}>
+        <Title>Checking auth</Title>
+    </Container>
 
+           
     return (
         <NavigationContainer>
             <Stack.Navigator 
                 mode='modal' 
-                screenOptions={headerStyle}
             >
                 {
-                    !auth.isAuthenticated
+                    !isAuth
                     &&
                     <Stack.Screen
                         name='SignIn'
                         component={AuthStackScreen}
+                        options={{
+                            header: () => null
+                        }}
                     />
                 }       
                 <Stack.Screen
                     name="Main"
                     component={TabNavigator}
-                    options={{ headerRight: () => <HeaderBtn isAuth={auth.isAuthenticated}  />}}
+                    options={{ 
+                        headerRight: () => <HeaderBtn isAuth={isAuth}  />,
+                        headerTitle: '',
+                        headerStyle: {
+                            backgroundColor: 'black'
+                        },
+                        headerRightContainerStyle: {
+                            padding: 20
+                        }
+                    }}
         
                 />
                 <Stack.Screen
                     name="Film"
-                    component={Film}
+                    component={FilmStackScreen}
+                    options={{
+                        header: () => null
+                    }}
                 />
-                <Stack.Screen
-                    name="FilmWatch"
-                    component={FilmWatchStackScreen}
-                />
-               <Stack.Screen 
+                <Stack.Screen 
                     name="LibraryModal" 
                     component={LibraryModal}  
                     options={modalStyle}  
+                />
+                <Stack.Screen 
+                    name='EpisodeModal' 
+                    component={EpisodeModal} 
+                    options={modalStyle} 
                 />
             </Stack.Navigator>
         </NavigationContainer>
@@ -76,13 +93,6 @@ export const RootStackScreen = () => {
 const modalStyle = {
     cardStyle: {
         backgroundColor: 'transparent'
-    }
+    },
+    header: () => null
 }
-
-const headerStyle = {
-    title: '',
-    headerStyle: {
-        backgroundColor: '#090909',
-    }
-}
-    

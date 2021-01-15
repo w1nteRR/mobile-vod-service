@@ -1,41 +1,96 @@
 import React, { FC } from 'react'
 import { Dimensions } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
+import { useNavigation } from '@react-navigation/native'
+
+import { Button } from '../../common/styled/buttons/buttons.shared'
 
 import { BgImgCard } from '../../common/styled/cards/cards.shared'
 import { Container } from '../../common/utils/layout'
 import { Text } from '../../common/utils/typography'
 
 interface IIntroProps {
-    wallpaper: string,
+    wallpaper: string
     name: string
+    genr: Array<string>
+    year: number
+    duration: string
 }
 
-export const Intro: FC<IIntroProps> = ({ wallpaper, name }) => {
+export const Intro: FC<IIntroProps> = ({ 
+    wallpaper, 
+    name,
+    genr,
+    year,
+    duration
+}) => {
 
     const w = Dimensions.get('window').width.toFixed() + 'px'
+
+    const navigation = useNavigation()
     
     return (
-        <Container h='350px' direction='column' align='flex-end'>
-            <BgImgCard img={wallpaper} w={w} />
-                <Container 
+        <Container h='500px' direction='column'>
+            <BgImgCard img={wallpaper} h='100%' width={w} />
+            <Container 
+                h='50px'
+                justify='flex-start' 
+                p='0px 10px'
+                style={{ position: 'absolute', top: 0, zIndex: 2 }}
+            >
+                <Button 
+                    onPress={() => navigation.goBack()} 
+                    bgColor='' 
+                    w='35px' 
+                    iconSize={25} 
+                    iconName='arrow-left' 
+                />
+            </Container>
+                <Container
                     style={{
                         position: 'absolute',
                         top: 0,
+                        height: 525,
+                        
                     }}
                 >
                     <LinearGradient
-                        colors={['rgba(0, 0, 0, 0) 0%', 'rgba(0, 0, 0, 0.8) 73.23%', '#090909']} 
+                        colors={['rgba(0, 0, 0, 0) 0%', 'rgba(0, 0, 0, 0.5) 33.23%', 'black']} 
                         style={{
                             flex: 1,
-                            height: 350
+                            height: '100%',
+                            justifyContent: 'flex-end'
                         }}
                     >
-                        <Container align='flex-end' h='100%' p='20px'>
-                            <Text weight='bold' size='30px'>{name}</Text>
+                        <Container p='20px' direction='column'>
+                            <Container justify='flex-start'>
+                                <Text weight='bold' color='#fff' size='36px'>{name}</Text>
+                            </Container>
+                            <Container m='20px 0 0' justify='flex-start'>
+                            {
+                                genr.map((genr, index) => 
+                                    <Text 
+                                        key={index}
+                                        {...font}
+                                    >
+                                        {genr}
+                                    </Text>
+                                )
+                            }
+                            <Text {...font}>{year}</Text>
+                            <Text {...font}>{duration}</Text>
+                            </Container>
                         </Container>    
                     </LinearGradient>
             </Container>
         </Container>
     )
+}
+
+const font = {
+    size: '11px',
+    weight: 'bold',
+    style: {
+        marginRight: 10
+    }
 }

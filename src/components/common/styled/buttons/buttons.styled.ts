@@ -30,7 +30,7 @@ export const ButtonStyled = styled.View<IButtonStyledProps>`
     margin: ${props => props.m || '0'};
     
     height: ${props => props.h || '20px'};
-    width: ${props => props.w || 'auto'};
+    width: ${props => props.w || '100%'};
 
     border-radius: ${props => props.brRadius || '0'};
 

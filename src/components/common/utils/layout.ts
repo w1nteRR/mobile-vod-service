@@ -33,7 +33,7 @@ export const Container = styled.View<IContainerProps>`
 `
 
 export const ModalContainer = styled.View`
-    background-color: ${MAIN};
+    background-color: black;
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -41,5 +41,5 @@ export const ModalContainer = styled.View`
 
 export const Background = styled.View`
     flex: 1;
-    background-color: #090909;
+    background-color: black;
 `

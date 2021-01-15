@@ -30,11 +30,12 @@ export interface IFilmShort {
 }
 
 export interface IFilmTrend {
-    describe: string,
+    describe: string
     wallpaper: string
-    name: string,
-    _id: string,
+    name: string
+    _id: string
     img: string
+    genr: Array<string>
 }
 
 export interface IFilmDetailed {

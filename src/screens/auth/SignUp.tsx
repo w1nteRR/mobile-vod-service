@@ -1,12 +1,13 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { FC, useState } from 'react'
+import { Dimensions } from 'react-native'
 
 import { Button } from '../../components/common/styled/buttons/buttons.shared'
 import { Input } from '../../components/common/styled/inputs/inputs.shared'
 import { MAIN } from '../../components/common/utils/colors'
-
 import { Background, Container } from '../../components/common/utils/layout'
-import { Title } from '../../components/common/utils/typography'
+import { Title, Text } from '../../components/common/utils/typography'
+
 import { useAuth } from '../../hooks/auth/useAuth'
 
 export const SignUp: FC = () => {
@@ -19,6 +20,8 @@ export const SignUp: FC = () => {
     const navigation = useNavigation()
 
     const { signup } = useAuth()
+
+    const width = Dimensions.get('screen').width - 20
     
     const _onSignUpClick = async () => {
         try {
@@ -34,52 +37,56 @@ export const SignUp: FC = () => {
     return (
         <Background>
             <Container p='30px' justify='flex-start'>
-                <Title>Sign Up</Title>
+                <Title>Create account</Title>
             </Container>
-            <Container h='80%' direction='column'>
-                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
+            <Container h='70%' direction='column' p='10px'>
+                <Container {...inputContainer}>
                     <Input 
                         placeholder='Email' 
                         change={event => setEmail(event.nativeEvent.text)}
                     />
                 </Container>
-                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
+                <Container {...inputContainer}>
                     <Input 
                         placeholder='Username'
                         change={event => setUsername(event.nativeEvent.text)} 
                     />
                 </Container>
-                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
+                <Container {...inputContainer}>
                     <Input 
                         placeholder='Password'
                         change={event => setPassword(event.nativeEvent.text)} 
                     />
                 </Container>
-                <Container bgColor={MAIN} p='10px' m='30px' w='90%' style={{ borderRadius: 10 }}>
+                <Container {...inputContainer}>
                     <Input 
                         placeholder='Confirm password'
                         change={event => setConfirmPassword(event.nativeEvent.text)} 
                     />
                 </Container>
             </Container>
-            <Container justify='space-around'>
-                    <Button 
-                        text='Back' 
-                        bgColor='' 
-                        h='40px' 
-                        w='130px' 
-                        brRadius='5px' 
-                        onPress={() => navigation.goBack()}
-                    />
-                    <Button 
-                        text='Sign Up' 
-                        bgColor='primary' 
-                        h='40px' 
-                        w='130px' 
-                        brRadius='5px' 
-                        onPress={_onSignUpClick}
-                    />
-                </Container>
+            <Container>
+                <Button 
+                    text='Create Account' 
+                    bgColor='primary' 
+                    h='50px' 
+                    w={width.toFixed() + 'px'} 
+                    brRadius='10px' 
+                    onPress={_onSignUpClick}
+                />
+            </Container>
+            <Container m='20px 0'>
+                <Text size='10px'>Already registered? <Text onPress={() => navigation.navigate('SignIn')} weight='bold' size='13px'> Sign In</Text></Text>
+            </Container>
         </Background>
     )
+}
+
+const inputContainer = {
+    bgColor: MAIN,
+    p: '10px',
+    m: '30px',
+    style: {
+        borderRadius: 10
+    }
 }

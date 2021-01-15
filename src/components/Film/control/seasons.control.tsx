@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { Button } from '../../common/styled/buttons/buttons.shared'
 
 import { Container } from '../../common/utils/layout'
-import { Text } from '../../common/utils/typography'
+import { TextT } from '../../common/utils/typography'
 
 interface ISeasonsProps {
     seasons: Array<number>
@@ -10,15 +10,13 @@ interface ISeasonsProps {
     activeSeason?: number
 }
 
-export const Seasons: FC<ISeasonsProps> = ({ seasons, onSeasonClick, activeSeason }) => 
-    
-    <Container justify='space-between' p='0 10px'>
-        <Text 
-            uppercase
-            size='10px'
-        >
-            Seasons
-        </Text>
+export const Seasons: FC<ISeasonsProps> = ({ 
+    seasons, 
+    onSeasonClick, 
+    activeSeason 
+}) =>     
+    <Container justify='space-between' p='0 20px'>
+        <TextT>Seasons</TextT>
         <Container w='70%' justify='flex-end'>
         {
             seasons.map((season, index) => 
@@ -30,10 +28,12 @@ export const Seasons: FC<ISeasonsProps> = ({ seasons, onSeasonClick, activeSeaso
                     w='35px'
                     h='35px'
                     m='5px'
+                    brRadius='10px'
                 />
             )
         }
         </Container>
-    </Container>    
+    </Container> 
+        
  
     

@@ -8,6 +8,8 @@ import { Title } from '../common/utils/typography'
 import { BgImgCard } from '../common/styled/cards/cards.shared'
 
 import { IPlaylist } from '../../interfaces/list/IPlaylist'
+import { ScrollContainer } from '../Film/scrollviews/Scroll.container'
+import { Button } from '../common/styled/buttons/buttons.shared'
 
 interface IFilmsCarousel {
     playlist: IPlaylist
@@ -20,27 +22,29 @@ export const FilmsCarousel: FC<IFilmsCarousel> = ({ playlist }) => {
     const w = Dimensions.get('window').width
 
     return (
-        <Container direction='column' h='250px' m='20px 0'>
-            <Container justify='flex-start' p='30px 10px'>
-                <Title>{playlist.name}</Title>
-            </Container>
-            <Container>
-                <ScrollView horizontal>
-                    {
-                        playlist.films.map(item => 
-                            <BgImgCard 
-                                key={item._id} 
-                                img={item.img} 
-                                width={w - 50 + 'px'} 
-                                m='10px' 
-                                onPress={() => navigation.navigate('Film', {
+        <ScrollContainer 
+            title={playlist.name} 
+            right={<Button bgColor='' w='45px' h='45px' iconSize={20} iconName='chevron-right' />}
+        >
+            <ScrollView horizontal>
+                {
+                    playlist.films.map(item => 
+                        <BgImgCard 
+                            key={item._id} 
+                            img={item.img} 
+                            width={w - 50 + 'px'} 
+                            m='10px' 
+                            brRadius={10}
+                            onPress={() => navigation.navigate('Film', {
+                                screen: 'Film',
+                                params: {
                                     filmId: item._id
-                                })}
-                            />
-                        )
-                    }
-                </ScrollView>
-            </Container>
-        </Container>
+                                }
+                            })}
+                        />
+                    )
+                }
+            </ScrollView>
+        </ScrollContainer>
     )
 }

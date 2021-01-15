@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Button } from '../buttons/buttons.shared'
 
 import { TagStyled } from './shared.styled'
+import { Container } from '../../utils/layout'
 
 export const Tag: FC = ({ 
     children 
@@ -20,14 +21,15 @@ export const HeaderBtn: FC<{ isAuth: boolean }> = ({
         ? navigation.navigate('') 
         : navigation.navigate('SignIn')
 
-    return  <Button 
+    return (
+            <Button 
                 bgColor={isAuth ? 'dark' : 'primary'} 
                 iconName={isAuth ? 'bell' : 'account'}
                 iconSize={15} 
-                h='80%' 
-                w='45px' 
-                m='10px 10px 0 0' 
+                h='35px' 
+                w='35px' 
                 brRadius='10px' 
                 onPress={() => redirect(isAuth)}
             />
+    )
 }

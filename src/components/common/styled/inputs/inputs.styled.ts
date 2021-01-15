@@ -18,14 +18,7 @@ export const InputS = styled.TextInput<IInputStyledProps>`
     
     border: none;
     
-    color: gray;
-    font-size: 12px;
-    
-    ::placeholder {
-        text-transform: uppercase;
-        font-size: 10px;
-        font-weight: 700;
-    }
+    font-size: 15px;
 `
 
 export const CheckboxCustomS = styled.View<ICheckBoxCustomStyledProps>`
