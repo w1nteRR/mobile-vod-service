@@ -6,11 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import { TabNavigator } from '../navigation/tabs/Tab.navigator'
 
-import { Film } from '../screens/Film/Film'
-import { FilmWatchStackScreen } from './stacks/filmWatch'
 import { AuthStackScreen } from './stacks/auth'
-
-import { LibraryModal } from '../components/Library/modal/Library.modal'
+import { FilmStackScreen } from './stacks/film'
 
 import { HeaderBtn } from '../components/common/styled/shared/shared'
 
@@ -18,10 +15,8 @@ import { useAuth } from '../hooks/auth/useAuth'
 
 import { RootState } from '../redux/rootReducer'
 import { Container } from '../components/common/utils/layout'
-import { MAIN, PRIMARY } from '../components/common/utils/colors'
+import { MAIN } from '../components/common/utils/colors'
 import { Title } from '../components/common/utils/typography'
-import { About } from '../screens/Film/About'
-import { FilmStackScreen } from './stacks/film'
 import { EpisodeModal } from '../components/Episodes/episode.modal'
 
 const Stack = createStackNavigator()
@@ -74,11 +69,6 @@ export const RootStackScreen = () => {
                     options={{
                         header: () => null
                     }}
-                />
-                <Stack.Screen 
-                    name="LibraryModal" 
-                    component={LibraryModal}  
-                    options={modalStyle}  
                 />
                 <Stack.Screen 
                     name='EpisodeModal' 
