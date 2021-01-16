@@ -6,12 +6,12 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 
 import { HomeStackScreen } from '../stacks/home'
 import { SearchStackScreen } from '../stacks/search'
-import { LibraryStackScreen } from '../stacks/library'
 import { ProfileStackScreen } from '../stacks/profile'
 
 import { BrowseNavStack } from './Tab.top'
 
 import { RootState } from '../../redux/rootReducer'
+import { Library } from '../../screens/library/Library'
 
 
 const Tab = createBottomTabNavigator()
@@ -72,7 +72,7 @@ export const TabNavigator = () => {
             <Tab.Screen name="Home" component={HomeStackScreen} />
             <Tab.Screen name="Browse" component={BrowseNavStack} />
             <Tab.Screen name="Search" component={SearchStackScreen} />
-            <Tab.Screen name="Library" component={LibraryStackScreen} />
+            <Tab.Screen name="Library" component={Library} />
             {
                 isAuth
                 ? <Tab.Screen name="Profile" component={ProfileStackScreen} />
