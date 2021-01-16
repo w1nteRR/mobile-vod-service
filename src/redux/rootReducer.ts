@@ -3,20 +3,24 @@ import { combineReducers } from 'redux'
 import { searchReducer } from './search/reducer'
 import { playerReducer } from './player/reducer'
 import { authReducer } from './auth/reducer'
+import { watchlistReducer } from './watchlist/reducer'
 
 import { SearchState } from './search/types'
 import { PlayerState } from './player/types'
 import { AuthState } from './auth/types'
+import { WatchlistState } from './watchlist/types'
 
 export const rootReducer = () => 
     combineReducers({
         search: searchReducer,
         player: playerReducer,
-        auth: authReducer
+        auth: authReducer,
+        watchlist: watchlistReducer
     })
 
 export type RootState = {
     search: SearchState
     player: PlayerState
     auth: AuthState
+    watchlist: WatchlistState
 }
