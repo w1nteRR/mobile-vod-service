@@ -1,38 +1,57 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback } from 'react'
 import { FlatList } from 'react-native'
-import { useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 import { NoAuth } from '../../components/common/styled/alerts/alerts.shared'
 import { Button } from '../../components/common/styled/buttons/buttons.shared'
-
+import { Loader } from '../../components/common/styled/shared/loader.shared'
 import { Background, Container } from '../../components/common/utils/layout'
 
 import { ScrollContainer } from '../../components/Film/scrollviews/Scroll.container'
-
 import { WatchlistCard } from '../../components/Library/watchlist.card'
 import { WatchlistError } from '../../components/Library/watchlist.error'
 
 import { RootState } from '../../redux/rootReducer'
 
+import { fetchWatchlist, removeFromWatchlist } from '../../redux/watchlist/actions'
+
 export const Library: FC = () => {
-
+    
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated)
+    const { watchlist } = useSelector((state: RootState) => state.watchlist)
 
+    const dispatch = useDispatch()
     const navigation = useNavigation()
 
+    useFocusEffect(
+        useCallback(() => {
+            let isActive = true
+
+            const fetchlist = async () => {
+                if(isActive) {
+                    dispatch(fetchWatchlist())
+                }
+            }
+
+            fetchlist()
+            
+            return () => {
+                isActive = false
+            }
+
+        }, []))
+
+
     if(!isAuth) return <NoAuth />
+    if(!watchlist.length) return <Container bgColor='black' h='100%'><Loader /></Container>
     
-    const cards = [0]
-
-    const isWc = false
-
     return (
         <Background>
             <FlatList 
-                data={cards}
+                data={watchlist}
                 ListHeaderComponent={ 
-                    isWc 
+                    true 
                     ?
                     <ScrollContainer 
                         title='Continue watching' 
@@ -51,11 +70,10 @@ export const Library: FC = () => {
                 }
                 stickyHeaderIndices={[1]}
                 renderItem={item => {
-                    if(cards.length === 1) {
-                        return <WatchlistError />
-                    }
+                    if(watchlist.length === 1) return <WatchlistError />
                     return (
-                        item.index === 0 
+                        
+                        item.index === 0
                         ?   <ScrollContainer 
                                 title='Your watchlist' 
                                 right={ 
@@ -66,7 +84,18 @@ export const Library: FC = () => {
                                     />
                                 } 
                             /> 
-                        :  <WatchlistCard />
+                        :  
+                        <WatchlistCard 
+                            name={item.item.name!} 
+                            img={item.item.img}
+                            onDelete={() => dispatch(removeFromWatchlist(item.item._id))} 
+                            onPress={() => navigation.navigate('Film', {
+                                screen: 'Film',
+                                params: {
+                                    filmId: item.item._id
+                                }
+                            })}
+                        />
                     )
                 }}
                 keyExtractor={(_, index) => index.toString()}
@@ -74,7 +103,7 @@ export const Library: FC = () => {
                 onEndReachedThreshold={0.01}
                 initialNumToRender={4}
                 style={{
-                    height: 600                
+                    height: 600
                 }}
             />
             
