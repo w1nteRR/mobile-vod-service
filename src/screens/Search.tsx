@@ -22,11 +22,14 @@ export const Search: FC = () => {
                 data={result}
                 renderItem={item => 
                     <BgImgCard 
-                        img={item.item.img} 
-                        h='220px' 
-                        m='10px' 
+                        img={item.item.img}  
+                        m='10px'
+                        brRadius={10} 
                         onPress={() => navigation.navigate('Film', {
-                            filmId: item.item._id
+                            screen: 'Film',
+                            params: {
+                                filmId: item.item._id
+                            }
                         })} 
                     />
                 }
