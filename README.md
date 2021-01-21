@@ -2,8 +2,10 @@
 
 MPEG-DASH VOD service
 
-React Native, Context API
+React Native
 
-server - https://github.com/w1nteRR/movie_server
+Redux
 
-web - https://github.com/w1nteRR/movie__front
+Google Cloud Platform
+
+Auth0
