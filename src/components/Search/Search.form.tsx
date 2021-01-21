@@ -8,6 +8,7 @@ import { Input } from '../common/styled/inputs/inputs.shared'
 import { useDebounce } from '../../hooks/utils/useDebounce'
 
 import { getFilmsByName } from '../../redux/search/actions'
+import { MAIN } from '../common/utils/colors'
 
 export const SearchForm: FC = () => {
 
@@ -20,14 +21,15 @@ export const SearchForm: FC = () => {
 
     return (
         <Container 
-            p='20px' 
+            p='10px' 
             w='95%' 
-            m='30px auto' 
-            style={{ borderRadius: 10, borderWidth: .5, borderColor: 'silver' }}
+            m='30px auto'
+            bgColor={MAIN} 
+            style={{ borderRadius: 10 }}
         >
             <Input 
                 change={event => setInputVal(event.nativeEvent.text)}
-                placeholder='Enter film name' 
+                placeholder='Film name' 
             />
         </Container>
     )
