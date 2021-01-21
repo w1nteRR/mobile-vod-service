@@ -21,9 +21,8 @@ export const toggleStatus = (payload: boolean): ActionTypes => ({
 export const fetchWatchlist = (): ThunkTypes => async dispatch => {
     try {
         const access = await AsyncStorage.getItem('accessToken')
-        if(!access) throw ('no token')
 
-        const watchlist = await watchlistApi(access).watchlist()
+        const watchlist = await watchlistApi(access!).watchlist()
 
         dispatch(_initWatchlist(watchlist))
 
@@ -35,9 +34,8 @@ export const fetchWatchlist = (): ThunkTypes => async dispatch => {
 export const fetchWatchlistStatus = (filmId: string): ThunkTypes => async dispatch => {
     try {
         const token = await AsyncStorage.getItem('accessToken')
-        if(!token) throw ('no token')
 
-        const status = await watchlistApi(token).status(filmId)
+        const status = await watchlistApi(token!).status(filmId)
 
         dispatch(toggleStatus(status))
 
@@ -49,9 +47,8 @@ export const fetchWatchlistStatus = (filmId: string): ThunkTypes => async dispat
 export const removeFromWatchlist = (filmId: string): ThunkTypes => async dispatch => {
     try {
         const token = await AsyncStorage.getItem('accessToken')
-        if(!token) throw ('no token')
 
-        await watchlistApi(token).remove(filmId)
+        await watchlistApi(token!).remove(filmId)
         
         dispatch(_remove(filmId))
         dispatch(toggleStatus(false))
@@ -64,9 +61,8 @@ export const removeFromWatchlist = (filmId: string): ThunkTypes => async dispatc
 export const addToWatchlist = (filmId: string): ThunkTypes => async dispatch => {
     try {
         const token = await AsyncStorage.getItem('accessToken')
-        if(!token) throw ('no token')
 
-        await watchlistApi(token).add(filmId)
+        await watchlistApi(token!).add(filmId)
         
         dispatch(toggleStatus(true))
         
