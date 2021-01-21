@@ -1,25 +1,8 @@
 import styled from 'styled-components/native'
 
-export interface IInputStyledProps {
-    w?: string
-    h?: string
-    p?: string
-}
-
 export interface ICheckBoxCustomStyledProps {
     isActive: boolean
 }
-
-export const InputS = styled.TextInput<IInputStyledProps>`
-    width: ${props => props.w || '100%'};
-    padding: ${props => props.p || '10px'};
-    
-    background: transparent;
-    
-    border: none;
-    
-    font-size: 15px;
-`
 
 export const CheckboxCustomS = styled.View<ICheckBoxCustomStyledProps>`
     width: 100px;
