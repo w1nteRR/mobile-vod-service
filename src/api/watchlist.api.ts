@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GCF_WATCHLIST } from '../env'
+import { WATCHLIST_GATEWAY } from '../env'
 
 export const watchlistApi = (token?: string) => {
     
@@ -7,16 +7,16 @@ export const watchlistApi = (token?: string) => {
         headers: {
             Authorization: `Bearer ${token}`
         },
-        baseURL: GCF_WATCHLIST 
+        baseURL: WATCHLIST_GATEWAY 
     })
     
     return {
-        watchlist: async () => (await api.get<[]>('/')).data,
+        watchlist: async () => (await api.get<[]>('/user')).data,
 
-        status: async (filmId: string) => (await api.get<boolean>(`/?filmId=${filmId}&status=true`)).data,
+        status: async (filmId: string) => (await api.get<boolean>(`/status/?filmId=${filmId}`)).data,
         
-        remove: async (filmId: string) => await api.delete(`/?filmId=${filmId}`),
+        remove: async (filmId: string) => await api.delete(`/remove/?filmId=${filmId}`),
         
-        add: async (filmId: string) => await api.post('/', { filmId })
+        add: async (filmId: string) => await api.post('/add', { filmId })
     }
 }
