@@ -9,6 +9,8 @@ import { Cast } from '../../screens/Film/Cast'
 import { IActor } from '../../interfaces/cast/IActor'
 import { Episodes } from '../../screens/Film/Episodes'
 import { IEpisodeShort } from '../../interfaces/film/IEpisode'
+import { Watch } from '../../screens/Film/Watch'
+import { FilmWatchStackScreen } from './filmWatch'
 
 const FilmStack = createStackNavigator<FilmStackParams>()
 
@@ -29,6 +31,10 @@ type FilmStackParams = {
     Episodes: {
         name: string
         series: Array<IEpisodeShort>
+    },
+    Watch: {
+        filmId: string
+        name: string
     }
 }
 
@@ -36,7 +42,7 @@ type FilmRouteProp = RouteProp<FilmStackParams, 'Film'>
 export type AboutRouteProp = RouteProp<FilmStackParams, 'About'>
 export type CastRouteProp = RouteProp<FilmStackParams, 'Cast'>
 export type EpisodesRouteProp = RouteProp<FilmStackParams, 'Episodes'>
-
+export type WatchRouteProp = RouteProp<FilmStackParams, 'Watch'>
 
 export interface IFilmNavProps {
     route: FilmRouteProp
@@ -63,6 +69,12 @@ export const FilmStackScreen = () =>
             component={Episodes}
             options={options} 
         />
+        <FilmStack.Screen 
+            name='Watch'
+            component={FilmWatchStackScreen}
+            options={options}
+
+        /> 
     </FilmStack.Navigator>
 
 const options = {
