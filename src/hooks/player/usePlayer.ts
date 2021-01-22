@@ -1,48 +1,39 @@
-import { RefObject } from 'react'
-import { useDispatch } from 'react-redux'
+import { RefObject, useCallback, useState } from 'react'
 import Orientation from 'react-native-orientation'
-
-import { initPlayer, seekTime, toggleControl, toggleLock, togglePlay } from "../../redux/player/actions"
-import { IVideoInfo } from '../../interfaces/player/IPlayer'
-
 
 export const usePlayer = (ref?: RefObject<any>) => {
 
-    const dispatch = useDispatch()
+    const [isControlOpen, setIsControlOpen] = useState(true)
+    const [isPause, setPause] = useState(true)
+    const [isLandscape, setLandscape] = useState(false)
+
+    const toggleControl = () => setIsControlOpen(!isControlOpen)
+    const togglePlay = () => setPause(!isPause)
    
-    const showHideControl = () => dispatch(toggleControl())
-
-    const playStopPlayer = () => dispatch(togglePlay())
-
-    const seek = (time?: number) => {
+    const seek = useCallback((time: number) => {
         ref!.current.seek(time)
-        dispatch(seekTime(time!))
-    }
-
-    const writeTime = (time: number) => dispatch(seekTime(time))
+    }, [])
     
     const lockFullScreen = () => {
         ref!.current.presentFullscreenPlayer()
         Orientation.lockToLandscape()
-        dispatch(toggleLock())
+        setLandscape(true)
     }
 
     const unlockFullScreen = () => {
         ref!.current.dismissFullscreenPlayer()
-        Orientation.unlockAllOrientations()
-        dispatch(toggleLock())
+        Orientation.lockToPortrait()
+        setLandscape(false)
     }
-
-    const getData = (data: IVideoInfo) => dispatch(initPlayer(data))
-
     
     return {
-        showHideControl,
-        playStopPlayer,
-        writeTime,
+        toggleControl,
+        togglePlay,
         seek,
         lockFullScreen,
         unlockFullScreen,
-        getData
+        isControlOpen,
+        isPause,
+        isLandscape
     }
 }
