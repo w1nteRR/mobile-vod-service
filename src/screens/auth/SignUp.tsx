@@ -1,14 +1,12 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { FC, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import { Dimensions } from 'react-native'
 
 import { Button } from '../../components/common/styled/buttons/buttons.shared'
-import { Input } from '../../components/common/styled/inputs/inputs.shared'
+import { Input } from '../../components/common/styled/inputs/Input'
 import { MAIN } from '../../components/common/utils/colors'
 import { Background, Container } from '../../components/common/utils/layout'
 import { Title, Text } from '../../components/common/utils/typography'
-
-import { useAuth } from '../../hooks/auth/useAuth'
 
 export const SignUp: FC = () => {
    
@@ -19,20 +17,7 @@ export const SignUp: FC = () => {
 
     const navigation = useNavigation()
 
-    const { signup } = useAuth()
-
     const width = Dimensions.get('screen').width - 20
-    
-    const _onSignUpClick = async () => {
-        try {
-
-            await signup({ email, password, confirmPassword, username })
-            navigation.goBack()
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
 
     return (
         <Background>
@@ -43,25 +28,25 @@ export const SignUp: FC = () => {
                 <Container {...inputContainer}>
                     <Input 
                         placeholder='Email' 
-                        change={event => setEmail(event.nativeEvent.text)}
+                        onChangeText={useCallback(value => setEmail(value), [])}
                     />
                 </Container>
                 <Container {...inputContainer}>
                     <Input 
                         placeholder='Username'
-                        change={event => setUsername(event.nativeEvent.text)} 
+                        onChangeText={useCallback(value => setUsername(value), [])}
                     />
                 </Container>
                 <Container {...inputContainer}>
                     <Input 
                         placeholder='Password'
-                        change={event => setPassword(event.nativeEvent.text)} 
+                        onChangeText={useCallback(value => setPassword(value), [])}
                     />
                 </Container>
                 <Container {...inputContainer}>
                     <Input 
                         placeholder='Confirm password'
-                        change={event => setConfirmPassword(event.nativeEvent.text)} 
+                        onChangeText={useCallback(value => setConfirmPassword(value), [])}
                     />
                 </Container>
             </Container>
@@ -72,11 +57,16 @@ export const SignUp: FC = () => {
                     h='50px' 
                     w={width.toFixed() + 'px'} 
                     brRadius='10px' 
-                    onPress={_onSignUpClick}
                 />
             </Container>
-            <Container m='20px 0'>
-                <Text size='10px'>Already registered? <Text onPress={() => navigation.navigate('SignIn')} weight='bold' size='13px'> Sign In</Text></Text>
+            <Container m='20px 0' p='20px'> 
+                <Text 
+                    onPress={() => navigation.navigate('SignIn')} 
+                    weight='bold' 
+                    size='13px'
+                >
+                    Sign In
+                </Text>
             </Container>
         </Background>
     )

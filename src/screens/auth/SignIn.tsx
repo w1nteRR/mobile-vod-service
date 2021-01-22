@@ -1,10 +1,9 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { FC, useState } from 'react'
-import { Dimensions, Alert } from 'react-native'
-import Auth0 from 'react-native-auth0'
+import React, { FC, useCallback, useState } from 'react'
+import { Dimensions } from 'react-native'
 
 import { Button } from '../../components/common/styled/buttons/buttons.shared'
-import { Input } from '../../components/common/styled/inputs/inputs.shared'
+import { Input } from '../../components/common/styled/inputs/Input'
 import { MAIN } from '../../components/common/utils/colors'
 
 import { Background, Container } from '../../components/common/utils/layout'
@@ -31,13 +30,13 @@ export const SignIn: FC = () => {
                 <Container {...inputContainer}>
                     <Input 
                         placeholder='Email' 
-                        change={event => setEmail(event.nativeEvent.text)}
+                        onChangeText={useCallback(value => setEmail(value), [])}
                     />
                 </Container>
                 <Container {...inputContainer}>
                     <Input 
                         placeholder='Password'
-                        change={event => setPassword(event.nativeEvent.text)} 
+                        onChangeText={useCallback(value => setPassword(value), [])}
                     />
                 </Container>
                     <Button 
