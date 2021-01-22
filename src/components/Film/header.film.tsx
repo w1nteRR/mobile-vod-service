@@ -4,11 +4,12 @@ import React, { FC } from 'react'
 import { Button } from '../common/styled/buttons/buttons.shared'
 
 import { Container } from '../common/utils/layout'
-import { Title, Text } from '../common/utils/typography'
+import { Title, TextT } from '../common/utils/typography'
 
 export const HeaderFilm: FC<{ name: string, sub?: string }> = ({
     name,
-    sub
+    sub,
+    children
 }) => {
 
     const navigation = useNavigation()
@@ -32,9 +33,14 @@ export const HeaderFilm: FC<{ name: string, sub?: string }> = ({
                 bgColor=''
                 onPress={() => navigation.goBack()}
             />
-            <Container direction='column' w='200px' align='flex-start'>
-                <Title>{name}</Title>
-                <Text>{sub}</Text>
+            <Container justify='space-between' w='90%'>
+                <Container direction='column' align='flex-start' w='50%'>
+                    <Title>{name}</Title>
+                    <TextT style={{ marginTop: 5 }}>{sub}</TextT>
+                </Container>
+                <Container w='50%' justify='flex-end'>
+                    {children}
+                </Container>
             </Container>
         </Container>
     )
