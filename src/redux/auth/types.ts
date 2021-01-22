@@ -9,11 +9,11 @@ export interface AuthState {
 }
 
 interface SetAuthAction {
-    type: typeof SET_AUTH,
+    type: typeof SET_AUTH
     payload: boolean
 }
 
 
-export type AuthActionTypes = SetAuthAction
+export type ActionTypes = SetAuthAction
 
-export type AuthThunkType = ThunkAction<Promise<void>, RootState, unknown, AuthActionTypes>
+export type ThunkType = ThunkAction<Promise<void>, RootState, unknown, ActionTypes>

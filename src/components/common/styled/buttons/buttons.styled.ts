@@ -7,7 +7,7 @@ export interface IButtonStyledProps {
     h?: string
     w?: string
     m?: string
-    bgColor: string
+    bgColor?: string
     color?: string
     brRadius?: string
 }
@@ -34,5 +34,5 @@ export const ButtonStyled = styled.View<IButtonStyledProps>`
 
     border-radius: ${props => props.brRadius || '0'};
 
-    background-color: ${props => buttonColors(props.bgColor)};
+    background-color: ${props => buttonColors(props.bgColor!)};
 ` 

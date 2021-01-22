@@ -56,7 +56,7 @@ export const Film: FC<IFilmProps> = ({ route }) => {
                         duration={film.duration}
                         year={film.year} 
                     />
-                    <Control filmId={film._id} isSerial={isSerial} />
+                    <Control name={film.name} filmId={film._id} isSerial={isSerial} />
                     <About 
                         describe={film.describe}
                         onArrowClick={() => navigation.navigate('About', {
