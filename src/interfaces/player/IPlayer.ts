@@ -1,4 +1,6 @@
-export interface IPlayerAudioTrack {
+import { OnLoadData } from "react-native-video";
+
+export interface IAudioTrack {
     bitrate: string
     index: number
     language: string
@@ -6,7 +8,7 @@ export interface IPlayerAudioTrack {
     type: string
 }
 
-export interface IPlayerVideoTrack {
+export interface IVideoTrack {
     bitrate: number
     codecs: string
     height: number
@@ -15,7 +17,12 @@ export interface IPlayerVideoTrack {
 }
 
 export interface IVideoInfo {
-    audioTracks: Array<IPlayerAudioTrack>
-    videoTracks: Array<IPlayerVideoTrack>
+    audioTracks: Array<IAudioTrack>
+    videoTracks: Array<IVideoTrack>
     duration: number
+}
+
+export interface VideoData extends OnLoadData {
+    videoTracks: Array<IVideoTrack>
+    audioTracks: Array<IAudioTrack>
 }
