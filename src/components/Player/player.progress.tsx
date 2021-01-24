@@ -23,8 +23,8 @@ export const PlayerProgress = memo<IPlayerProgressProps>(({
     return (
         <Container 
             direction='column' 
-            h='100px' 
-            style={{ position: 'absolute', bottom: 0}}
+            h='75px' 
+            style={{ position: 'absolute', bottom: 0 }}
         >
             <LinearGradient
                 colors={['rgba(0, 0, 0, 0) 0%', 'rgba(0, 0, 0, 0.8) 23.23%', 'black']} 

@@ -36,7 +36,7 @@ export const Intro: FC<IIntroProps> = ({
                 h='50px'
                 justify='flex-start' 
                 p='0px 10px'
-                style={{ position: 'absolute', top: 0, zIndex: 2 }}
+                style={{ position: 'absolute', top: 30, zIndex: 2 }}
             >
                 <Button 
                     onPress={() => navigation.goBack()} 

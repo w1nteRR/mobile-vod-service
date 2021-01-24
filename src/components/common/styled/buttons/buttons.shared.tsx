@@ -15,6 +15,7 @@ interface IButton extends IButtonStyledProps {
     iconName?: string
     text?: string | number
     justify?: string
+    textSize?: string
 }   
 
 export const Button: FC<IButton> = ({
@@ -29,6 +30,7 @@ export const Button: FC<IButton> = ({
     iconName,
     text,
     justify,
+    textSize,
     onIconPress,
     onPress
 }) => 
@@ -57,7 +59,7 @@ export const Button: FC<IButton> = ({
             {
                 text
                 ?
-                <Text size='18px' color='#fff' weight='bold'>{text}</Text>
+                <Text size={textSize || '18px'} color='#fff' weight='bold'>{text}</Text>
                 :
                 null
             }
