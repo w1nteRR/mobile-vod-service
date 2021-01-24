@@ -1,53 +1,44 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { FilmWatch } from '../../screens/Film/FilmWatch'
-import { PlayerModal } from '../../components/Player/modal/Player.modal'
-import { QualityModal, LanguageModal } from '../../components/Player/modal/Settings.modal'
+import { Watch } from '../../screens/Film/Watch'
+import { PlayerModal } from '../../components/Player/modal/player.modal'
+import { QualityModal } from '../../components/Player/modal/quality.modal'
+import { AudioModal } from '../../components/Player/modal/audio.modal'
 
 type FilmWatchStackParams = {
-    FilmWatch: {
+    Watch: {
         filmId: string
     }
-    PlayerModal: undefined,
-    PlayerModalQuality: undefined,
-    PlayerModalLanguage: undefined
+    PlayerModal: undefined
+    PlayerQuality: undefined
+    PlayerAudio: undefined
 }
 
 const FilmWatchStack = createStackNavigator<FilmWatchStackParams>()
 
 export const FilmWatchStackScreen = () => 
-    <FilmWatchStack.Navigator initialRouteName='FilmWatch' headerMode='none' mode='modal'>
-        <FilmWatchStack.Screen name="FilmWatch" component={FilmWatch} />
+    <FilmWatchStack.Navigator initialRouteName='Watch' headerMode='none' mode='modal'>
+        <FilmWatchStack.Screen name="Watch" component={Watch} />
         <FilmWatchStack.Screen 
             name="PlayerModal" 
             component={PlayerModal} 
-            options={{
-                cardStyle: {
-                    backgroundColor: 'transparent'
-                }
-            }}  
+            options={options}  
         />
         <FilmWatchStack.Screen 
-            name="PlayerModalQuality" 
+            name="PlayerQuality" 
             component={QualityModal}
-            options={{
-                animationEnabled: false,
-                cardStyle: {
-                    backgroundColor: 'transparent'
-                }
-
-            }}  
+            options={options}  
         />
-         <FilmWatchStack.Screen 
-            name="PlayerModalLanguage" 
-            component={LanguageModal}
-            options={{
-                animationEnabled: false,
-                cardStyle: {
-                    backgroundColor: 'transparent'
-                }
-
-            }}  
+        <FilmWatchStack.Screen 
+            name="PlayerAudio" 
+            component={AudioModal}
+            options={options}  
         />
     </FilmWatchStack.Navigator>
+
+const options = {
+    cardStyle: {
+        backgroundColor: 'transparent'
+    }
+}
