@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import { About } from '../../components/Film/scrollviews/About'
@@ -47,49 +47,50 @@ export const Film: FC<IFilmProps> = ({ route }) => {
     const isSerial = film.type === 'Serial'
 
     return (
-            <Background>
-                <ScrollView>
-                    <Intro 
-                        wallpaper={film.wallpaper} 
-                        name={film.name}
-                        genr={film.genr}
-                        duration={film.duration}
-                        year={film.year} 
+        <Background>
+            <StatusBar backgroundColor="transparent"  translucent /> 
+            <ScrollView>
+                <Intro 
+                    wallpaper={film.wallpaper} 
+                    name={film.name}
+                    genr={film.genr}
+                    duration={film.duration}
+                    year={film.year} 
+                />
+                <Control name={film.name} filmId={film._id} isSerial={isSerial} />
+                <About 
+                    describe={film.describe}
+                    onArrowClick={() => navigation.navigate('About', {
+                        filmName: film.name
+                    })} 
+                />
+                <Rating name={film.name} />
+                {
+                    isSerial
+                    &&
+                    <Series
+                        series={film.series || []}
+                        name={film.name} 
                     />
-                    <Control name={film.name} filmId={film._id} isSerial={isSerial} />
-                    <About 
-                        describe={film.describe}
-                        onArrowClick={() => navigation.navigate('About', {
-                            filmName: film.name
+                }
+                {
+                    film.cast.length > 0 
+                    && 
+                    <Cast 
+                        cast={film.cast.slice(0, 3)}
+                        onArrowClick={() => navigation.navigate('Cast', {
+                            cast: film.cast,
+                            name: film.name
                         })} 
-                    />
-                    <Rating name={film.name} />
-                    {
-                        isSerial
-                        &&
-                        <Series
-                            series={film.series || []}
-                            name={film.name} 
-                        />
-                    }
-                    {
-                        film.cast.length > 0 
-                        && 
-                        <Cast 
-                            cast={film.cast.slice(0, 3)}
-                            onArrowClick={() => navigation.navigate('Cast', {
-                                cast: film.cast,
-                                name: film.name
-                            })} 
-                        /> 
-                    }
-                    {
-                        similar.length > 0 
-                        && 
-                        <Similar similar={similar} />
-                    }
-                </ScrollView>
-                {/* <ContinueModal /> */}
+                    /> 
+                }
+                {
+                    similar.length > 0 
+                    && 
+                    <Similar similar={similar} />
+                }
+            </ScrollView>
+            {/* <ContinueModal /> */}
         </Background>
     )
 }

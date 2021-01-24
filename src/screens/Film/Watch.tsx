@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { StatusBar } from 'react-native'
 
 import { Background } from '../../components/common/utils/layout'
 import { Player } from '../../components/Player/Player'
@@ -13,6 +14,7 @@ export const Watch: FC<{ route: WatchRouteProp }> = ({
 
     return (
         <Background>
+            <StatusBar hidden /> 
             <Player name={name} />
         </Background>
     )
