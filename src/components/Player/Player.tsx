@@ -1,6 +1,8 @@
 import React, { FC, useRef, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import Video from 'react-native-video'
+import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Container } from '../common/utils/layout'
 import { Button } from '../common/styled/buttons/buttons.shared'
@@ -10,8 +12,12 @@ import { PlayerProgress } from './player.progress'
 
 import { usePlayer } from '../../hooks/player/usePlayer'
 
+import { RootState } from '../../redux/rootReducer'
+import { initTracks } from '../../redux/player/actions'
+
 import { IP } from '../../env'
-import { useNavigation } from '@react-navigation/native'
+import { VideoData } from '../../interfaces/player/IPlayer'
+
 
 export const Player: FC<{ name: string }> = ({
     name
@@ -20,8 +26,11 @@ export const Player: FC<{ name: string }> = ({
     const [duration, setDuration] = useState(0)
     const [currentTime, setCurrentTime] = useState(0)
 
+    const { language, quality } = useSelector((state: RootState) => state.player.playback)
+
     const playerRef = useRef(null)
     const navigation = useNavigation()
+    const dispatch = useDispatch()
 
     const {
         lockFullScreen, 
@@ -34,6 +43,17 @@ export const Player: FC<{ name: string }> = ({
         isLandscape 
     } = usePlayer(playerRef)
 
+
+    const _onLoad = (data: VideoData) => {
+        
+        const { duration, currentTime, videoTracks, audioTracks } = data
+
+        setDuration(duration)
+        setCurrentTime(currentTime)
+
+        dispatch(initTracks(audioTracks, videoTracks))
+    }
+
     return (
         <TouchableOpacity 
             onPress={toggleControl} 
@@ -44,27 +64,15 @@ export const Player: FC<{ name: string }> = ({
                     ref={playerRef}
                     resizeMode='none'
                     paused={isPause}
-                    source={{
-                        uri: `${IP}/static/Witcher/final.mpd`
-                    }}
-                    onLoad={data => {
-                        console.log(data)
-                        setDuration(data.duration)
-                        setCurrentTime(data.currentTime)
-                    }}
+                    source={{ uri: `${IP}/static/Witcher/final.mpd` }}
+                    onLoad={_onLoad}
                     onProgress={time => setCurrentTime(time.currentTime)}
-                    selectedAudioTrack={{
-                        type: 'language',
-                        value: 'eng'
-                    }}
-                    selectedVideoTrack={{
-                        type: 'resolution',
-                        value: 1
-                    }}
+                    selectedAudioTrack={{ type: 'language', value: language }}
+                    selectedVideoTrack={{ type: 'resolution', value: quality }}
                     style={{
                         height: '100%',
                         width: '100%',
-                        position: 'absolute',
+                        position: 'absolute'
                     }}
                />
                 {
