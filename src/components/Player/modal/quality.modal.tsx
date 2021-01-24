@@ -22,7 +22,8 @@ export const QualityModal: FC = () => {
             <Container h='220px'>
             {
                 video.map(track => 
-                    <Button 
+                    <Button
+                        key={track.trackId} 
                         text={track.height}
                         bgColor={track.height === quality ? 'primary' : 'dark'} 
                         w='45px' 
@@ -37,7 +38,7 @@ export const QualityModal: FC = () => {
             </Container>
             <Container h='50px'>
             {
-                quality === 1080 && <TextT>HQ mode turend on</TextT>
+                quality === 1080 && <TextT>HQ mode turned on</TextT>
             }
             </Container>
         </ModalCard>
