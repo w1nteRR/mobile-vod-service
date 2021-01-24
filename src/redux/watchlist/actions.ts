@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage'
 
 import { watchlistApi } from '../../api/watchlist.api'
-import { ActionTypes, FETCH_WATCHLIST, FETCH_WATCHLIST_STATUS, REMOVE_FROM_WATCHLIST, ThunkTypes } from './types'
+import { ActionTypes, FETCH_WATCHLIST, FETCH_WATCHLIST_STATUS, REMOVE_FROM_WATCHLIST, ThunkTypes, Status } from './types'
 
 const _initWatchlist = (payload: []): ActionTypes => ({
     type: FETCH_WATCHLIST,
@@ -13,7 +13,7 @@ const _remove = (payload: string): ActionTypes => ({
     payload
 })
 
-export const toggleStatus = (payload: boolean): ActionTypes => ({
+export const toggleStatus = (payload: Status): ActionTypes => ({
     type: FETCH_WATCHLIST_STATUS,
     payload: payload
 })
@@ -36,10 +36,11 @@ export const fetchWatchlistStatus = (filmId: string): ThunkTypes => async dispat
         const token = await AsyncStorage.getItem('accessToken')
 
         const status = await watchlistApi(token!).status(filmId)
-
+        
         dispatch(toggleStatus(status))
 
     } catch (err) {
+        dispatch(toggleStatus('error'))
         console.log(err.response.request._response)
     }
 }

@@ -11,9 +11,11 @@ export const CLEAN_WATCHLIST = 'CLEAN_WATCHLIST'
 
 export const TOGGLE_LOADING = 'TOGGLE_LOADING'
 
+export type Status = boolean | 'error'
+
 export interface WatchlistState {
     watchlist: Array<IFilmShort>
-    status: boolean
+    status: Status
 }
 
 
@@ -24,7 +26,7 @@ interface FetchWatchlist {
 
 interface FetchWatchlistStatus {
     type: typeof FETCH_WATCHLIST_STATUS
-    payload: boolean
+    payload: Status
 }
 
 interface RemoveFromWatchlist {
