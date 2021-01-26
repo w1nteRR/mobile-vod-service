@@ -25,8 +25,6 @@ interface IFilmProps extends IFilmNavProps {}
 
 export const Film: FC<IFilmProps> = ({ route }) => {
 
-    const [changeStatusBar, setStatusBar] = useState(false)
-
     const { res, loading } = useAxios(`/api/film/${route.params.filmId}`, {
         method: 'GET'
     })
@@ -42,12 +40,9 @@ export const Film: FC<IFilmProps> = ({ route }) => {
 
     const isSerial = film.type === 'Serial'
 
-    console.log(isBlack)
-
-
     return (
         <Background>
-            <StatusBar backgroundColor={changeStatusBar ? 'black' : 'transparent'}  translucent /> 
+            <StatusBar backgroundColor={isBlack ? 'black' : 'transparent'}  translucent /> 
             <ScrollView onScroll={handleStatusBarBg}>
                 <Intro 
                     wallpaper={film.wallpaper} 
