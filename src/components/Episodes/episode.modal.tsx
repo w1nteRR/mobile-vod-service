@@ -1,5 +1,4 @@
 import { RouteProp } from '@react-navigation/native'
-import axios from 'axios'
 import React, { FC, useEffect, useState } from 'react'
 import { Dimensions, Image, ScrollView} from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
@@ -7,11 +6,13 @@ import LinearGradient from 'react-native-linear-gradient'
 import { InfoList } from '../About/info.list'
 
 import { Button } from '../common/styled/buttons/buttons.shared'
+import { Title, Text, Describe } from '../common/utils/typography'
 import { ScrollContainer } from '../Film/scrollviews/Scroll.container'
 
 import { ModalCard } from '../common/styled/cards/cards.shared'
 import { Container } from '../common/utils/layout'
-import { Title, Text, Describe } from '../common/utils/typography'
+
+import { omdbApi } from '../../api/omdb.api'
 
 type EpisodeModal = {
     EpisodeModal: {
@@ -40,20 +41,26 @@ export const EpisodeModal: FC<{ route: RouteProp<EpisodeModal, 'EpisodeModal'> }
     route
 }) => {
 
+    const { name, season } = route.params
+
     const [episode, setEpisode] = useState<EpisodeOmdbFull>({} as EpisodeOmdbFull)
 
     useEffect(() => {
-        (async () => {
-            try {
+        let isActive = true
 
-                const res = await axios.get(`http://www.omdbapi.com/?t=${route.params.name}&Season=${route.params.season}&Episode=${route.params.episode}&apikey=507695cd`)
-
+        const fetchEpisode = async () => {
+            if(isActive) {
+                const res = await omdbApi().episode(name, season, route.params.episode)
                 setEpisode(res.data)
-
-            } catch (err) {
-                console.log(err)
             }
-        })()
+        }
+
+        fetchEpisode()
+
+        return () => {
+            isActive = false
+        }
+
     }, [])
 
     const w = Dimensions.get('screen').width
@@ -61,7 +68,7 @@ export const EpisodeModal: FC<{ route: RouteProp<EpisodeModal, 'EpisodeModal'> }
 
     return (
         <ModalCard right={<Title>{episode.Title}</Title>}>
-            <ScrollView style={{ height: h }}>
+            <ScrollView style={{ height: h, marginBottom: 50 }}>
                 <Container m='0 auto'>
                     <Image 
                         source={{ uri: episode.Poster }} 
@@ -79,14 +86,6 @@ export const EpisodeModal: FC<{ route: RouteProp<EpisodeModal, 'EpisodeModal'> }
                     </Container>
                 </Container>
                 <Container p='20px' direction='column'>
-                    <Button 
-                        text='Watch now' 
-                        bgColor='primary' 
-                        brRadius='10px' 
-                        p='25px'
-                        m='50px 0 0 0'
-                        w={w.toFixed() + 'px'} 
-                    />
                     <ScrollContainer title='About'>
                         <Container 
                             m='0 0 10px' 
@@ -120,6 +119,15 @@ export const EpisodeModal: FC<{ route: RouteProp<EpisodeModal, 'EpisodeModal'> }
                     </ScrollContainer>
                 </Container>
             </ScrollView>
+            <Container style={{ position: 'absolute', bottom: 20 }}>
+                <Button 
+                    text='Watch now' 
+                    bgColor='primary' 
+                    brRadius='10px' 
+                    p='25px'
+                    w='330px' 
+                />
+                </Container>
         </ModalCard>
         
     )
