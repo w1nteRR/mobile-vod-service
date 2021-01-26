@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { memo } from 'react'
 import { Dimensions } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { useNavigation } from '@react-navigation/native'
@@ -17,8 +17,8 @@ interface IIntroProps {
     duration: string
 }
 
-export const Intro: FC<IIntroProps> = ({ 
-    wallpaper, 
+export const Intro = memo<IIntroProps>(({
+    wallpaper,
     name,
     genr,
     year,
@@ -28,48 +28,48 @@ export const Intro: FC<IIntroProps> = ({
     const w = Dimensions.get('window').width.toFixed() + 'px'
 
     const navigation = useNavigation()
-    
+
     return (
         <Container h='500px' direction='column'>
             <BgImgCard img={wallpaper} h='100%' width={w} />
-            <Container 
+            <Container
                 h='50px'
-                justify='flex-start' 
+                justify='flex-start'
                 p='0px 10px'
                 style={{ position: 'absolute', top: 30, zIndex: 2 }}
             >
-                <Button 
-                    onPress={() => navigation.goBack()} 
-                    bgColor='' 
-                    w='35px' 
-                    iconSize={25} 
-                    iconName='arrow-left' 
+                <Button
+                    onPress={() => navigation.goBack()}
+                    bgColor=''
+                    w='35px'
+                    iconSize={25}
+                    iconName='arrow-left'
                 />
             </Container>
-                <Container
+            <Container
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    height: 525,
+
+                }}
+            >
+                <LinearGradient
+                    colors={['rgba(0, 0, 0, 0) 0%', 'rgba(0, 0, 0, 0.5) 33.23%', 'black']}
                     style={{
-                        position: 'absolute',
-                        top: 0,
-                        height: 525,
-                        
+                        flex: 1,
+                        height: '100%',
+                        justifyContent: 'flex-end'
                     }}
                 >
-                    <LinearGradient
-                        colors={['rgba(0, 0, 0, 0) 0%', 'rgba(0, 0, 0, 0.5) 33.23%', 'black']} 
-                        style={{
-                            flex: 1,
-                            height: '100%',
-                            justifyContent: 'flex-end'
-                        }}
-                    >
-                        <Container p='20px' direction='column'>
-                            <Container justify='flex-start'>
-                                <Text weight='bold' color='#fff' size='36px'>{name}</Text>
-                            </Container>
-                            <Container m='20px 0 0' justify='flex-start'>
+                    <Container p='20px' direction='column'>
+                        <Container justify='flex-start'>
+                            <Text weight='bold' color='#fff' size='36px'>{name}</Text>
+                        </Container>
+                        <Container m='20px 0 0' justify='flex-start'>
                             {
-                                genr.map((genr, index) => 
-                                    <Text 
+                                genr.map((genr, index) =>
+                                    <Text
                                         key={index}
                                         {...font}
                                     >
@@ -79,13 +79,13 @@ export const Intro: FC<IIntroProps> = ({
                             }
                             <Text {...font}>{year}</Text>
                             <Text {...font}>{duration}</Text>
-                            </Container>
-                        </Container>    
-                    </LinearGradient>
+                        </Container>
+                    </Container>
+                </LinearGradient>
             </Container>
         </Container>
     )
-}
+})
 
 const font = {
     size: '11px',

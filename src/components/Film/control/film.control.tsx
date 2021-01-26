@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { memo } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
 import { Container } from '../../common/utils/layout'
@@ -12,37 +12,36 @@ interface IControlProps {
     name: string
 }
 
-export const Control: FC<IControlProps> = ({ 
+export const Control = memo<IControlProps>(({
     filmId,
     isSerial,
-    name 
+    name
 }) => {
 
-  
     const navigation = useNavigation()
-       
+
     return (
         <Container justify='space-between' w='90%' m='40px 20px'>
             <Container w='35%' justify='flex-start'>
                 <StatusControl filmId={filmId} />
                 {
-                    isSerial 
-                    && 
-                    <Button 
-                        iconName={false ? 'heart' : 'heart-outline'} 
-                        iconColor='#FD73AD' 
-                        iconSize={20} 
+                    isSerial
+                    &&
+                    <Button
+                        iconName={false ? 'heart' : 'heart-outline'}
+                        iconColor='#FD73AD'
+                        iconSize={20}
                         {...btn}
                     />
                 }
             </Container>
-            <Button 
+            <Button
                 bgColor='primary'
-                iconName='play' 
-                h='50px' 
-                w='220px' 
+                iconName='play'
+                h='50px'
+                w='220px'
                 text='Watch now'
-                brRadius='10px' 
+                brRadius='10px'
                 justify='space-around'
                 iconSize={30}
                 onPress={() => navigation.navigate('Watch', {
@@ -51,11 +50,11 @@ export const Control: FC<IControlProps> = ({
                         filmId,
                         name
                     }
-                })} 
+                })}
             />
         </Container>
     )
-}
+})
 
 const btn = {
     h: '50px',
