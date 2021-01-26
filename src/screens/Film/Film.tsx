@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
@@ -12,18 +12,20 @@ import { Intro } from '../../components/Film/intro/Intro'
 import { Control } from '../../components/Film/control/film.control'
 import { ContinueModal } from '../../components/Film/modal/continue.modal'
 
-import { Title } from '../../components/common/utils/typography'
 import { Background, Container } from '../../components/common/utils/layout'
+import { Loader } from '../../components/common/styled/shared/loader.shared'
 
 import { useAxios } from '../../hooks/useAxios'
 
 import { IFilm, IFilmShort } from '../../interfaces/film/IFilm'
 import { IFilmNavProps } from '../../navigation/stacks/film'
-
+import { useStatusBar } from '../../hooks/statusbar/useStatusBar'
 
 interface IFilmProps extends IFilmNavProps {}
 
 export const Film: FC<IFilmProps> = ({ route }) => {
+
+    const [changeStatusBar, setStatusBar] = useState(false)
 
     const { res, loading } = useAxios(`/api/film/${route.params.filmId}`, {
         method: 'GET'
@@ -31,25 +33,22 @@ export const Film: FC<IFilmProps> = ({ route }) => {
 
     const navigation = useNavigation()
 
-    if(loading) {
-        return (
-            <Background>
-                <Container h='100%'>
-                    <Title>Loading...</Title>
-                </Container>
-            </Background>
-        )
-    }
+    const { isBlack, handleStatusBarBg } = useStatusBar()
+
+    if(loading) return <Container bgColor='black' h='100%'><Loader /></Container>
 
     const film: IFilm = res?.data.film
     const similar: Array<IFilmShort> = res?.data.similar
 
     const isSerial = film.type === 'Serial'
 
+    console.log(isBlack)
+
+
     return (
         <Background>
-            <StatusBar backgroundColor="transparent"  translucent /> 
-            <ScrollView>
+            <StatusBar backgroundColor={changeStatusBar ? 'black' : 'transparent'}  translucent /> 
+            <ScrollView onScroll={handleStatusBarBg}>
                 <Intro 
                     wallpaper={film.wallpaper} 
                     name={film.name}
@@ -58,12 +57,7 @@ export const Film: FC<IFilmProps> = ({ route }) => {
                     year={film.year} 
                 />
                 <Control name={film.name} filmId={film._id} isSerial={isSerial} />
-                <About 
-                    describe={film.describe}
-                    onArrowClick={() => navigation.navigate('About', {
-                        filmName: film.name
-                    })} 
-                />
+                <About describe={film.describe} filmName={film.name} />
                 <Rating name={film.name} />
                 {
                     isSerial
