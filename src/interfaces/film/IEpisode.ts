@@ -16,3 +16,17 @@ export interface IEpisodeShort  {
     number: number,
     img: string
 }
+
+export interface EpisodeOmdbFull {
+    Director: string
+    Plot: string
+    Poster: string
+    Released: string
+    Runtime: string
+    Year: string
+    Title: string
+    Episode: string
+    imdbVotes: string
+    imdbRating: string
+    Season: string
+}
