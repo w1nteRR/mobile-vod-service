@@ -1,39 +1,52 @@
 import React, { FC, useEffect, useState } from 'react'
-import axios from 'axios'
+import { ScrollView } from 'react-native'
 
 import { Background } from '../../components/common/utils/layout'
 import { Text } from '../../components/common/utils/typography'
 import { Plot } from '../../components/About/plot.about'
-import { ScrollView } from 'react-native-gesture-handler'
 
 import { ScrollContainer } from '../../components/Film/scrollviews/Scroll.container'
 import { InfoList } from '../../components/About/info.list'
 
-import type { AboutRouteProp } from '../../navigation/stacks/film'
 import { HeaderFilm } from '../../components/Film/header.film'
 
+import type { AboutRouteProp } from '../../navigation/stacks/film'
 
-export const About: FC<{ route: AboutRouteProp }> = ({
-    route
+
+import { omdbApi } from '../../api/omdb.api'
+
+export const About: FC<{ route: AboutRouteProp }> = ({ 
+    route 
 }) => {
+
+    const { filmName } = route.params
 
     const [film, setFilm] = useState<any>({})
 
     useEffect(() => {
-        (async () => {
+        let isActive = true
+
+        const fetchRating = async () => {
             try {
+                
+                const res = await omdbApi().film(filmName)
 
-                console.log('call')
-
-                const res = await axios.get(`http://www.omdbapi.com/?t=${route.params.filmName}&apikey=507695cd`)
-
-                setFilm(res.data)
+                if(isActive) {
+                    setFilm(res.data)
+                }
 
             } catch (err) {
                 console.log(err)
             }
-        })()
-    }, [])
+        }
+
+        fetchRating()
+
+        return () => {
+            isActive = false
+        }
+
+    }, [route.params.filmName])
 
     if(!film) return <Text>loading...</Text>
 
