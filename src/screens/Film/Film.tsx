@@ -1,6 +1,5 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { ScrollView, StatusBar } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
 
 import { About } from '../../components/Film/scrollviews/About'
 import { Cast } from '../../components/Film/scrollviews/Cast'
@@ -15,11 +14,13 @@ import { ContinueModal } from '../../components/Film/modal/continue.modal'
 import { Background, Container } from '../../components/common/utils/layout'
 import { Loader } from '../../components/common/styled/shared/loader.shared'
 
+import { IFilmNavProps } from '../../navigation/stacks/film'
+
+import { useStatusBar } from '../../hooks/statusbar/useStatusBar'
 import { useAxios } from '../../hooks/useAxios'
 
 import { IFilm, IFilmShort } from '../../interfaces/film/IFilm'
-import { IFilmNavProps } from '../../navigation/stacks/film'
-import { useStatusBar } from '../../hooks/statusbar/useStatusBar'
+
 
 interface IFilmProps extends IFilmNavProps {}
 
@@ -28,8 +29,6 @@ export const Film: FC<IFilmProps> = ({ route }) => {
     const { res, loading } = useAxios(`/api/film/${route.params.filmId}`, {
         method: 'GET'
     })
-
-    const navigation = useNavigation()
 
     const { isBlack, handleStatusBarBg } = useStatusBar()
 
@@ -53,30 +52,15 @@ export const Film: FC<IFilmProps> = ({ route }) => {
                 />
                 <Control name={film.name} filmId={film._id} isSerial={isSerial} />
                 <About describe={film.describe} filmName={film.name} />
-                <Rating name={film.name} />
+                <Rating name={film.name} /> 
                 {
-                    isSerial
-                    &&
-                    <Series
-                        series={film.series || []}
-                        name={film.name} 
-                    />
+                    isSerial && <Series series={film.series || []} name={film.name}  />
                 }
                 {
-                    film.cast.length > 0 
-                    && 
-                    <Cast 
-                        cast={film.cast.slice(0, 3)}
-                        onArrowClick={() => navigation.navigate('Cast', {
-                            cast: film.cast,
-                            name: film.name
-                        })} 
-                    /> 
+                    film.cast.length > 0 && <Cast cast={film.cast} name={film.name} /> 
                 }
                 {
-                    similar.length > 0 
-                    && 
-                    <Similar similar={similar} />
+                    similar.length > 0 && <Similar similar={similar} />
                 }
             </ScrollView>
             {/* <ContinueModal /> */}
