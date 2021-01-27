@@ -1,5 +1,4 @@
-import axios from 'axios'
-import React, { FC, useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Image } from 'react-native'
 
 import { DANGER, SUCCESS } from '../../common/utils/colors'
@@ -8,36 +7,50 @@ import { Text, TextT } from '../../common/utils/typography'
 
 import { ScrollContainer } from './Scroll.container'
 
-export const Rating: FC<{ name: string }> = ({
+import { ratingApi } from '../../../api/rating.api'
+
+
+export const Rating = memo<{ name: string }>(({
     name
 }) => {
 
-    const [rating, setRating] = useState({
-        ratings: [],
-        imdb: {
-            rating: 0,
-            votes: 0
-        }
+    const [ratings, setRatings] = useState([])
+
+    const [imdb, setImdb] = useState({
+        rating: 0,
+        votes: 0
     })
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const res = await axios.get(`http://www.omdbapi.com/?t=${name}&apikey=507695cd`)
 
-                setRating({
-                    ratings: res.data.Ratings,
-                    imdb: {
-                        rating: res.data.imdbRating,
-                        votes: res.data.imdbVotes
-                    }
-                })
+    useEffect(() => {
+
+        let isActive = true
+
+        const fetchRating = async () => {
+            try {
+
+                const { Ratings, imdbRating, imdbVotes } = await ratingApi().rating(name)
+
+                if(isActive) {
+
+                    setRatings(Ratings)
+                    
+                    setImdb({ rating: imdbRating, votes: imdbVotes })
+                }
 
             } catch (err) {
                 console.log(err)
             }
-        })()
+            
+        }
+
+        fetchRating()
+
+        return () => {
+            isActive = false
+        }
     }, [])
+
 
     return (
         <ScrollContainer title='Rating and reviews'>
@@ -47,9 +60,9 @@ export const Rating: FC<{ name: string }> = ({
                         size='46px' 
                         color='#fff'
                     >
-                        {rating.imdb.rating}
+                        {imdb.rating}
                     </Text>
-                    <Text size='10px' weight='bold' color='gray'>{rating.imdb.votes}</Text>
+                    <Text size='10px' weight='bold' color='gray'>{imdb.votes}</Text>
                 </Container>
                 <Container  
                     w='70%' 
@@ -57,14 +70,14 @@ export const Rating: FC<{ name: string }> = ({
                     align='flex-start'
                 >
                     {
-                        rating.ratings.length < 2
+                        ratings.length < 2
                         &&
                         <Container p='30px 10px'>
                             <TextT>Detailed ranking is not available</TextT>
                         </Container>
                     }
                     {
-                        rating.ratings.slice(1, 3).map((item, index) => 
+                        ratings.slice(1, 3).map((item, index) => 
                         <Container 
                             m='10px 0'
                             p='15px'
@@ -95,7 +108,7 @@ export const Rating: FC<{ name: string }> = ({
             </Container>
         </ScrollContainer>
     )
-}
+})
 
 const img = {
     style: {
