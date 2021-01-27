@@ -9,6 +9,10 @@ export const omdbApi = () => {
     return {
         episode: async (name: string, season: string, episode: string) => {
             return await api.get(`?t=${name}&Season=${season}&Episode=${episode}&apikey=${OMDB_KEY}`)
+        },
+
+        film: async (name: string) => {
+            return await api.get(`?t=${name}&apikey=${OMDB_KEY}`)
         }
     }
 }
