@@ -19,7 +19,7 @@ export const HeaderFilm: FC<{ name: string, sub?: string }> = ({
             p='20px' 
             style={{
                 position: 'absolute',
-                top: 0
+                top: 20
             }}
             justify='flex-start'
         >
