@@ -1,26 +1,25 @@
-import React, { FC, useState } from 'react'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import React, { memo } from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 import { ScrollContainer } from './Scroll.container'
 
-import { BgImgCard } from '../../common/styled/cards/cards.shared'
-import { Container } from '../../common/utils/layout'
-import { TextT, Text } from '../../common/utils/typography'
-
-import { IActor } from '../../../interfaces/cast/IActor'
 import { CastCard } from '../cast/cast.card'
 import { Button } from '../../common/styled/buttons/buttons.shared'
-import { ScrollView } from 'react-native-gesture-handler'
+
+import { IActor } from '../../../interfaces/cast/IActor'
 
 interface ICastProps {
     cast: Array<IActor>
-    onArrowClick: () => void
+    name: string
 }
 
-export const Cast: FC<ICastProps> = ({ 
+export const Cast = memo<ICastProps>(({ 
     cast,
-    onArrowClick 
+    name
 }) => {
+
+    const navigation = useNavigation()
+
     return (
         <ScrollContainer 
             title='Cast' 
@@ -32,12 +31,12 @@ export const Cast: FC<ICastProps> = ({
                     h='40px' 
                     brRadius='10px' 
                     iconSize={20} 
-                    onPress={onArrowClick}
+                    onPress={() => navigation.navigate('Cast', { cast, name })}
                 />
             }
         >
             {
-                cast.map(actor => 
+                cast.slice(0, 3).map(actor => 
                     <CastCard 
                         key={actor._id}
                         img={actor.films.img} 
@@ -49,4 +48,4 @@ export const Cast: FC<ICastProps> = ({
             }
         </ScrollContainer>
     )
-}
+})
