@@ -14,6 +14,8 @@ import { Container } from '../common/utils/layout'
 
 import { omdbApi } from '../../api/omdb.api'
 
+import { EpisodeOmdbFull } from '../../interfaces/film/IEpisode'
+
 type EpisodeModal = {
     EpisodeModal: {
         imdbID: string
@@ -21,20 +23,6 @@ type EpisodeModal = {
         episode: string
         name: string
     }
-}
-
-interface EpisodeOmdbFull {
-    Director: string
-    Plot: string
-    Poster: string
-    Released: string
-    Runtime: string
-    Year: string
-    Title: string
-    Episode: string
-    imdbVotes: string
-    imdbRating: string
-    Season: string
 }
 
 export const EpisodeModal: FC<{ route: RouteProp<EpisodeModal, 'EpisodeModal'> }> = ({
@@ -49,9 +37,17 @@ export const EpisodeModal: FC<{ route: RouteProp<EpisodeModal, 'EpisodeModal'> }
         let isActive = true
 
         const fetchEpisode = async () => {
-            if(isActive) {
-                const res = await omdbApi().episode(name, season, route.params.episode)
-                setEpisode(res.data)
+            
+            const res = await omdbApi().episode(name, season, route.params.episode)
+
+            try {
+
+                if (isActive) {
+                    setEpisode(res.data)
+                }
+
+            } catch (err) {
+                console.log(err)
             }
         }
 
@@ -68,7 +64,7 @@ export const EpisodeModal: FC<{ route: RouteProp<EpisodeModal, 'EpisodeModal'> }
 
     return (
         <ModalCard right={<Title>{episode.Title}</Title>}>
-            <ScrollView style={{ height: h, marginBottom: 50 }}>
+            <ScrollView style={{ height: h, marginBottom: 70 }}>
                 <Container m='0 auto'>
                     <Image 
                         source={{ uri: episode.Poster }} 
@@ -119,13 +115,13 @@ export const EpisodeModal: FC<{ route: RouteProp<EpisodeModal, 'EpisodeModal'> }
                     </ScrollContainer>
                 </Container>
             </ScrollView>
-            <Container style={{ position: 'absolute', bottom: 20 }}>
+            <Container style={{ position: 'absolute', bottom: 15 }}>
                 <Button 
                     text='Watch now' 
                     bgColor='primary' 
                     brRadius='10px' 
                     p='25px'
-                    w='330px' 
+                    w={w - 30 + 'px'} 
                 />
                 </Container>
         </ModalCard>
