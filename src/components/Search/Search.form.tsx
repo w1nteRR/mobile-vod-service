@@ -1,9 +1,10 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import { NativeSyntheticEvent, TextInput, TextInputChangeEventData } from 'react-native'
 
 import { Container } from '../common/utils/layout'
 
-import { Input } from '../common/styled/inputs/inputs.shared'
+import { Input } from '../common/styled/inputs/Input'
 
 import { useDebounce } from '../../hooks/utils/useDebounce'
 
@@ -14,10 +15,10 @@ export const SearchForm: FC = () => {
 
     const [inputVal, setInputVal] = useState('')
 
-    const debouncedVal = useDebounce(inputVal, 1000)
-    const dispatch = useDispatch()
+    // const debouncedVal = useDebounce(inputVal, 1000)
+    // const dispatch = useDispatch()
 
-    useEffect(() => { debouncedVal && dispatch(getFilmsByName(inputVal)) }, [inputVal])
+    // useEffect(() => { debouncedVal && dispatch(getFilmsByName(inputVal)) }, [inputVal])
 
     return (
         <Container 
@@ -28,9 +29,9 @@ export const SearchForm: FC = () => {
             style={{ borderRadius: 10 }}
         >
             <Input 
-                change={event => setInputVal(event.nativeEvent.text)}
+                onChangeText={useCallback((text: string) => setInputVal(text), [])} 
                 placeholder='Film name' 
-            />
+            />   
         </Container>
     )
 }

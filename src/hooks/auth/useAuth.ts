@@ -37,7 +37,8 @@ export const useAuth = () => {
 
             let credentials = await auth0.webAuth.authorize({ 
                 connection: 'google-oauth2', 
-                scope: 'openid profile offline_access' 
+                scope: 'openid offline_access profile',
+                audience: 'http://google_api'
             })
 
             storeTokens({
@@ -62,7 +63,7 @@ export const useAuth = () => {
                 username,
                 password,
                 realm: 'Username-Password-Authentication',
-                scope: 'openid offline_access'
+                scope: 'openid offline_access profile'
             })
 
             storeTokens({
@@ -103,6 +104,7 @@ export const useAuth = () => {
                 token
             })
 
+            console.log(user)
             return user
 
         } catch (err) {
