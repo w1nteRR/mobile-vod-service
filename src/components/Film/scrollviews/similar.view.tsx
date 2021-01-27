@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { memo } from 'react'
 import { ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
@@ -12,7 +12,7 @@ interface ISimilarProps {
     similar: Array<IFilmShort>
 }
 
-export const Similar: FC<ISimilarProps> = ({ 
+export const Similar = memo<ISimilarProps>(({ 
     similar 
 }) => {
 
@@ -28,14 +28,11 @@ export const Similar: FC<ISimilarProps> = ({
                             m='10px' 
                             img={film.img} 
                             brRadius={10}
-                            onLongPress={() => console.log('long press')}
-                            onPress={() => navigation.navigate('Film', {
-                                filmId: film._id
-                            })} 
+                            onPress={() => navigation.navigate('Film', { filmId: film._id })} 
                         />
                     )
                 }
             </ScrollView>
         </ScrollContainer> 
     )
-}
+})
