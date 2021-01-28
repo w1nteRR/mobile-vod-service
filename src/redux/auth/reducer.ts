@@ -1,10 +1,10 @@
-import { AuthActionTypes, AuthState, SET_AUTH } from './types'
+import { ActionTypes, AuthState, SET_AUTH } from './types'
 
 const initialState: AuthState = {
     isAuthenticated: false
 }
 
-export const authReducer = (state = initialState, action: AuthActionTypes): AuthState => {
+export const authReducer = (state = initialState, action: ActionTypes): AuthState => {
     switch(action.type) {
         case SET_AUTH: 
             return {
