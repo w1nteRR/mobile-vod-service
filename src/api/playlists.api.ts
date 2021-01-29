@@ -2,15 +2,15 @@ import axios from "axios"
 
 import { IPlaylist } from "../interfaces/list/IPlaylist"
 
-import { IP } from "../env"
+import { PLAYLIST_CLOUD_RUN } from "../env"
 
 export const playlistsApi = () => {
     const api = axios.create({
-        baseURL: IP
+        baseURL: PLAYLIST_CLOUD_RUN
     })
 
     return {
-        playlists: async (index: number): Promise<Array<IPlaylist>> => (await api.get(`/api/video/playlists/${index}`)).data
+        playlists: async (index: number): Promise<Array<IPlaylist>> => (await api.get(`/playlists/?skip=${index}`)).data
     }
 }
 
