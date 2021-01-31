@@ -11,7 +11,7 @@ import { RootState } from '../redux/rootReducer'
 
 export const Home: FC = () => {
 
-    const [index, setIndex] = useState(4)
+    const [index, setIndex] = useState(0)
 
     const dispatch = useDispatch()
 
