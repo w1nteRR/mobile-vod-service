@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { useState, memo } from 'react'
 import { Dimensions, ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
@@ -18,7 +18,9 @@ interface ISeriesProps {
     name: string
 }
 
-export const Series: FC<ISeriesProps> = ({ 
+const { width } = Dimensions.get('screen')
+
+export const Series = memo<ISeriesProps>(({ 
     series,
     name 
 }) => {
@@ -30,8 +32,6 @@ export const Series: FC<ISeriesProps> = ({
 
     const { seasons, filtredEpisodes } = episodes(season)
 
-    const w = Dimensions.get('window').width - 20
-
     return (
         <ScrollContainer 
             title='Series' 
@@ -42,9 +42,7 @@ export const Series: FC<ISeriesProps> = ({
                     iconSize={20}
                     w='40px' 
                     h='40px' 
-                    onPress={() => navigation.navigate('Episodes', {
-                        name
-                    })} 
+                    onPress={() => navigation.navigate('Episodes', { name })} 
                 />
             }
         >
@@ -60,15 +58,15 @@ export const Series: FC<ISeriesProps> = ({
                     filtredEpisodes.map(episode => 
                         <EpisodeCard
                             key={episode._id}
-                            w={w.toFixed() + 'px'} 
+                            w={width - 20 + 'px'} 
                             name={episode.name} 
                             img={episode.img} 
                             describe={episode.describe}
                             duration={episode.duration}
                             onPress={() => navigation.navigate('EpisodeModal', {
                                 name,
-                                episode: episode.number.toString(),
-                                season: season.toString()
+                                episode: episode.number,
+                                season
                             })}
                         />
                     )
@@ -76,4 +74,4 @@ export const Series: FC<ISeriesProps> = ({
             </ScrollView>
         </ScrollContainer>
     )
-}
+})

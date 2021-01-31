@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { Button } from '../../common/styled/buttons/buttons.shared'
 
+import { Button } from '../../common/styled/buttons/buttons.shared'
 import { Container } from '../../common/utils/layout'
 import { TextT } from '../../common/utils/typography'
 
@@ -29,6 +29,7 @@ export const Seasons: FC<ISeasonsProps> = ({
                     h='35px'
                     m='5px'
                     brRadius='10px'
+                    textSize='13px'
                 />
             )
         }

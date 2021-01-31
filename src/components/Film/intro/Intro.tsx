@@ -17,6 +17,8 @@ interface IIntroProps {
     duration: string
 }
 
+const { width } = Dimensions.get('screen')
+
 export const Intro = memo<IIntroProps>(({
     wallpaper,
     name,
@@ -25,13 +27,11 @@ export const Intro = memo<IIntroProps>(({
     duration
 }) => {
 
-    const w = Dimensions.get('window').width.toFixed() + 'px'
-
     const navigation = useNavigation()
 
     return (
-        <Container h='500px' direction='column'>
-            <BgImgCard img={wallpaper} h='100%' width={w} />
+        <Container h='450px' direction='column'>
+            <BgImgCard img={wallpaper} h='100%' width={width + 'px'} />
             <Container
                 h='50px'
                 justify='flex-start'
@@ -50,8 +50,7 @@ export const Intro = memo<IIntroProps>(({
                 style={{
                     position: 'absolute',
                     top: 0,
-                    height: 525,
-
+                    height: 475                
                 }}
             >
                 <LinearGradient
@@ -63,10 +62,10 @@ export const Intro = memo<IIntroProps>(({
                     }}
                 >
                     <Container p='20px' direction='column'>
-                        <Container justify='flex-start'>
+                        <Container>
                             <Text weight='bold' color='#fff' size='36px'>{name}</Text>
                         </Container>
-                        <Container m='20px 0 0' justify='flex-start'>
+                        <Container m='20px 0 0'>
                             {
                                 genr.map((genr, index) =>
                                     <Text
@@ -88,8 +87,9 @@ export const Intro = memo<IIntroProps>(({
 })
 
 const font = {
-    size: '11px',
+    size: '9px',
     weight: 'bold',
+    color: 'gray',
     style: {
         marginRight: 10
     }
