@@ -18,6 +18,8 @@ export const Similar = memo<ISimilarProps>(({
 
     const navigation = useNavigation()
 
+    if(!similar.length) return null
+
     return (
         <ScrollContainer title='Similar'>
             <ScrollView horizontal={true}>

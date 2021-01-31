@@ -20,6 +20,8 @@ export const Cast = memo<ICastProps>(({
 
     const navigation = useNavigation()
 
+    if(!cast.length) return null
+
     return (
         <ScrollContainer 
             title='Cast' 
