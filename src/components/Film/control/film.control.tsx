@@ -27,7 +27,7 @@ export const Control = memo<IControlProps>(({
                     <Button
                         iconName={isFollow ? 'heart' : 'heart-outline'}
                         iconColor='#FD73AD'
-                        iconSize={20}
+                        iconSize={15}
                         onPress={() => setIsFollow(!isFollow)}
                         {...btn}
                     />
@@ -38,9 +38,9 @@ export const Control = memo<IControlProps>(({
 })
 
 const btn = {
-    h: '45px',
-    w: '45px',
-    brRadius: '100px',
+    h: '40px',
+    w: '40px',
+    brRadius: '10px',
     bgColor: 'dark',
     m: '0 10px 0 0'
 }

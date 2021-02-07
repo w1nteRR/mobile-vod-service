@@ -22,7 +22,7 @@ export const InfoList: FC<{ [key: string]: string }> = ({
                     weight='bold'
                     color='#fff'
                     style={{
-                        maxWidth: 250
+                        maxWidth: 180
                     }}
                 >
                     {item[1]}

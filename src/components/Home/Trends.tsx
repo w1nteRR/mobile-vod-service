@@ -33,7 +33,7 @@ export const Trends: FC = () => {
     return (
         <ScrollContainer title='Trends'>
             <Container direction='column'>
-                <ScrollView horizontal>
+                <ScrollView horizontal pagingEnabled>
                 {
                     trends.slice(1).map(trend => 
                         <TrendCard key={trend._id} image={trend.wallpaper} name={trend.name} />)

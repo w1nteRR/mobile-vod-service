@@ -15,7 +15,7 @@ export const ButtonWatch = memo<{ filmId: string, name: string }>(({
     
     return <Button
                 bgColor='primary'
-                h='50px'
+                h='45px'
                 w={width - 20 + 'px'}
                 text='Watch now'
                 brRadius='10px'

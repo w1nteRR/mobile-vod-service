@@ -46,7 +46,7 @@ export const StatusControl: FC<{ filmId: string }> = ({
     }, [])
 
     if(loading) return (
-        <Container w='45px' h='45px' m='0 10px 0 0'>
+        <Container w='40px' h='40px' m='0 10px 0 0'>
             <Loader />
         </Container>
     )
@@ -54,7 +54,7 @@ export const StatusControl: FC<{ filmId: string }> = ({
     if(status === 'error') return (
         <Button 
             iconName='alert-circle'
-            iconSize={20}
+            iconSize={15}
             iconColor={DANGER}
             {...btn}
         />
@@ -62,7 +62,7 @@ export const StatusControl: FC<{ filmId: string }> = ({
 
     return <Button 
                 iconName={status ? 'playlist-check': 'playlist-plus'}  
-                iconSize={20} 
+                iconSize={17} 
                 iconColor={status ? PRIMARY: '#fff'}
                 {...btn}
                 onPress={() => {
@@ -74,9 +74,9 @@ export const StatusControl: FC<{ filmId: string }> = ({
 }
 
 const btn = {
-    h: '45px',
-    w: '45px',
-    brRadius: '100px',
+    h: '40px',
+    w: '40px',
+    brRadius: '10px',
     bgColor: 'dark',
     m: '0 10px 0 0'
 }

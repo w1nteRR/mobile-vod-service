@@ -37,7 +37,7 @@ export const fetchWatchlistStatus = (filmId: string): ThunkTypes => async dispat
 
         const status = await watchlistApi(token!).status(filmId)
         
-        dispatch(toggleStatus(status))
+        dispatch(toggleStatus(status.status))
 
     } catch (err) {
         dispatch(toggleStatus('error'))
