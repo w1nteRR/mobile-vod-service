@@ -13,10 +13,7 @@ export const useAuth = () => {
 
     const dispatch = useDispatch()
 
-    const auth0 = new Auth0({
-        domain,
-        clientId
-    })
+    const auth0 = new Auth0({ domain, clientId })
 
     const storeTokens = async (tokens: {
         idToken: string, 
@@ -63,7 +60,8 @@ export const useAuth = () => {
                 username,
                 password,
                 realm: 'Username-Password-Authentication',
-                scope: 'openid offline_access profile'
+                scope: 'openid offline_access profile',
+                audience: 'http://google_api'
             })
 
             storeTokens({
