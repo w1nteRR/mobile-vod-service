@@ -64,7 +64,7 @@ export const RootStackScreen = () => {
         
                 />
                 <Stack.Screen
-                    name="Film"
+                    name="FilmRoot"
                     component={FilmStackScreen}
                     options={{
                         header: () => null
