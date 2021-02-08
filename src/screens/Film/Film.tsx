@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 
 import { About } from '../../components/Film/scrollviews/About'
-import { Cast } from '../../components/Film/scrollviews/Cast'
+import { Cast } from '../../components/Film/scrollviews/cast.view'
 import { Similar } from '../../components/Film/scrollviews/similar.view'
 import { Rating } from '../../components/Film/scrollviews/Rating'
 import { Series } from '../../components/Film/scrollviews/Series'
@@ -17,53 +17,87 @@ import { Loader } from '../../components/common/styled/shared/loader.shared'
 import { IFilmNavProps } from '../../navigation/stacks/film'
 
 import { useStatusBar } from '../../hooks/statusbar/useStatusBar'
-import { useAxios } from '../../hooks/useAxios'
 
-import { IFilm, IFilmShort } from '../../interfaces/film/IFilm'
+import { IFilm } from '../../interfaces/film/IFilm'
+import { ButtonWatch } from '../../components/Film/button.watch'
+import { filmApi } from '../../api/film.api'
 
 
 interface IFilmProps extends IFilmNavProps {}
 
 export const Film: FC<IFilmProps> = ({ route }) => {
 
-    const { res, loading } = useAxios(`/api/film/${route.params.filmId}`, {
-        method: 'GET'
-    })
+    const [film, setFilm] = useState<IFilm>({} as IFilm)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        let isActive = true
+
+        const fetchFilm = async () => {
+            try {              
+                const film = await filmApi().get(route.params.filmId)
+
+                if(isActive) {
+                    setFilm(film)
+                    setLoading(false)
+                }
+                
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        fetchFilm()
+
+        return () => {
+            isActive = false
+        }
+
+    }, [])
 
     const { isBlack, handleStatusBarBg } = useStatusBar()
 
     if(loading) return <Container bgColor='black' h='100%'><Loader /></Container>
-
-    const film: IFilm = res?.data.film
-    const similar: Array<IFilmShort> = res?.data.similar
-
+    
     const isSerial = film.type === 'Serial'
 
     return (
         <Background>
             <StatusBar backgroundColor={isBlack ? 'black' : 'transparent'}  translucent /> 
-            <ScrollView onScroll={handleStatusBarBg}>
+            <ScrollView onScroll={handleStatusBarBg} style={{ marginBottom: 75 }}>
                 <Intro 
                     wallpaper={film.wallpaper} 
                     name={film.name}
-                    genr={film.genr}
+                    genr={film.genr || []}
                     duration={film.duration}
                     year={film.year} 
                 />
-                <Control name={film.name} filmId={film._id} isSerial={isSerial} />
-                <About describe={film.describe} filmName={film.name} />
+                <Control 
+                    filmId={film._id} 
+                    isSerial={isSerial} 
+                />
+                <About 
+                    describe={film.describe} 
+                    filmName={film.name} 
+                />
                 <Rating name={film.name} /> 
                 {
-                    isSerial && <Series series={film.series || []} name={film.name}  />
+                    isSerial 
+                    && 
+                    <Series 
+                        series={film.series || []} 
+                        name={film.name}  
+                    />
                 }
-                {
-                    film.cast.length > 0 && <Cast cast={film.cast} name={film.name} /> 
-                }
-                {
-                    similar.length > 0 && <Similar similar={similar} />
-                }
+                <Cast 
+                    cast={film.cast || []} 
+                    name={film.name} 
+                /> 
+                <Similar tags={film.tags} filmdId={film._id} />
             </ScrollView>
-            {/* <ContinueModal /> */}
+            <Container style={{ position: 'absolute', bottom: 10 }}>
+                <ButtonWatch filmId={film._id} name={film.name} />
+            </Container>
         </Background>
     )
 }
