@@ -1,21 +1,21 @@
-import React, { FC } from 'react'
-import { Dimensions, ScrollView } from 'react-native'
+import React, { FC, memo } from 'react'
+import { Dimensions, ScrollView, Vibration } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
-import { Container } from '../common/utils/layout'
-import { Title } from '../common/utils/typography'
-
 import { BgImgCard } from '../common/styled/cards/cards.shared'
+import { Button } from '../common/styled/buttons/buttons.shared'
+
+import { ScrollContainer } from '../Film/scrollviews/Scroll.container'
 
 import { IPlaylist } from '../../interfaces/list/IPlaylist'
-import { ScrollContainer } from '../Film/scrollviews/Scroll.container'
-import { Button } from '../common/styled/buttons/buttons.shared'
 
 interface IFilmsCarousel {
     playlist: IPlaylist
 }
 
-export const FilmsCarousel: FC<IFilmsCarousel> = ({ playlist }) => {
+export const FilmsCarousel= memo<IFilmsCarousel>(({ 
+    playlist 
+}) => {
 
     const navigation = useNavigation()
 
@@ -35,7 +35,7 @@ export const FilmsCarousel: FC<IFilmsCarousel> = ({ playlist }) => {
                             width={w - 50 + 'px'} 
                             m='10px' 
                             brRadius={10}
-                            onPress={() => navigation.navigate('Film', {
+                            onPress={() => navigation.navigate('FilmRoot', {
                                 screen: 'Film',
                                 params: {
                                     filmId: item._id
@@ -47,4 +47,4 @@ export const FilmsCarousel: FC<IFilmsCarousel> = ({ playlist }) => {
             </ScrollView>
         </ScrollContainer>
     )
-}
+})
