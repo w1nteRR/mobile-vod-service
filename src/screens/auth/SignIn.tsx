@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { FC, useCallback, useState } from 'react'
 import { Dimensions } from 'react-native'
+import { useDispatch } from 'react-redux'
 
 import { Button } from '../../components/common/styled/buttons/buttons.shared'
 import { Input } from '../../components/common/styled/inputs/Input'
@@ -9,7 +10,7 @@ import { MAIN } from '../../components/common/utils/colors'
 import { Background, Container } from '../../components/common/utils/layout'
 import { Text, Title } from '../../components/common/utils/typography'
 
-import { useAuth } from '../../hooks/auth/useAuth'
+import { signInGoogle, signInRealm } from '../../redux/auth/actions'
 
 export const SignIn: FC = () => {
     
@@ -17,7 +18,7 @@ export const SignIn: FC = () => {
     const [password, setPassword] = useState('')
 
     const navigation = useNavigation()
-    const { signInWithPassword, signInWithGoogle } = useAuth()
+    const dispatch = useDispatch()
 
     const width = Dimensions.get('screen').width - 20
 
@@ -45,7 +46,7 @@ export const SignIn: FC = () => {
                         h='50px'
                         w={width.toFixed() + 'px'}
                         brRadius='10px' 
-                        onPress={() => signInWithPassword(email, password)}
+                        onPress={() => dispatch(signInRealm(password, email))}
                     />
                     <Container m='20px 0'>
                         <Text size='10px'>Not registered yet? <Text onPress={() => navigation.navigate('SignUp')} weight='bold' size='13px'> Create Account</Text></Text>
@@ -59,7 +60,7 @@ export const SignIn: FC = () => {
                     iconName='google'
                     iconSize={20} 
                     {...smBtn}
-                    onPress={() => signInWithGoogle()}
+                    onPress={() => dispatch(signInGoogle())}
                 />
                 <Button 
                     iconName='facebook'
