@@ -1,5 +1,5 @@
-import React  from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState }  from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -11,26 +11,32 @@ import { FilmStackScreen } from './stacks/film'
 
 import { HeaderBtn } from '../components/common/styled/shared/shared'
 
-import { useAuth } from '../hooks/auth/useAuth'
-
-import { RootState } from '../redux/rootReducer'
 import { Container } from '../components/common/utils/layout'
 import { MAIN } from '../components/common/utils/colors'
 import { Title } from '../components/common/utils/typography'
+
 import { EpisodeModal } from '../components/Episodes/episode.modal'
+
+import { RootState } from '../redux/rootReducer'
+
+import { login } from '../redux/auth/actions'
 
 const Stack = createStackNavigator()
 
 export const RootStackScreen = () => {
 
-    const { loading } = useAuth()
+    const { loading, isAuthenticated } = useSelector((state: RootState) => state.auth)
+    const dispatch = useDispatch()
 
-    const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated)
+    if(loading) {
+        dispatch(login())
 
-    if(loading) return <Container h='100%' bgColor={MAIN}>
-        <Title>Checking auth</Title>
-    </Container>
-
+        return (
+            <Container h='100%' bgColor={MAIN}>
+                <Title>Checking auth</Title>
+            </Container>
+        )
+    }
            
     return (
         <NavigationContainer>
@@ -38,7 +44,7 @@ export const RootStackScreen = () => {
                 mode='modal' 
             >
                 {
-                    !isAuth
+                    !isAuthenticated
                     &&
                     <Stack.Screen
                         name='SignIn'
@@ -52,7 +58,7 @@ export const RootStackScreen = () => {
                     name="Main"
                     component={TabNavigator}
                     options={{ 
-                        headerRight: () => <HeaderBtn isAuth={isAuth}  />,
+                        headerRight: () => <HeaderBtn isAuth={isAuthenticated}  />,
                         headerTitle: '',
                         headerStyle: {
                             backgroundColor: 'black'
