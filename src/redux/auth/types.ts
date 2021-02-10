@@ -3,11 +3,20 @@ import { ThunkAction } from "redux-thunk"
 import { RootState } from "../rootReducer"
 
 export const SET_AUTH = 'SET_AUTH'
-export const INIT_USER = 'INIT_USER'
+export const SET_USER = 'SET_USER'
 
+export const TOGGLE_LOADING = 'TOGGLE_LOADING'
+
+export interface User {
+    picture: string
+    nickname: string
+    name?: string
+}
 
 export interface AuthState {
     isAuthenticated: boolean
+    user: User
+    loading: boolean
 }
 
 interface SetAuth {
@@ -15,7 +24,17 @@ interface SetAuth {
     payload: boolean
 }
 
+interface SetUser {
+    type: typeof SET_USER
+    payload: User
+}
 
-export type ActionTypes = SetAuth 
+interface ToggleLoading {
+    type: typeof TOGGLE_LOADING
+    payload: boolean
+}
+
+
+export type ActionTypes = SetAuth | SetUser | ToggleLoading
 
 export type ThunkType = ThunkAction<Promise<void>, RootState, unknown, ActionTypes>
