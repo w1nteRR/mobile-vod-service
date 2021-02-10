@@ -3,20 +3,18 @@ import { FlatList, StatusBar } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Background } from '../components/common/utils/layout'
-import { FilmsCarousel } from '../components/Home/Films.carousel'
+import { FilmsCarousel } from '../components/Home/films.carousel'
+import { UserIntro } from '../components/Home/user.intro'
 
 import { fetchPlaylists } from '../redux/playlists/actions'
 import { RootState } from '../redux/rootReducer'
 
-
 export const Home: FC = () => {
-
     const [index, setIndex] = useState(0)
 
     const dispatch = useDispatch()
-
     const { playlists } = useSelector((state: RootState) => state.playlists)
-
+  
     useEffect(() => { dispatch(fetchPlaylists(index)) }, [index])
 
     return (
@@ -30,6 +28,7 @@ export const Home: FC = () => {
                 onEndReached={useCallback(() => { setIndex(index + 4) }, [])}
                 onEndReachedThreshold={0.01}
                 initialNumToRender={4}
+                ListHeaderComponent={<UserIntro />}
             />       
         </Background>
         </>
