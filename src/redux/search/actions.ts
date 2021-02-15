@@ -56,17 +56,14 @@ export const removeSearchData = (): SearchActionTypes => ({
 })
 
 
-export const getFilmsByName = (name: string): SearchThunkType => {
-    return async dispatch => {
-        try {
+export const getFilmsByName = (name: string | number): SearchThunkType => async dispatch => {
+    try {
+        const films = await searchApi.byName(name)
 
-            const films = await searchApi.byName(name)
+        dispatch(_setFilms(films))
 
-            dispatch(_setFilms(films))
-
-        } catch (err) {
-            console.log(err)
-        }
+    } catch (err) {
+        console.log(err)
     }
 }
 

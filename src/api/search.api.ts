@@ -5,7 +5,7 @@ import { IFilmShort } from '../interfaces/film/IFilm'
 import { ISearchData } from '../interfaces/filter/IFilter'
 
 export const searchApi = {
-    byName: async (value: string) => {
+    byName: async (value: string | number) => {
         try {
 
             const films = await api.get<Array<IFilmShort>>(`/api/search/film/${value}`)

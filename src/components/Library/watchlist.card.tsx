@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 
 import { Button } from '../common/styled/buttons/buttons.shared'
 import { BgImgCard } from '../common/styled/cards/cards.shared'
@@ -33,7 +33,6 @@ export const WatchlistCard: FC<WatchlistCard> = ({
                 <Container w='50%' direction='column' align='flex-start'>
                     <Title>{name}</Title>
                 </Container>
-                
                 <Button 
                     bgColor='dark' 
                     h='40px' 
@@ -44,7 +43,6 @@ export const WatchlistCard: FC<WatchlistCard> = ({
                     iconColor={DANGER}
                     onPress={onDelete}
                 />
-                
             </Container>
         </Container>
     </TouchableOpacity>
