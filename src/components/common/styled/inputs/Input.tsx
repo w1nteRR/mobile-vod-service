@@ -1,16 +1,16 @@
 import React, { memo } from 'react'
 import { TextInput } from 'react-native'
 
-import { MAIN } from '../../utils/colors'
-
 interface InputProps {
     onChangeText?: (value: string) => void
     placeholder?: string
+    bgColor?: string
 }
 
 export const Input = memo<InputProps>(({ 
     onChangeText,
-    placeholder 
+    placeholder,
+    bgColor 
 }) => 
     <TextInput 
         onChangeText={onChangeText} 
@@ -18,7 +18,7 @@ export const Input = memo<InputProps>(({
         style={{ 
             width: '100%', 
             height: 'auto', 
-            backgroundColor: MAIN 
+            backgroundColor: bgColor
         }} 
     />
 )
