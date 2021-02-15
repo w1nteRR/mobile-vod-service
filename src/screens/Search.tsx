@@ -1,57 +1,15 @@
 import React, { FC } from 'react'
-import { FlatList } from 'react-native'
-import { useSelector } from 'react-redux'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useNavigation } from '@react-navigation/native'
 
-import { Background, Container } from '../components/common/utils/layout'
-import { TextT } from '../components/common/utils/typography'
+import { Background } from '../components/common/utils/layout'
 
-import { SearchForm } from '../components/Search/Search.form'
-import { RootState } from '../redux/rootReducer'
-import { BgImgCard } from '../components/common/styled/cards/cards.shared'
+import { SearchForm } from '../components/Search/search.form'
+import { SearchResult } from '../components/Search/result/result.list'
 
-export const Search: FC = () => {
-    const navigation = useNavigation()
-
-    const result = useSelector((state: RootState) => state.search.result)
-    
+export const Search: FC = () => {    
     return (
         <Background>
-            <FlatList 
-                data={result}
-                renderItem={item => 
-                    <BgImgCard 
-                        img={item.item.img}  
-                        m='10px'
-                        brRadius={10} 
-                        onPress={() => navigation.navigate('Film', {
-                            screen: 'Film',
-                            params: {
-                                filmId: item.item._id
-                            }
-                        })} 
-                    />
-                }
-                    keyExtractor={(item, index) => index.toString()}
-                    onEndReachedThreshold={0.01}
-                    initialNumToRender={4}
-                    ListHeaderComponent={() => (
-                    <>
-                    <SearchForm />
-                    <Container direction='column' h='75px' m='50px 0' justify='space-around' >
-                        <TextT>Or add some tags and we will find</TextT>
-                        <Icon 
-                            name='tune' 
-                            color='#fff' 
-                            size={25} 
-                            onPress={() => navigation.navigate('SearchModal')}
-                        />
-                    </Container>
-                    </>
-                )}
-               
-            />  
+            <SearchForm />
+            <SearchResult />
         </Background>
     )
 }
