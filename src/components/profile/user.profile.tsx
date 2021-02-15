@@ -1,30 +1,35 @@
 import React, { FC } from 'react'
 import { Image } from 'react-native'
+import { shallowEqual, useSelector } from 'react-redux'
 
-import { PRIMARY } from '../common/utils/colors'
 import { Container } from '../common/utils/layout'
-import { Text } from '../common/utils/typography'
+import { TextT } from '../common/utils/typography'
 
-export const UserProfile: FC<{ img: string, username: string }> = ({
-    img,
-    username
-}) => {
+import { Button } from '../common/styled/buttons/buttons.shared'
 
-    return(
-        <Container direction='column' m='40px 0 0'>
+import { getUser } from '../../redux/auth/selectors'
+
+export const UserProfile: FC = () => {
+
+    const { picture, name } = useSelector(getUser, shallowEqual)
+
+    return (
+        <Container justify='space-around' m='0 auto'>
             <Image 
                 source={{
-                    uri: img
+                    uri: picture
                 }}
-                style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: 100
-                }}
+                style={imgStyle}
             />
-            <Container p='20px' direction='column'>
-                <Text size='26px' m='10px 0' color={PRIMARY} weight='bold'>{username}</Text>
-            </Container>
+            <TextT>{name}</TextT>
+            <Button iconName='arrow-right' brRadius='10px' bgColor='' w='35px' h='35px' />
         </Container>
     )
+}
+
+const imgStyle = {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    marginRight: 15
 }
