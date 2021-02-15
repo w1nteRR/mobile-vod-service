@@ -13,7 +13,8 @@ export const navigationConfig = {
     cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid
   },
   searchRoot: {
-    cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid
+    header: () => null,
+    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
   },
   modal: {
     cardStyle: {

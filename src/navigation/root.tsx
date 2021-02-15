@@ -1,4 +1,4 @@
-import React, { useState }  from 'react'
+import React  from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { NavigationContainer } from '@react-navigation/native'
@@ -8,8 +8,10 @@ import { TabNavigator } from '../navigation/tabs/Tab.navigator'
 
 import { AuthStackScreen } from './stacks/auth'
 import { FilmStackScreen } from './stacks/film'
+import { ProfileStackScreen } from './stacks/profile'
+import { SearchStackScreen } from './stacks/search'
 
-import { HeaderBtn } from '../components/common/styled/shared/shared'
+import { ButtonsNav } from '../components/Nav/buttons.nav'
 
 import { Container } from '../components/common/utils/layout'
 import { MAIN } from '../components/common/utils/colors'
@@ -20,6 +22,8 @@ import { EpisodeModal } from '../components/Episodes/episode.modal'
 import { RootState } from '../redux/rootReducer'
 
 import { login } from '../redux/auth/actions'
+
+import { navigationConfig } from './config/navigation.config'
 
 const Stack = createStackNavigator()
 
@@ -41,7 +45,18 @@ export const RootStackScreen = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator 
-                mode='modal' 
+                screenOptions={{
+                    headerRight: () => <ButtonsNav isAuth={isAuthenticated} />,
+                    headerTitle: '',
+                    headerStyle: {
+                        backgroundColor: 'black'
+                    },
+                    headerRightContainerStyle: {
+                        padding: 20,
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }
+                }} 
             >
                 {
                     !isAuthenticated
@@ -49,46 +64,35 @@ export const RootStackScreen = () => {
                     <Stack.Screen
                         name='SignIn'
                         component={AuthStackScreen}
-                        options={{
-                            header: () => null
-                        }}
+                        options={navigationConfig.signIn}
                     />
                 }       
                 <Stack.Screen
                     name="Main"
                     component={TabNavigator}
-                    options={{ 
-                        headerRight: () => <HeaderBtn isAuth={isAuthenticated}  />,
-                        headerTitle: '',
-                        headerStyle: {
-                            backgroundColor: 'black'
-                        },
-                        headerRightContainerStyle: {
-                            padding: 20
-                        }
-                    }}
-        
                 />
                 <Stack.Screen
                     name="FilmRoot"
                     component={FilmStackScreen}
-                    options={{
-                        header: () => null
-                    }}
+                    options={navigationConfig.filmRoot}
+                />
+                <Stack.Screen 
+                    name="ProfileRoot" 
+                    component={ProfileStackScreen} 
+                    options={navigationConfig.profileRoot}
+                />
+                <Stack.Screen 
+                    name="SearchRoot" 
+                    component={SearchStackScreen} 
+                    options={navigationConfig.searchRoot}
                 />
                 <Stack.Screen 
                     name='EpisodeModal' 
                     component={EpisodeModal} 
-                    options={modalStyle} 
+                    options={navigationConfig.modal} 
                 />
             </Stack.Navigator>
         </NavigationContainer>
     )
 }
 
-const modalStyle = {
-    cardStyle: {
-        backgroundColor: 'transparent'
-    },
-    header: () => null
-}
