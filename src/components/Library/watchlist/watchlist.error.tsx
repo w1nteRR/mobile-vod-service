@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import Icon  from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { MAIN } from '../common/utils/colors'
-import { Container } from '../common/utils/layout'
-import { TextT } from '../common/utils/typography'
+import { MAIN } from '../../common/utils/colors'
+import { Container } from '../../common/utils/layout'
+import { TextT } from '../../common/utils/typography'
 
 export const WatchlistError: FC = () =>
     <Container 
