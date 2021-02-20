@@ -3,26 +3,34 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import { Explore } from '../../screens/explore/Explore'
 import { Charts } from '../../screens/explore/Charts'
+import { Genres } from '../../screens/explore/Genres'
+import { Studios } from '../../screens/explore/Studios'
 
 const Tab = createMaterialTopTabNavigator()
 
-export const BrowseNavStack: FC = () => 
-
-    <Tab.Navigator initialRouteName='Browse' swipeEnabled={false} tabBarOptions={{
-        style: {
-            backgroundColor: 'black'
-        },
-        indicatorStyle: {
-            width: 0
-        },
-        scrollEnabled: true,
-        labelStyle: {
-            textTransform: 'none',
-            fontWeight: 'bold'
-        }
-    }}>
-        <Tab.Screen name="Explore" component={Explore}  />
-        <Tab.Screen name="Top charts" component={Charts}  />
-        {/* <Tab.Screen name="Genres" component={Browse}  />
-        <Tab.Screen name="Studios" component={Browse}  />  */}
-    </Tab.Navigator>
+export const BrowseNavStack: FC = () =>
+  <Tab.Navigator 
+    initialRouteName='Explore' 
+    swipeEnabled={false} 
+    tabBarOptions={{
+      style: {
+        backgroundColor: 'black'
+      },
+      indicatorStyle: {
+        width: 0
+      },
+      tabStyle: {
+        width: 100
+      },
+      scrollEnabled: true,
+      labelStyle: {
+        textTransform: 'none',
+        fontWeight: 'bold'
+      }
+    }}
+  >
+    <Tab.Screen name='Explore' component={Explore} />
+    <Tab.Screen name='Сharts' component={Charts} />
+    <Tab.Screen name='Genres' component={Genres} />
+    <Tab.Screen name='Studios' component={Studios} />
+  </Tab.Navigator>
