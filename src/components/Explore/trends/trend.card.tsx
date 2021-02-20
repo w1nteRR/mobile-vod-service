@@ -2,15 +2,15 @@ import React, { FC  } from 'react'
 import { View, Dimensions, Image, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
-import { Container } from '../common/utils/layout'
-import { Text, TextT } from '../common/utils/typography'
+import { Container } from '../../common/utils/layout'
+import { Text, TextT } from '../../common/utils/typography'
 
-import { IFilmTrend } from '../../interfaces/film/IFilm'
+import { IFilmTrend } from '../../../interfaces/film/IFilm'
 
 const { width } = Dimensions.get('screen')
 
 interface ITrendCardProps extends IFilmTrend {
-    onPress: () => void
+    onPress: (id: string) => void
 }
 
 export const TrendCard: FC<ITrendCardProps> = ({
@@ -18,11 +18,12 @@ export const TrendCard: FC<ITrendCardProps> = ({
     name,
     genr,
     describe,
+    _id,
     onPress
 }) => {
 
     return (
-        <TouchableOpacity onPress={onPress} activeOpacity={1}>
+        <TouchableOpacity onPress={() => onPress(_id!)} activeOpacity={1}>
         <Container
             direction='column'
             w={width + 'px'}
