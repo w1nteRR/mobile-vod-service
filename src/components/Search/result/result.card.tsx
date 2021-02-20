@@ -1,24 +1,22 @@
 import React, { memo } from 'react'
 import { TouchableOpacity } from 'react-native'
 
-import { BgImgCard } from '../../common/styled/cards/cards.shared'
 import { Container } from '../../common/utils/layout'
 import { TextT } from '../../common/utils/typography'
 
 interface IResultCardProps {
-  onPress?: () => void
+  onPress: (id: string) => void
   name: string
-  image: string
+  _id: string
 }
 
 export const ResultCard = memo<IResultCardProps>(({
   onPress,
   name,
-  image
+  _id
 }) => 
-  <TouchableOpacity onPress={onPress} activeOpacity={.9}>
-    <Container m='10px' justify='flex-start' p='10px'>
-      <BgImgCard img={image} h='30px' width='50px' brRadius={5} />
+  <TouchableOpacity onPress={() => onPress(_id)} activeOpacity={.9}>
+    <Container m='10px' justify='flex-start' p='20px'>
       <TextT>{name}</TextT>
     </Container>
   </TouchableOpacity>
