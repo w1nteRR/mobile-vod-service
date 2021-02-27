@@ -17,7 +17,7 @@ export const RatingCard = memo<IRatingCardProps>(({
 }) =>
   <Container
     m='10px 0'
-    p='15px'
+    p='10px'
     justify='space-between'
   >
     <Image
@@ -28,9 +28,11 @@ export const RatingCard = memo<IRatingCardProps>(({
         borderRadius: 100
       }}
     />
-    <TextT>{Source}</TextT>
-    <Text weight='bold'>
-      {Value}
-    </Text>
+    <Container justify='space-between' w='250px'>
+      <TextT>{Source}</TextT>
+      <Text weight='bold'>
+        {Value}
+      </Text>
+    </Container>
   </Container>
 )
