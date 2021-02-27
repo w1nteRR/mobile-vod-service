@@ -4,8 +4,9 @@ import { useNavigation } from '@react-navigation/native'
 import { ScrollContainer } from './Scroll.container'
 
 import { Container } from '../../common/utils/layout'
-import { Describe } from '../../common/utils/typography'
+import { Text } from '../../common/utils/typography'
 import { Button } from '../../common/styled/buttons/buttons.shared'
+import { MAIN } from '../../common/utils/colors'
 
 
 interface AboutProps {
@@ -38,13 +39,10 @@ export const About = memo<AboutProps>(({
                 <Container
                     m='0 0 10px'
                     p='20px'
-                    style={{
-                        borderRadius: 10,
-                        borderWidth: .8,
-                        borderColor: 'silver'
-                    }}
+                    bgColor={MAIN}
+                    style={{ borderRadius: 10 }}                    
                 >
-                    <Describe>{describe}</Describe>
+                    <Text>{describe}</Text>
                 </Container>
                 <Container justify='flex-start'>
                     {
