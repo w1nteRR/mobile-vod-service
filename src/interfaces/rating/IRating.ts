@@ -4,7 +4,7 @@ export interface IRating {
     imdbRating: string
 }
 
-interface IRatingItem {
+export interface IRatingItem {
     Source: string
     Value: string
 }

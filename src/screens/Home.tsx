@@ -3,7 +3,8 @@ import { FlatList, StatusBar } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Background } from '../components/common/utils/layout'
-import { FilmsCarousel } from '../components/Home/films.carousel'
+
+import { PlaylistsList } from '../components/Home/playlists/playlists.list'
 import { UserIntro } from '../components/Home/user.intro'
 
 import { fetchPlaylists } from '../redux/playlists/actions'
@@ -23,7 +24,7 @@ export const Home: FC = () => {
         <Background>
             <FlatList 
                 data={playlists}
-                renderItem={item => <FilmsCarousel playlist={item.item} /> }
+                renderItem={({ item }) => <PlaylistsList playlist={item} /> }
                 keyExtractor={(_, index) => index.toString()}
                 onEndReached={useCallback(() => { setIndex(index + 4) }, [])}
                 onEndReachedThreshold={0.01}

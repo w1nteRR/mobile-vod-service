@@ -31,7 +31,7 @@ export const StatusControl: FC<{ filmId: string }> = ({
                 if(isActive) {
                     setTimeout(() => {
                         setLoading(false)
-                    }, 150)
+                    }, 250)
                 }
             } catch (err) {
                 console.log(err)
