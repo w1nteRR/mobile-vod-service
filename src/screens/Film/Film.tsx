@@ -3,8 +3,8 @@ import { ScrollView, StatusBar } from 'react-native'
 
 import { About } from '../../components/Film/scrollviews/About'
 import { Cast } from '../../components/Film/scrollviews/cast.view'
-import { Similar } from '../../components/Film/scrollviews/similar.view'
-import { Rating } from '../../components/Film/scrollviews/Rating'
+import { Similar } from '../../components/Film/similar/similar'
+import { Rating } from '../../components/Film/rating/rating'
 import { Series } from '../../components/Film/scrollviews/Series'
 
 import { Intro } from '../../components/Film/intro/Intro'
