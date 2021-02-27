@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native'
 
 import { Button } from '../../common/styled/buttons/buttons.shared'
 import { ScrollContainer } from '../../Film/scrollviews/Scroll.container'
-import { PlaylistCard } from '../playlists/playlist.card'
+import { FilmCard } from '../../common/cards/film.card'
 
 import { useRedirect } from '../../../hooks/navigation/useRedirect'
 
@@ -27,12 +27,7 @@ export const PlaylistsList = memo<IFilmsCarousel>(({
       <ScrollView horizontal>
         {
           playlist.films.map(item =>
-            <PlaylistCard
-              key={item._id}
-              img={item.img}
-              _id={item._id}
-              onPress={redirectToFilmScreen}
-            />
+            <FilmCard key={item._id} _id={item._id} img={item.img} onPress={redirectToFilmScreen} />
           )
         }
       </ScrollView>
