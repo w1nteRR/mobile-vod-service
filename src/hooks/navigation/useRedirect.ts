@@ -1,5 +1,5 @@
 import { useCallback } from "react"
-import { useNavigation } from "@react-navigation/native"
+import { StackActions, useNavigation } from "@react-navigation/native"
 
 export const useRedirect = () => {
   
@@ -12,7 +12,14 @@ export const useRedirect = () => {
     })
   }, [])
 
+  const pushToFilmScreen = useCallback((filmId: string) => {
+    navigation.dispatch({
+      ...StackActions.push('Film', { filmId })
+    })
+  }, [])
+
   return {
-    redirectToFilmScreen
+    redirectToFilmScreen,
+    pushToFilmScreen
   }
 }
