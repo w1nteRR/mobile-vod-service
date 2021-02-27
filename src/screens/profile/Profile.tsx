@@ -1,61 +1,33 @@
-import React, { FC, useEffect, useState } from 'react'
-import { ScrollView } from 'react-native'
-import type { UserInfo } from 'react-native-auth0'
+import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Button } from '../../components/common/styled/buttons/buttons.shared'
 import { Background, Container } from '../../components/common/utils/layout'
-import { Title } from '../../components/common/utils/typography'
-import { UserProfile } from '../../components/profile/user.profile'
 
-import { useAuth } from '../../hooks/auth/useAuth'
+import { HeaderNav } from '../../components/Nav/header.nav'
+import { UserProfile } from '../../components/Profile/user.profile'
+
+import { logout } from '../../redux/auth/actions'
 
 export const Profile: FC = () => {
     
-    const { logout, getUser } = useAuth()
-    const [user, setUser] = useState<UserInfo | undefined>({} as UserInfo)
-
-    useEffect(() => {
-        (async () => {
-            try {
-
-                console.log('render')
-                const user = await getUser()
-                
-                setUser(user)
-
-            } catch (err) {
-                
-            }
-        })()
-    }, [])
-
-    if(!user) {
-        return (
-            <Container>
-                <Title>wrong token</Title>
-                <Button text='Exit' bgColor='danger' onPress={() => logout()}/>
-            </Container>
-        )
-    }
+    const dispatch = useDispatch()
 
     return (
-        <Background>           
-            <ScrollView>
-                <UserProfile 
-                    img={user!.picture}
-                    username={user!.nickname} 
+        <Background>
+            <HeaderNav />
+            <UserProfile />
+            <Container style={{ position: 'absolute', bottom: 10 }}>
+                <Button
+                    brRadius='10px' 
+                    text='Exit' 
+                    bgColor='danger'
+                    m='10px auto' 
+                    p='25px 0px'
+                    w='90%' 
+                    onPress={() => dispatch(logout())} 
                 />
-            </ScrollView>
-            <Button
-                brRadius='10px' 
-                text='Exit' 
-                bgColor='danger'
-                m='10px auto' 
-                p='25px 0px'
-                w='90%' 
-                onPress={() => logout()} 
-            />           
+            </Container>     
         </Background>
     )
 }
